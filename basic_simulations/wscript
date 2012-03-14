@@ -7,11 +7,17 @@ import waflib.extras.wurftools as wt
 APPNAME = 'kodo_relay_simulations'
 VERSION = '0.1'
 
-wt.add_dependency('sak', 'git://github.com/steinwurf/sak.git')
-wt.add_dependency('fifi', 'git://github.com/steinwurf/fifi.git')
-wt.add_dependency('kodo', 'git://github.com/steinwurf/kodo.git')
-wt.add_dependency('boost', 'git://github.com/steinwurf/external-waf-boost.git')
-wt.add_dependency('gtest', 'git://github.com/steinwurf/external-waf-gtest.git')
+wt.add_dependency('sak', 'git://github.com/steinwurf/sak.git', '1.0.0')
+
+wt.add_dependency('fifi', 'git://github.com/steinwurf/fifi.git', '1.0.1')
+
+wt.add_dependency('boost', 'git://github.com/steinwurf/external-boost.git',
+                  '1.1.0-boost_1_48_0')
+
+wt.add_dependency('gtest', 'git://github.com/steinwurf/external-gtest.git',
+                  '1.0.1-gtest_1_6_0')
+
+wt.add_dependency('kodo', 'git://github.com/steinwurf/kodo.git', '1.0.3')
 
 
 def load_helper(ctx, name):
@@ -23,32 +29,28 @@ def load_helper(ctx, name):
 def options(opt):
     opt.load('wurftools')
 
-    load_helper(opt, 'sak')
-    load_helper(opt, 'fifi')
-    load_helper(opt, 'boost')
     load_helper(opt, 'kodo')
-    load_helper(opt, 'gtest')
+
 
 
 
 def configure(conf):
     conf.load('wurftools')
 
-    load_helper(conf, 'sak')
-    load_helper(conf, 'fifi')
-    load_helper(conf, 'boost')
     load_helper(conf, 'kodo')
-    load_helper(conf, 'gtest')
 
-    conf.env.append_value('CXXFLAGS', ['-O2', '-g', '-ftree-vectorize', '-Wextra', '-Wall'])
+    if conf.env.TOOLCHAIN == 'linux':
+        conf.env.append_value('CXXFLAGS', ['-O2', '-g', '-ftree-vectorize',
+                                           '-Wextra', '-Wall'])
+
+    if conf.env.TOOLCHAIN == 'win32':
+        conf.env.append_value('CXXFLAGS', ['/O2', '/Ob2', '/W3', '/EHs'])
+
  
 def build(bld):
 
-    load_helper(bld, 'sak')
-    load_helper(bld, 'fifi')
-    load_helper(bld, 'boost')
     load_helper(bld, 'kodo')
-    load_helper(bld, 'gtest')
+
 
     bld.recurse('relay_simulations')
 
