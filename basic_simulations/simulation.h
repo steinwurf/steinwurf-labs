@@ -1,7 +1,7 @@
-// Copyright Steinwurf ApS 2012-2013.
+// Copyright Steinwurf APS 2011-2012.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
-// See accompanying file LICENSE_1_0.txt or
-// http://www.steinwurf.dk/licensing
+// See accompanying file LICENSE.rst or
+// http://www.steinwurf.com/licensing
 
 #ifndef STEINWURF_KODO_SIMULATIONS_SIMULATION_H
 #define STEINWURF_KODO_SIMULATIONS_SIMULATION_H
