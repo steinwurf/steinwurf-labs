@@ -4,7 +4,8 @@ Doxygen Style
 
 We use doxygen for all code documentation
 
-* "///" for all normal comments
+* "///" for class and function documentation (to be included by doxygen)
+* "//" for inline comments as they should not be included by doxygen
 * "//" for license headers, as they are not comments
 * You should also take care that your function arguments are properly documented
 
