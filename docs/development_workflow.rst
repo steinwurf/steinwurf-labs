@@ -26,7 +26,7 @@ Based on these resources we have devised the following guidelines:
 3. Commit to that branch and push your work to the same named
    branch on the server [pro-git-ch3-5_].
    ::
-    git push origin add-symbol-operations-stats
+    git push -u origin add-symbol-operations-stats
 
 4. Rebase against the upstream frequently to prevent your branch from
    diverging significantly
