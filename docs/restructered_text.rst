@@ -9,9 +9,9 @@ In Restructered text levels are defined by underlining with some character such 
 =====  ========= ============    ==============  ================
 Level  Character Big document    Small document  Notes
 -----  --------- ------------    --------------  ----------------
-0      +++       Overtitle       Not used        Only used when including a document where the title level is already used
+0      ===       Title           Not used        === Both above and below the title
 -----  --------- ------------    --------------  ----------------
-1      ===       Title           Not used        === Both above and below the title
+1      +++       Overtitle       Not used        Only used when including a document where the title level is already used
 -----  --------- ------------    --------------  ----------------
 2      ===       Chapter         Title
 -----  --------- ------------    --------------  ----------------
