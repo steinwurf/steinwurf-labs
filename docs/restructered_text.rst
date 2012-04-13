@@ -11,7 +11,7 @@ Level  Character Big document    Small document  Notes
 -----  --------- ------------    --------------  ----------------
 0      ===       Title           Not used        === Both above and below the title
 -----  --------- ------------    --------------  ----------------
-1      +++       Overtitle       Not used        Only used when including a document where the title level is already used
+1      +++       Chapter         Not used        Used for chapter when including a short document where the chapter/title level is already used
 -----  --------- ------------    --------------  ----------------
 2      ===       Chapter         Title
 -----  --------- ------------    --------------  ----------------
