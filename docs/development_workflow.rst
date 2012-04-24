@@ -75,6 +75,23 @@ Based on these resources we have devised the following guidelines:
 .. _pro-git-ch3-5: http://progit.org/book/ch3-5.html
 
 
+Keeping forked repository up to data
+------------------------------------
+
+If you have forked a repository and want to keep it up to date with the original repository, setup an upstream repository, e.g.
+
+::
+   git remote add upstream git@github.com:steinwurf/kodo.git
+
+
+Whenever you want to pull in upstream changes into your master
+
+::
+   git pull upstream master
+
+If you have local branches you can subsequently rebase those on the updated master.
+
+
 Releasing a new version
 -----------------------
 Versions are added according to the following scheme:
