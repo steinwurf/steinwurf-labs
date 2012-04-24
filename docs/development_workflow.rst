@@ -78,16 +78,14 @@ Based on these resources we have devised the following guidelines:
 Keeping forked repository up to data
 ------------------------------------
 
-If you have forked a repository and want to keep it up to date with the original repository, setup an upstream repository, e.g.
-   
-   ::
-     git remote add upstream git@github.com:steinwurf/kodo.git
+If you have forked a repository and want to keep it up to date with the original repository, setup an upstream repository, e.g.  
+::
+  git remote add upstream git@github.com:steinwurf/kodo.git
 
 
 Whenever you want to pull in upstream changes into your master
-
-   ::
-     git pull upstream master
+::
+  git pull upstream master
 
 If you have local branches you can subsequently rebase those on the updated master.
 
