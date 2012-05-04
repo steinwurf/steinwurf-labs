@@ -90,6 +90,22 @@ Whenever you want to pull in upstream changes into your master
 If you have local branches you can subsequently rebase those on the updated master.
 
 
+Working on a branch you did not create
+--------------------------------------
+
+Sometimes somebody else creates a new branch as does some work. Now you 
+would like to contribute. To do this you need to get a local working copy
+of the branch. See which branches are available:
+::
+  git branch -r
+
+Checkout the one you would like to work on:
+::
+  git checkout --track origin/add-symbol-operations-stats
+
+You should now have a local brach to which you can push and pull.
+
+
 Releasing a new version
 -----------------------
 Versions are added according to the following scheme:
