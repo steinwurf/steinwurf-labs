@@ -120,9 +120,9 @@ We create new releases using the git tagging mechanism.
 3. Bump the version number in the wscript file
 4. Bump version number in doxygen, Doxyfile
 5. Bump version number in sphinx, conf.py
-4. Push the NEWS.rst and wscript files and check the buildbot
+6. Push the NEWS.rst and wscript files and check the buildbot
    that everything builds before creating the tag.
-3. Create and push the tag e.g.:
+7. Create and push the tag e.g.:
 
 ::
 
