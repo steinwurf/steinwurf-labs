@@ -1,0 +1,31 @@
+---
+layout: default
+title: Steinwurf
+author: Steinwurf
+year: 2012
+link: "https://github.com/steinwurf"
+---
+
+<div id="home">
+
+  <p>
+    Welcome to our research corner here you will find posts about Network coding and related research.
+  </p>
+
+  <h1>Blog Posts</h1>
+  <ul class="posts">
+    {% for post in site.posts %}
+      <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+
+
+<h1>Network Coding Software</h1>
+  <ul class="links">
+    <li><a href="https://github.com/steinwurf/fifi">Steinwurf Labs:</a> Experimental code and simulations</li>
+    <li><a href="https://github.com/steinwurf/kodo">Kodo:</a> Network Coding Algorithms</li>
+    <li><a href="https://github.com/steinwurf/fifi">Fifi:</a> Finite Field Implementation</li>
+    </ul>
+
+
+</div>

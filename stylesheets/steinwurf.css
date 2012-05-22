@@ -1,0 +1,122 @@
+/***
+ Steinwurf css, Copyright Steinwurf ApS 2012
+***/
+
+html, body
+{
+    height:100%;
+    margin:0;
+    padding: 0;
+    background-color:#e8e8e8;
+    font-family:"Times New Roman";
+}
+
+
+h1
+{
+    font-size: 24px;
+}
+
+h2
+{
+    font-size: 20px;
+}
+
+p
+{
+    font-size:16px;
+}
+
+#container {
+    min-height: 100%;
+    padding: 0;
+    position: relative;
+    margin-bottom: -50px;
+}
+
+.header
+{
+    width: 100%;
+    height: 80px;
+    background-color: #2f2f2f;
+    color: #8DC63F;
+    text-align: center;
+}
+
+.content
+{
+}
+
+.footer
+{
+    position: relative;
+    width: 100%;
+    background-color: #2f2f2f;
+    height: 34px;
+}
+
+#wrap
+{
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ul.posts {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+ul.posts span {
+    color: gray;
+    font-family: monospace;
+    font-size: 75%;
+}
+
+ul.posts li {
+    font-size: 16px;
+    margin-bottom: 0.3em;
+}
+
+
+ul.links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.links span
+{
+}
+
+ul.links li
+{
+    margin-bottom: 0.3em;
+}
+
+
+a:link
+{
+    COLOR: orange;
+    text-decoration: none;
+}
+
+a:visited
+{
+    COLOR: #8DC63F;
+    text-decoration: none;
+}
+
+a:hover
+{
+    COLOR: #FF0000;
+    text-decoration: none;
+}
+
+a:active
+{
+    COLOR: #8DC63F;
+    text-decoration: none;
+}
+
