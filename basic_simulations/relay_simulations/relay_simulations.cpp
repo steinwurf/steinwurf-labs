@@ -30,6 +30,14 @@ inline void single_relay(double relay_sink,
     std::cout << "source->sink = " << source_sink << std::endl;
     std::cout << "source->relay = " << source_relay << std::endl;
 
+    boost::shared_ptr<counter_list> c =
+        factory->counter();
+
+    c->string_value("test_name") = "single_relay";
+    c->double_value("error_sink_to_relay") = relay_sink;
+    c->double_value("error_source_to_sink") = source_sink;
+    c->double_value("error_source_to_relay") = source_relay;
+
     boost::shared_ptr<channel> channel_relay_sink =
         factory->build_channel(relay_sink);
 
@@ -59,12 +67,6 @@ inline void single_relay(double relay_sink,
         node_source->send();
     }
 
-    boost::shared_ptr<counter_list> c =
-        factory->counter();
-
-    c->print(std::cout);
-
-    std::cout << std::endl;
 }
 
 template<class Encoder, class Decoder>
@@ -73,9 +75,28 @@ void run_single_relay(boost::random::mt19937 &random)
     typedef basic_simulation_factory<Encoder, Decoder> factory_type;
 
     boost::shared_ptr<factory_type> factory =
-        boost::make_shared<factory_type>(1024, 1400, boost::ref(random));
+        boost::make_shared<factory_type>(32, 1400, boost::ref(random));
+
+    // Get the statistics
+    boost::shared_ptr<counter_list> c =
+        factory->counter();
+
+    // to run multiple times use for loop e.g.
+    // for(uint32_t i = 0; i < 10; ++i)
 
     single_relay(0.8, 0.4, 0.8, factory);
+    c->new_run();
+    single_relay(0.7, 0.4, 0.8, factory);
+    c->new_run();
+    single_relay(0.5, 0.4, 0.8, factory);
+
+    // Print the counters
+    c->print(std::cout);
+    c->dump_to_file();
+
+    std::cout << std::endl;
+
+
 }
 
 //

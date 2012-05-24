@@ -9,29 +9,157 @@
 #include <kodo/rlnc/full_vector_codes.h>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/bernoulli_distribution.hpp>
+#include <boost/variant.hpp>
+
+#include <fstream>
+#include <sstream>
+
+class value_printer
+    : public boost::static_visitor<std::string>
+{
+public:
+
+    template<class T>
+    std::string operator()(T t) const
+    {
+        std::stringstream ss;
+        ss << t;
+        return ss.str();
+    }
+
+    std::string operator()(const std::string& s) const
+    {
+        std::stringstream ss;
+        ss << "\"" << s << "\"";
+        return ss.str();
+    }
+
+};
+
+
 
 // Access to counters based on a key
 struct counter_list
 {
+    // Value type
+    typedef boost::variant<uint32_t, std::string, double> value_type;
 
-    uint32_t &value(const std::string &key)
+    // Counter data
+    typedef std::map<std::string, value_type> counter_data;
+
+    uint32_t& int_value(const std::string &key)
         {
-            return m_values[key];
+            if(m_values.size() == 0)
+            {
+                // make sure we have space
+                m_values.resize(1);
+            }
+
+            uint32_t index = m_values.size() - 1;
+
+            return boost::get<uint32_t>(m_values[index][key]);
         }
-    
+
+    double& double_value(const std::string &key)
+        {
+            if(m_values.size() == 0)
+            {
+                // make sure we have space
+                m_values.resize(1);
+            }
+
+            uint32_t index = m_values.size() - 1;
+
+            if(m_values[index].find(key) == m_values[index].end())
+                m_values[index][key] = value_type(0.0);
+
+            return boost::get<double>(m_values[index][key]);
+        }
+
+    std::string& string_value(const std::string &key)
+        {
+            if(m_values.size() == 0)
+            {
+                // make sure we have space
+                m_values.resize(1);
+            }
+
+            uint32_t index = m_values.size() - 1;
+
+            if(m_values[index].find(key) == m_values[index].end())
+                m_values[index][key] = value_type("");
+
+            return boost::get<std::string>(m_values[index][key]);
+        }
+
 
     void print(std::ostream &o)
         {
-            std::map<std::string, uint32_t>::iterator it;
+            std::vector<counter_data>::iterator it_values;
 
-            for(it = m_values.begin(); it != m_values.end(); ++it)
-            {
-                o << it->first << " " << it->second << std::endl;
-            }
-            
+            uint32_t runs = 0;
+
+            for(it_values = m_values.begin();
+                it_values != m_values.end(); ++it_values)
+                {
+                    std::cout << "Run: " << runs << std::endl;
+
+                    counter_data::iterator it_data;
+
+                    for(it_data = it_values->begin();
+                        it_data != it_values->end(); ++it_data)
+                    {
+                        o << it_data->first << " "
+                          << it_data->second << std::endl;
+                    }
+                    std::cout << std::endl;
+
+                    ++runs;
+                }
         }
 
-    std::map<std::string, uint32_t> m_values;
+    void dump_to_file()
+        {
+            std::ofstream out("results.py", std::ios::trunc);
+
+            std::vector<counter_data>::iterator it_values;
+
+            out << "results = [";
+
+            bool first = true;
+
+            for(it_values = m_values.begin();
+                it_values != m_values.end(); ++it_values)
+            {
+                counter_data::iterator it_data;
+
+                out << "{";
+
+                for(it_data = it_values->begin();
+                    it_data != it_values->end(); ++it_data)
+                {
+                    out << "\"" << it_data->first << "\": ";
+                    out << boost::apply_visitor(value_printer(), (it_data->second));
+                    out << ",";
+                }
+                out << "},";
+            }
+
+            out << "]\n";
+
+            out << "print results";
+
+        }
+
+
+
+    void new_run()
+        {
+            m_values.push_back(counter_data());
+        }
+
+
+    std::vector<counter_data> m_values;
 };
 
 
@@ -54,10 +182,10 @@ private:
 
     // The random generator
     boost::random::mt19937 &m_random_generator;
-    
+
     // The distribution wrapping the random generator
     boost::random::bernoulli_distribution<> m_distribution;
-       
+
 };
 
 
@@ -144,18 +272,18 @@ public:
         {
             forward(payload);
         }
-    
+
     // Override the should forward function to
     virtual bool should_forward()
         {
             if(m_channel_condition->generate())
             {
-                ++m_counter->value("channel_sent");
+                ++m_counter->int_value("channel_sent");
                 return true;
             }
             else
             {
-                ++m_counter->value("channel_dropped");
+                ++m_counter->int_value("channel_dropped");
                 return false;
             }
         }
@@ -179,7 +307,7 @@ template<class Decoder>
 class basic_sink : public sink
 {
 public:
-    
+
     basic_sink(const typename Decoder::pointer &decoder,
                const boost::shared_ptr<counter_list> &counter)
         : m_decoder(decoder),
@@ -194,28 +322,28 @@ public:
     void receive(const uint8_t *payload)
         {
             assert(payload != 0);
-            
-            ++m_counter->value("sink_receive");
+
+            ++m_counter->int_value("sink_receive");
 
             if(m_decoder->is_complete())
             {
-                ++m_counter->value("sink_waste");
+                ++m_counter->int_value("sink_waste");
                 return;
             }
 
             std::copy(payload, payload + m_decoder->payload_size(),
                       &m_decode_buffer[0]);
-            
+
             uint32_t rank = m_decoder->rank();
             m_decoder->decode(&m_decode_buffer[0]);
 
             if(m_decoder->rank() > rank)
             {
-                ++m_counter->value("sink_innovative");
+                ++m_counter->int_value("sink_innovative");
             }
             else
             {
-                ++m_counter->value("sink_linear_dependent");
+                ++m_counter->int_value("sink_linear_dependent");
             }
         }
 
@@ -231,7 +359,7 @@ private:
 
     // The decoder
     typename Decoder::pointer m_decoder;
-    
+
     // Counter for statistics
     boost::shared_ptr<counter_list> m_counter;
 
@@ -245,7 +373,7 @@ template<class Encoder>
 class basic_source : public source
 {
 public:
-    
+
     basic_source(const typename Encoder::pointer &encoder,
                  const boost::shared_ptr<counter_list> counter)
         : m_encoder(encoder),
@@ -259,20 +387,20 @@ public:
 
     void send()
         {
-            ++m_counter->value("source_sent");
-            
+            ++m_counter->int_value("source_sent");
+
             m_encoder->encode(&m_payload[0]);
             forward(&m_payload[0]);
         }
 
 private:
-    
-    // Payload buffer 
+
+    // Payload buffer
     std::vector<uint8_t> m_payload;
 
     // Pointer to the encoder
     typename Encoder::pointer m_encoder;
-    
+
     // Counter for statistics
     boost::shared_ptr<counter_list> m_counter;
 };
@@ -284,7 +412,7 @@ template<class Decoder>
 class basic_relay : public relay
 {
 public:
-    
+
     basic_relay(const typename Decoder::pointer &decoder,
                 const boost::shared_ptr<counter_list> &counter)
         : m_decoder(decoder),
@@ -292,32 +420,32 @@ public:
         {
             assert(m_decoder);
             assert(m_counter);
-            
+
             m_recode_buffer.resize(m_decoder->payload_size());
             m_decode_buffer.resize(m_decoder->payload_size());
         }
-    
+
     virtual void receive(const uint8_t *payload)
         {
             if(m_decoder->is_complete())
             {
-                ++m_counter->value("relay_waste");
+                ++m_counter->int_value("relay_waste");
             }
             else
             {
                 std::copy(payload, payload + m_decoder->payload_size(),
                           &m_decode_buffer[0]);
-                
+
                 uint32_t rank = m_decoder->rank();
                 m_decoder->decode(&m_decode_buffer[0]);
-            
+
                 if(rank < m_decoder->rank())
                 {
-                    ++m_counter->value("relay_innovative");
+                    ++m_counter->int_value("relay_innovative");
                 }
                 else
                 {
-                    ++m_counter->value("relay_linear_dependent");
+                    ++m_counter->int_value("relay_linear_dependent");
                 }
             }
 
@@ -329,7 +457,7 @@ public:
 
     virtual bool should_forward()
         {
-            ++m_counter->value("relay_forward");
+            ++m_counter->int_value("relay_forward");
             return true;
         }
 
@@ -344,7 +472,7 @@ private:
 
     // Statistics
     boost::shared_ptr<counter_list> m_counter;
-    
+
 };
 
 
@@ -357,7 +485,7 @@ public:
     virtual boost::shared_ptr<sink> build_sink() = 0;
     virtual boost::shared_ptr<source> build_source() = 0;
     virtual boost::shared_ptr<relay> build_relay() = 0;
-    virtual boost::shared_ptr<counter_list> counter() = 0;    
+    virtual boost::shared_ptr<counter_list> counter() = 0;
 };
 
 
@@ -384,7 +512,7 @@ public:
             kodo::random_uniform<uint8_t> fill_data;
             fill_data.generate(&m_data[0], m_data.size());
         }
-    
+
     boost::shared_ptr<channel> build_channel(double success_probability)
         {
             boost::shared_ptr<random_bool> channel_conditions =
@@ -415,7 +543,7 @@ public:
         {
             return m_counter;
         }
-    
+
 private:
 
     typename Decoder::pointer build_decoder()
@@ -423,7 +551,7 @@ private:
             // We always just build decoders of the maximum size
             uint32_t max_symbols = m_decoder_factory.max_symbols();
             uint32_t max_symbol_size = m_decoder_factory.max_symbol_size();
-            
+
             typename Decoder::pointer decoder =
                 m_decoder_factory.build(max_symbols, max_symbol_size);
 
@@ -435,7 +563,7 @@ private:
             // We always just build decoders of the maximum size
             uint32_t max_symbols = m_encoder_factory.max_symbols();
             uint32_t max_symbol_size = m_encoder_factory.max_symbol_size();
-            
+
             typename Encoder::pointer encoder =
                 m_encoder_factory.build(max_symbols, max_symbol_size);
 
@@ -444,14 +572,14 @@ private:
             return encoder;
         }
 
-    
+
     boost::shared_ptr<random_bool> build_random_bool(double success_probability)
         {
             return boost::make_shared<random_bool>(boost::ref(m_random_generator),
                                                    success_probability);
         }
 
-    
+
 private:
 
     typename Decoder::factory m_decoder_factory;
@@ -462,10 +590,10 @@ private:
 
     // Statistics
     boost::shared_ptr<counter_list> m_counter;
-    
+
     // The random generator
     boost::random::mt19937 &m_random_generator;
-};    
+};
 
 
 
