@@ -82,8 +82,12 @@ If you have forked a repository and want to keep it up to date with the original
 ::
   git remote add upstream git@github.com:steinwurf/kodo.git
 
+Whenever you want to rebase on the upstream branch
+::
+  git pull --rebase <remote name> <branch name>
 
-Whenever you want to pull in upstream changes into your master
+
+You can also simply pull the upstream changes into your master
 ::
   git pull upstream master
 
