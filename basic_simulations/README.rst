@@ -8,7 +8,7 @@ Build
 =====
 
 To configure the examples run:
-  ::
+::
   ./waf configure --bundle=ALL --bundle-path=~/dev/bundled_dependencies/
 
 This will configure the project and download all the dependencies needed.
@@ -24,14 +24,14 @@ you do not want to use e.g. the kodo library from the repository you may write
 use by writing "--kodo-path=/home/xyz/kodo-lib".
 
 After configure run the following command to build:
-  ::
+::
   ./waf
 
 Run
 ===
 
 After building you may e.g. the relay_simulations build typing:
-  ::
+::
   ./build/linux/relay_simulations/relay_simulations
 
 
