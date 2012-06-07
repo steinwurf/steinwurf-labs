@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The first post
+title: The First Post
 author: Janus Heide
 year: 2012
 ---
