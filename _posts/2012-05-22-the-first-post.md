@@ -2,6 +2,7 @@
 layout: post
 title: The first post
 author: Janus Heide
+year: 2012
 ---
 
 This is the first post blog post on the Steinwurf Labs page. In the future we will write about news that could be interesting for Network Coding researchers.
