@@ -62,13 +62,6 @@ a
     margin-bottom: -64px;
 }
 
-#one-edge-shadow {
-	-webkit-box-shadow: 0 16px 18px -6px black;
-	   -moz-box-shadow: 0 16px 18px -6px black;
-	        box-shadow: 0 16px 18px -6px black;
-    background-color: #2f2f2f;
-}
-
 .header
 {
     width: 790px;
@@ -80,6 +73,13 @@ a
     background-color: #2f2f2f;
     color: #8DC63F;
     text-align: center;
+    border-radius: 15px;
+
+	-webkit-box-shadow: 0 16px 18px -6px black;
+	   -moz-box-shadow: 0 16px 18px -6px black;
+	        box-shadow: 0 16px 18px -6px black;
+    background-color: #2f2f2f;
+    border-radius: 2px 2px 4px 4px;
 }
 
 .content
@@ -88,7 +88,7 @@ a
 
 .footer
 {
-    width: 800px;
+    width: 790px;
     margin-left: auto;
     margin-right: auto;
     position: relative;
