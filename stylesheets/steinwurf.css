@@ -7,9 +7,7 @@ html, body
     height:100%;
     margin:0;
     padding: 0;
-/**    background-color:#e8e8e8;**/
     background-color:#F1F1F1;
-/**    font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;**/
     font-family: 'Questrial', sans-serif;
 }
 
@@ -39,17 +37,11 @@ h2
 h3
 {
     font-size: 19px;
-/*    color: gray;*/
 }
 
 p
 {
     font-size:17px;
-}
-
-a
-{
-
 }
 
 #container {
@@ -73,11 +65,7 @@ a
     background-color: #2f2f2f;
     color: #8DC63F;
     text-align: center;
-    border-radius: 15px;
-
-	-webkit-box-shadow: 0 16px 18px -6px black;
-	   -moz-box-shadow: 0 16px 18px -6px black;
-	        box-shadow: 0 16px 18px -6px black;
+    box-shadow: 0 16px 18px -6px black;
     background-color: #2f2f2f;
     border-radius: 2px 2px 4px 4px;
 }
@@ -92,13 +80,12 @@ a
     margin-left: auto;
     margin-right: auto;
     position: relative;
-/*    background-color: #2f2f2f;*/
     height: 47px;
 }
 
 #wrap
 {
-    width: 720px;
+    width: 750px;
     margin-left: auto;
     margin-right: auto;
 }
