@@ -45,42 +45,73 @@ p
 }
 
 #container {
+    position:relative;
+    width: 800px;
     min-height: 100%;
     margin-left: auto;
     margin-right: auto;
     background-color:#E6E6E6;
-    width: 800px;
-    padding: 0;
-    margin-bottom: -64px;
+/*    border-radius: 8px 8px 8px 8px; */
 }
 
 .header
 {
-    width: 790px;
     position: relative;
+    width: 840px;
+    height: 100px;
+    top: 10px;
+    left: -20px;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 40px;
-    height: 100px;
     background-color: #2f2f2f;
     color: #8DC63F;
     text-align: center;
-    box-shadow: 0 16px 18px -6px black;
-    background-color: #2f2f2f;
-    border-radius: 2px 2px 4px 4px;
+    box-shadow: 0 6px 18px -6px black;
+    border-radius: 2px 2px 0px 0px;
+}
+
+.header:after
+{
+    position: absolute;
+    content: ' ';
+    width: 0;
+    height: 0;
+    top: 100%;
+    left: 0px;
+    border-width: 6px 10px;
+    border-style: solid;
+    border-color: #666 #666 transparent transparent;
+}
+
+
+.header:before
+{
+    position: absolute;
+    content: ' ';
+    width: 0;
+    height: 0;
+    top: 100%;
+    left: 820px;
+    border-width: 6px 10px;
+    border-style: solid;
+    border-color: #666 transparent transparent #666;
 }
 
 .content
 {
+    padding: 10px;
+    padding-bottom: 50px;
 }
 
 .footer
 {
+    position:absolute;
     width: 790px;
+    height: 50px;
+    left: 5px;
+    bottom: 0px;
     margin-left: auto;
     margin-right: auto;
-    position: relative;
-    height: 47px;
 }
 
 #wrap
@@ -92,8 +123,6 @@ p
 
 ul.posts {
     list-style-type: none;
-    padding: 0px;
-    margin: 0px;
 }
 
 ul.posts span {
@@ -109,8 +138,6 @@ ul.posts li {
 
 ul.links {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
 }
 
 ul.links span
