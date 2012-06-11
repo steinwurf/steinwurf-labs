@@ -51,6 +51,25 @@ Running the Executable
 ----------------------
 Instructions from here: http://stackoverflow.com/questions/10133274/
 
+::
+  cd platform-tools
+  ./adb devices
+
+If you see:
+::
+List of devices attached 
+???????????? no permissions
+
+Do a:
+::
+  sudo ./adb kill-server
+  sudo ./adb start-server
+
+::
+ ./adb devices
+  List of devices attached 
+  S58306c96d8b3 device
+
 
 
 
