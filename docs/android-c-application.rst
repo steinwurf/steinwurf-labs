@@ -47,4 +47,11 @@ To install these run:
   ./tools/android update sdk --filter 1,2 --no-ui
 
 
+Running the Executable
+----------------------
+Instructions from here: http://stackoverflow.com/questions/10133274/
+
+
+
+
 
