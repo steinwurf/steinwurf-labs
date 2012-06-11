@@ -10,14 +10,14 @@ command line.
 Disclaimer
 ----------
 These instructions have only tested on: 
- * XUbuntu 12.04, Android-NDK-r8 and  Android-SDK-r18 
+ * XUbuntu 12.04 64bit, Android-NDK-r8 and  Android-SDK-r18 
 
 Installing prerequisites
 -------------------------
 We need to install the following tools:
-1. Java Runtime Environment 
+1. System packages
 ::
- sudo aptitude install openjdk-7-jre
+ sudo aptitude install openjdk-7-jre ia32-libs
 
 2. Android SDK
 :: 
