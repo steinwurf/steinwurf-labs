@@ -46,6 +46,13 @@ To install these run:
 ::
   ./tools/android update sdk --filter 1,2 --no-ui
 
+Create the an Android Stand-Alone toolchain
+-------------------------------------------
+Navigate to the Android NDK and use the build command to crate a 
+stand-alone toolchain.
+::
+  cd android-ndk-linux
+
 
 Running the Executable
 ----------------------
