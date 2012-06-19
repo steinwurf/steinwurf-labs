@@ -94,7 +94,7 @@ void run_single_relay(boost::random::mt19937 &random)
     boost::shared_ptr<counter_list> c =
         factory->counter();
 
-    uint32_t iterations = 1000;
+    uint32_t iterations = 10;
 
     double max = 0.5;
     double min = 0.0;
