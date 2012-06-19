@@ -51,8 +51,34 @@ Create the an Android Stand-Alone toolchain
 Navigate to the Android NDK and use the build command to crate a 
 stand-alone toolchain.
 ::
-  cd android-ndk-linux
+  cd android-ndk-r8
+  ./build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=/home/user/dev/android-ndk-r8-platform9-arm-4.4.3 --ndk-dir=.
 
+If you omit the --install-dir path the script will create a tar.bz2 
+archive in your /tmp folder. Here we have used the long install-dir 
+``android-ndk-r8-platform9-arm-4.4.3`` to be able to remember which 
+ndk version etc. was used etc.
+
+Build a C++ Executable using the NDK
+------------------------------------
+Now that we have the toolchain we simply have to create an executable. 
+Lets do a simple hello android application.
+
+Open you favorite editor and paste the following save the file as ``main.cpp``:
+::
+  #include <iostream>
+  int main()
+  {
+     std::cout << "Hello Android!" << std::endl;
+     return 0;
+  }
+
+Make sure the compiler can be found and then compile the application:
+::
+  export PATH=~/dev/android-ndk-r8-platform9-arm-4.4.3/bin:$PATH
+  arm-linux-androideabi-g++ main.cpp -o hello_android
+
+If no hiccups the executable ``hello_android`` is produced. 
 
 Running the Executable
 ----------------------
@@ -70,13 +96,14 @@ If you see the following:
 
 You have two options:
 1. You can restart the server as root.
-  ::
-    sudo ./adb kill-server
-    sudo ./adb start-server
-2. You can add appropriate udev rules (which is more convenient in the long run). 
+   ::
+     sudo ./adb kill-server
+     sudo ./adb start-server
+2. You can add appropriate udev rules (which is more convenient in the 
+   long run). 
 
-
-
+Once the Android device is correctly attached you should see the 
+following output of the ``adb devices`` command:
 ::
  ./adb devices
   List of devices attached 
