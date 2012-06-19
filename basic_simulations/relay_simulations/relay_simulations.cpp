@@ -4,6 +4,7 @@
 // http://www.steinwurf.com/licensing
 
 #include "simulation.h"
+#include <ctime>
 
 //
 //                  +--------+
