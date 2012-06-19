@@ -1,13 +1,14 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
- 
+
 def build(bld):
-    
+
     bld.program(features = 'cxx',
                 source   = 'relay_simulations.cpp',
                 target   = 'relay_simulations',
                 includes = '..',
+                cxxflags = bld.toolchain_cxx_flags(),
                 use      = ['kodo_includes', 'boost_includes',
                             'fifi_includes', 'sak_includes'])
 

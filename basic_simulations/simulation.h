@@ -37,30 +37,17 @@ public:
 };
 
 
-
 // Access to counters based on a key
 struct counter_list
 {
     // Value type
-    typedef boost::variant<uint32_t, std::string, double> value_type;
+    typedef boost::variant<uint32_t, std::string, double, bool> value_type;
 
     // Counter data
     typedef std::map<std::string, value_type> counter_data;
 
-    uint32_t& int_value(const std::string &key)
-        {
-            if(m_values.size() == 0)
-            {
-                // make sure we have space
-                m_values.resize(1);
-            }
-
-            uint32_t index = m_values.size() - 1;
-
-            return boost::get<uint32_t>(m_values[index][key]);
-        }
-
-    double& double_value(const std::string &key)
+    template<class ValueType>
+    ValueType& value(const std::string &key)
         {
             if(m_values.size() == 0)
             {
@@ -71,25 +58,9 @@ struct counter_list
             uint32_t index = m_values.size() - 1;
 
             if(m_values[index].find(key) == m_values[index].end())
-                m_values[index][key] = value_type(0.0);
+                m_values[index][key] = ValueType();
 
-            return boost::get<double>(m_values[index][key]);
-        }
-
-    std::string& string_value(const std::string &key)
-        {
-            if(m_values.size() == 0)
-            {
-                // make sure we have space
-                m_values.resize(1);
-            }
-
-            uint32_t index = m_values.size() - 1;
-
-            if(m_values[index].find(key) == m_values[index].end())
-                m_values[index][key] = value_type("");
-
-            return boost::get<std::string>(m_values[index][key]);
+            return boost::get<ValueType>(m_values[index][key]);
         }
 
 
@@ -126,8 +97,6 @@ struct counter_list
 
             out << "results = [";
 
-            bool first = true;
-
             for(it_values = m_values.begin();
                 it_values != m_values.end(); ++it_values)
             {
@@ -146,8 +115,6 @@ struct counter_list
             }
 
             out << "]\n";
-
-            out << "print results";
 
         }
 
@@ -250,6 +217,11 @@ struct sink : public receiver
 struct source : public output_helper
 {
     virtual void send() = 0;
+
+    virtual void systematic_off() = 0;
+
+    virtual void systematic_on() = 0;
+
 };
 
 
@@ -276,15 +248,16 @@ public:
     // Override the should forward function to
     virtual bool should_forward()
         {
+            // If true we drop
             if(m_channel_condition->generate())
             {
-                ++m_counter->int_value("channel_sent");
-                return true;
+                ++m_counter->value<uint32_t>("channel_dropped");
+                return false;
             }
             else
             {
-                ++m_counter->int_value("channel_dropped");
-                return false;
+                ++m_counter->value<uint32_t>("channel_sent");
+                return true;
             }
         }
 
@@ -323,11 +296,11 @@ public:
         {
             assert(payload != 0);
 
-            ++m_counter->int_value("sink_receive");
+            ++m_counter->value<uint32_t>("sink_receive");
 
             if(m_decoder->is_complete())
             {
-                ++m_counter->int_value("sink_waste");
+                ++m_counter->value<uint32_t>("sink_waste");
                 return;
             }
 
@@ -339,11 +312,11 @@ public:
 
             if(m_decoder->rank() > rank)
             {
-                ++m_counter->int_value("sink_innovative");
+                ++m_counter->value<uint32_t>("sink_innovative");
             }
             else
             {
-                ++m_counter->int_value("sink_linear_dependent");
+                ++m_counter->value<uint32_t>("sink_linear_dependent");
             }
         }
 
@@ -387,11 +360,22 @@ public:
 
     void send()
         {
-            ++m_counter->int_value("source_sent");
+            ++m_counter->value<uint32_t>("source_sent");
 
             m_encoder->encode(&m_payload[0]);
             forward(&m_payload[0]);
         }
+
+    void systematic_off()
+        {
+            m_encoder->systematic_off();
+        }
+
+    void systematic_on()
+        {
+            m_encoder->systematic_on();
+        }
+
 
 private:
 
@@ -429,7 +413,7 @@ public:
         {
             if(m_decoder->is_complete())
             {
-                ++m_counter->int_value("relay_waste");
+                ++m_counter->value<uint32_t>("relay_waste");
             }
             else
             {
@@ -441,11 +425,11 @@ public:
 
                 if(rank < m_decoder->rank())
                 {
-                    ++m_counter->int_value("relay_innovative");
+                    ++m_counter->value<uint32_t>("relay_innovative");
                 }
                 else
                 {
-                    ++m_counter->int_value("relay_linear_dependent");
+                    ++m_counter->value<uint32_t>("relay_linear_dependent");
                 }
             }
 
@@ -457,7 +441,7 @@ public:
 
     virtual bool should_forward()
         {
-            ++m_counter->int_value("relay_forward");
+            ++m_counter->value<uint32_t>("relay_forward");
             return true;
         }
 
@@ -481,7 +465,7 @@ class simulation_factory
 public:
 
     virtual ~simulation_factory(){}
-    virtual boost::shared_ptr<channel> build_channel(double success_probability) = 0;
+    virtual boost::shared_ptr<channel> build_channel(double error_probability) = 0;
     virtual boost::shared_ptr<sink> build_sink() = 0;
     virtual boost::shared_ptr<source> build_source() = 0;
     virtual boost::shared_ptr<relay> build_relay() = 0;
@@ -513,10 +497,12 @@ public:
             fill_data.generate(&m_data[0], m_data.size());
         }
 
-    boost::shared_ptr<channel> build_channel(double success_probability)
+    boost::shared_ptr<channel> build_channel(double error_probability)
         {
+            assert(error_probability >= 0.0);
+            assert(error_probability <= 1.0);
             boost::shared_ptr<random_bool> channel_conditions =
-                build_random_bool(success_probability);
+                build_random_bool(error_probability);
 
             return boost::make_shared<basic_channel>(channel_conditions, m_counter);
         }
@@ -538,6 +524,7 @@ public:
             typename Encoder::pointer encoder = build_encoder();
             return boost::make_shared< basic_source<Encoder> >(encoder, m_counter);
         }
+
 
     boost::shared_ptr<counter_list> counter()
         {

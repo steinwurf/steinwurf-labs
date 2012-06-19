@@ -1,9 +1,10 @@
-// Copyright Steinwurf APS 2011-2012.
+// Copyright Steinwurf ApS 2011-2012.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
 #include "simulation.h"
+#include <ctime>
 
 //
 //                  +--------+
@@ -18,10 +19,12 @@
 // @param relay_sink the error probability from relay to sink
 // @param source_sink the error probabilty from source to sink
 // @param source_relay the error probability from source to relay
+// @param source_systematic whether the source is initially systematic
 // @param factory simulation factory
 inline void single_relay(double relay_sink,
                          double source_sink,
                          double source_relay,
+                         bool source_systematic,
                          boost::shared_ptr<simulation_factory> factory)
 {
 
@@ -33,10 +36,10 @@ inline void single_relay(double relay_sink,
     boost::shared_ptr<counter_list> c =
         factory->counter();
 
-    c->string_value("test_name") = "single_relay";
-    c->double_value("error_sink_to_relay") = relay_sink;
-    c->double_value("error_source_to_sink") = source_sink;
-    c->double_value("error_source_to_relay") = source_relay;
+    c->value<std::string>("test_name") = "single_relay";
+    c->value<double>("error_relay_to_sink") = relay_sink;
+    c->value<double>("error_source_to_sink") = source_sink;
+    c->value<double>("error_source_to_relay") = source_relay;
 
     boost::shared_ptr<channel> channel_relay_sink =
         factory->build_channel(relay_sink);
@@ -48,6 +51,17 @@ inline void single_relay(double relay_sink,
         factory->build_channel(source_relay);
 
     boost::shared_ptr<source> node_source = factory->build_source();
+
+    c->value<bool>("source_systematic") = source_systematic;
+    if(source_systematic)
+    {
+        node_source->systematic_on();
+    }
+    else
+    {
+        node_source->systematic_off();
+    }
+
     boost::shared_ptr<sink> node_sink = factory->build_sink();
     boost::shared_ptr<relay> node_relay = factory->build_relay();
 
@@ -81,14 +95,33 @@ void run_single_relay(boost::random::mt19937 &random)
     boost::shared_ptr<counter_list> c =
         factory->counter();
 
-    // to run multiple times use for loop e.g.
-    // for(uint32_t i = 0; i < 10; ++i)
+    uint32_t iterations = 10;
 
-    single_relay(0.8, 0.4, 0.8, factory);
-    c->new_run();
-    single_relay(0.7, 0.4, 0.8, factory);
-    c->new_run();
-    single_relay(0.5, 0.4, 0.8, factory);
+    double max = 0.5;
+    double min = 0.0;
+    double step = 0.1;
+
+    for(double rs = min; rs <= max; rs += step)
+    {
+        for(double ss = min; ss <= max; ss += step)
+        {
+            for(double sr = min; sr <= max; sr += step)
+            {
+
+                // to run multiple times use for loop e.g.
+                c->value<uint32_t>("iterations") = iterations;
+                for(uint32_t i = 0; i < iterations; ++i)
+                    single_relay(rs, ss, sr, false, factory);
+
+                c->new_run();
+                c->value<uint32_t>("iterations") = iterations;
+                for(uint32_t i = 0; i < iterations; ++i)
+                    single_relay(rs, ss, sr, true, factory);
+                c->new_run();
+            }
+        }
+    }
+
 
     // Print the counters
     c->print(std::cout);
