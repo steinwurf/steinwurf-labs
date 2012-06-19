@@ -84,10 +84,12 @@ Running the Executable
 ----------------------
 Instructions from here: http://stackoverflow.com/questions/10133274/
 
-Make sure we have a device connected:
+We will use the ``adb`` tool from the android SDK to deploy and run our
+application on our Android device. Make sure the ``adb`` command is avaible
+and check which devices we have connected:
 ::
-  cd platform-tools
-  ./adb devices
+  export PATH=~/dev/android-sdk-linux-r18/platform-tools/:$PATH
+  adb devices
 
 If you see the following:
 ::
@@ -95,10 +97,12 @@ If you see the following:
   ???????????? no permissions
 
 You have two options:
+
 1. You can restart the server as root.
    ::
      sudo ./adb kill-server
      sudo ./adb start-server
+
 2. You can add appropriate udev rules (which is more convenient in the 
    long run). 
 
@@ -109,7 +113,18 @@ following output of the ``adb devices`` command:
   List of devices attached 
   S58306c96d8b3 device
 
+Now push our application to the device and run it:
+::
+  adb push hello_android /data/local/tmp/hello_android
+  adb shell /data/local/tmp/hello_android
 
+You shold now see ``Hello Android!`` printed to your screen. 
+
+Typically for automated testing we want the return code to see whether 
+something went wrong (from here http://stackoverflow.com/questions/9379400/):
+
+::
+  adb shell '/data/local/tmp/hello_android; echo $?'
 
 
 
