@@ -10,7 +10,7 @@ command line.
 Disclaimer
 ----------
 These instructions have only tested on: 
-* XUbuntu 12.04 64bit, Android-NDK-r8 and  Android-SDK-r18 
+- XUbuntu 12.04 64bit, Android-NDK-r8 and  Android-SDK-r18 
 
 Installing prerequisites
 -------------------------
