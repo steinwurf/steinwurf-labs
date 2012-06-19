@@ -10,7 +10,7 @@ command line.
 Disclaimer
 ----------
 These instructions have only tested on: 
- * XUbuntu 12.04 64bit, Android-NDK-r8 and  Android-SDK-r18 
+* XUbuntu 12.04 64bit, Android-NDK-r8 and  Android-SDK-r18 
 
 Installing prerequisites
 -------------------------
@@ -58,19 +58,24 @@ Running the Executable
 ----------------------
 Instructions from here: http://stackoverflow.com/questions/10133274/
 
+Make sure we have a device connected:
 ::
   cd platform-tools
   ./adb devices
 
-If you see:
+If you see the following:
 ::
-List of devices attached 
-???????????? no permissions
+  List of devices attached 
+  ???????????? no permissions
 
-Do a:
-::
-  sudo ./adb kill-server
-  sudo ./adb start-server
+You have two options:
+1. You can restart the server as root.
+  ::
+    sudo ./adb kill-server
+    sudo ./adb start-server
+2. You can add appropriate udev rules (which is more convenient in the long run). 
+
+
 
 ::
  ./adb devices
