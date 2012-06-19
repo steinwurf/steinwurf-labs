@@ -97,8 +97,6 @@ struct counter_list
 
             out << "results = [";
 
-            bool first = true;
-
             for(it_values = m_values.begin();
                 it_values != m_values.end(); ++it_values)
             {
