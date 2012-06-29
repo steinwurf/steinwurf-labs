@@ -25,7 +25,7 @@ use by writing ``--kodo-path=/home/xyz/kodo-lib``.
 
 After configure run the following command to build:
 ::
-  ./waf builc
+  ./waf build
 
 Run
 ===
