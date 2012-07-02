@@ -1,3 +1,5 @@
 markdown: rdiscount
 pygments: true
 url: http://steinwurf.github.com/steinwurf-labs
+name: Steinwurf Labs
+description: The Steinwurf research blog
