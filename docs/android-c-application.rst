@@ -122,7 +122,6 @@ You shold now see ``Hello Android!`` printed to your screen.
 
 Typically for automated testing we want the return code to see whether 
 something went wrong (from here http://stackoverflow.com/questions/9379400/):
-
 ::
   adb shell '/data/local/tmp/hello_android; echo $?'
 
