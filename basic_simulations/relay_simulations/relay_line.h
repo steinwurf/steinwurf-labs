@@ -8,6 +8,17 @@
 #include "simulation.h"
 #include <ctime>
 
+struct relay_line_setup
+{
+    uint32_t m_generation_size;
+    uint32_t m_packet_size;
+    double m_error_relays_sink;
+    double m_error_source_relays;
+    uint32_t m_number_relays;
+    bool m_recode;
+    bool m_source_systematic;
+};
+
 //
 //                     +--------+
 //                     | relay  |
@@ -28,32 +39,29 @@
 //                     | relay  |
 //                     +--------+
 //
-inline void relay_line(double relays_sink,
-                       double source_relays,
-                       uint32_t number_relays,
-                       bool recode,
+inline void relay_line(relay_line_setup setup,
                        boost::shared_ptr<simulation_factory> factory)
 {
 
     std::cout << "Running relay line" << std::endl;
-    std::cout << "relays->sink = " << relays_sink << std::endl;
-    std::cout << "source->relays = " << source_relays << std::endl;
-    std::cout << "number_relays = " << number_relays << std::endl;
+    //std::cout << "relays->sink = " << relays_sink << std::endl;
+    //std::cout << "source->relays = " << source_relays << std::endl;
+    //std::cout << "number_relays = " << number_relays << std::endl;
 
     boost::shared_ptr<channel> channel_source_relay =
-        factory->build_channel(source_relays);
+        factory->build_channel(setup.m_error_source_relays);
 
     boost::shared_ptr<channel> channel_relay_sink =
-        factory->build_channel(relays_sink);
+        factory->build_channel(setup.m_error_relays_sink);
 
     std::vector< boost::shared_ptr<relay> > relays;
 
-    for(uint32_t i = 0; i < number_relays; ++i)
+    for(uint32_t i = 0; i < setup.m_number_relays; ++i)
     {
         std::string id = "relay" + to_string(i);
         boost::shared_ptr<relay> node_relay = factory->build_relay(id);
 
-        if(recode)
+        if(setup.m_recode)
             node_relay->set_recode_on();
         else
             node_relay->set_recode_off();
@@ -65,6 +73,12 @@ inline void relay_line(double relays_sink,
     }
 
     boost::shared_ptr<source> node_source = factory->build_source("source");
+
+    if(setup.m_source_systematic)
+        node_source->systematic_on();
+    else
+        node_source->systematic_off();
+
     boost::shared_ptr<sink> node_sink = factory->build_sink("sink");
     boost::shared_ptr<tick_scheduler> scheduler = factory->scheduler();
 
@@ -80,7 +94,13 @@ inline void relay_line(double relays_sink,
     boost::shared_ptr<counter_list> c =
         factory->counter();
 
-    c->value<std::string>("recoding "+to_string(recode));
+    c->value<uint32_t>("number_relays") = setup.m_number_relays;
+    c->value<uint32_t>("recoding") = setup.m_recode;
+    c->value<uint32_t>("generation_size") = setup.m_generation_size;
+    c->value<uint32_t>("packet_size") = setup.m_packet_size;
+    c->value<uint32_t>("source_systematic") = setup.m_source_systematic;
+    c->value<double>("error_relays_sink") = setup.m_error_relays_sink;
+    c->value<double>("error_source_relays") = setup.m_error_source_relays;
 
     c->print(std::cout);
 
@@ -88,30 +108,20 @@ inline void relay_line(double relays_sink,
 }
 
 template<class Encoder, class Decoder>
-inline void run_relay_line(boost::random::mt19937 &random)
+inline void run_relay_line(relay_line_setup setup, boost::random::mt19937 &random)
 {
     typedef basic_simulation_factory<Encoder, Decoder> factory_type;
 
-    // {
-    //     boost::shared_ptr<factory_type> factory =
-    //         boost::make_shared<factory_type>(1024, 1400, boost::ref(random));
-    //
-    //     relay_line(0.2, 0.8, 4, true, factory);
-    // }
-
     {
         boost::shared_ptr<factory_type> factory =
-            boost::make_shared<factory_type>(1024, 1400, boost::ref(random));
+            boost::make_shared<factory_type>(setup.m_generation_size,
+                                             setup.m_packet_size,
+                                             boost::ref(random));
 
-        relay_line(0.5, 0.5, 3, false, factory);
+        relay_line(setup, factory);
     }
 
-    // {
-    //     boost::shared_ptr<factory_type> factory =
-    //         boost::make_shared<factory_type>(1024, 1400, boost::ref(random));
-    //
-    //     relay_line(0.8, 0.2, 4, true, factory);
-    // }
+
 
 }
 
