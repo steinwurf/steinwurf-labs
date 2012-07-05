@@ -104,7 +104,7 @@ You have two options:
      sudo ./adb start-server
 
 2. You can add appropriate udev rules (which is more convenient in the 
-   long run). 
+   long run). See this `page <http://developer.android.com/tools/device.html/>`_ for more information.
 
 Once the Android device is correctly attached you should see the 
 following output of the ``adb devices`` command:
@@ -122,7 +122,6 @@ You shold now see ``Hello Android!`` printed to your screen.
 
 Typically for automated testing we want the return code to see whether 
 something went wrong (from here http://stackoverflow.com/questions/9379400/):
-
 ::
   adb shell '/data/local/tmp/hello_android; echo $?'
 
