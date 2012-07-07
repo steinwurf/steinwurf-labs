@@ -4,6 +4,7 @@
 #include <algorithm>
 
 
+
 namespace po = boost::program_options;
 
 po::variables_map parse_commandline(int argc, const char *argv[])
@@ -13,53 +14,35 @@ po::variables_map parse_commandline(int argc, const char *argv[])
 
     desc.add_options()
         ("help", "produce help message")
-        ("scenario", po::value<std::string>(),
-         "Select a scenario for example --scenario=relay_line "
-         "available: relay_line, single_relay and single_no_relay")
-        ("field", po::value<std::string>(),
+        ("topology", "show the topology")
+        ("field", po::value<std::string>()->default_value("binary"),
          "Select a finite field for example --field=binary8 "
-         "available: binary and binary8")
-        ("source_systematic", po::value<bool>(),
-         "whether the source is systematic or not")
-        ("generation_size", po::value<uint32_t>(),
+         "available: binary, binary8, binary16")
+        ("filter", po::value<std::string>()->default_value(""),
+         "Only prints counters which match the filter "
+         "example --filter=source_sent")
+        ("source_systematic", po::value<bool>()->default_value(true),
+         "whether the source is systematic or not --systematic=1 "
+         "turns on systematic source")
+        ("generation_size", po::value<uint32_t>()->default_value(32),
          "the generation size")
-        ("packet_size", po::value<uint32_t>(),
+        ("packet_size", po::value<uint32_t>()->default_value(100),
          "the packet size")
-        ("recode", po::value<bool>(),
-         "recoding at relay or not --recode=1 turns on recoding");
-
-
-    // Declare a group of options that will be
-    // allowed both on command line and in
-    // config file
-    po::options_description relay_line("relay_line Options");
-    relay_line.add_options()
-        ("rl_relays", po::value<uint32_t>(),
-         "number of relays")
-        ("rl_error_source_relays", po::value<double>(),
-         "error probability between source and relays")
-        ("rl_error_relays_sink", po::value<double>(),
-         "error probability between relays and sink");
-
-    desc.add(relay_line);
-
-    po::options_description single_relay("single_relay Options");
-    single_relay.add_options()
-        ("sr_error_source_relay", po::value<double>(),
-         "error probability between source and relay")
-        ("sr_error_source_sink", po::value<double>(),
-         "error probability between source and sink")
-        ("sr_error_relay_sink", po::value<double>(),
-         "error probability between relay and sink");
-
-    desc.add(single_relay);
-
-    po::options_description single_no_relay("single_no_relay Options");
-    single_no_relay.add_options()
-        ("snr_error_source_sink", po::value<double>(),
-         "enrror probability between source and sink");
-
-    desc.add(single_no_relay);
+//        ("iterations", po::value<uint32_t>()->default_value(1),
+//         "how many times to run the simulation")
+        ("recode", po::value<bool>()->default_value(true),
+         "recoding at relay or not --recode=1 turns on recoding")
+        ("relays", po::value<uint32_t>()->default_value(1),
+         "number of relays example --relays=3")
+        ("error_source_sink", po::value<double>()->default_value(0.5),
+         "error probability between source and sink "
+         "example --error_source_sink=0.5")
+        ("error_source_relays", po::value<double>()->default_value(0.5),
+         "error probability between source and relays "
+         "example --error_source_relays=0.5")
+        ("error_relays_sink", po::value<double>()->default_value(0.5),
+         "error probability between relays and sink "
+         "example --error_relays_sink=0.5");
 
 
     po::variables_map vm;

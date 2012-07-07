@@ -63,7 +63,23 @@ struct counter_list
         }
 
 
-    void print(std::ostream &o)
+    bool accept(const std::string &s, const std::string &filter)
+        {
+            if(filter == "")
+            {
+                return true;
+            }
+            else if(std::string::npos != s.find(filter))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+    void print(std::ostream &o, const std::string &filter = "")
         {
             std::vector<counter_data>::iterator it_values;
 
@@ -79,14 +95,18 @@ struct counter_list
                     for(it_data = it_values->begin();
                         it_data != it_values->end(); ++it_data)
                     {
-                        o << it_data->first << " "
-                          << it_data->second << std::endl;
+                        if(accept(it_data->first, filter))
+                        {
+                            o << it_data->first << " "
+                              << it_data->second << std::endl;
+                        }
                     }
                     std::cout << std::endl;
 
                     ++runs;
                 }
         }
+
 
     void dump_to_file()
         {
