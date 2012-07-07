@@ -34,7 +34,7 @@ void run_benchmarks(int argc, const char *argv[])
     }
 
     boost::random::mt19937 random_generator;
-    random_generator.seed(time(0));
+    random_generator.seed(static_cast<uint32_t>(time(0)));
 
     std::string field = get_option<std::string>("field", options);
 
