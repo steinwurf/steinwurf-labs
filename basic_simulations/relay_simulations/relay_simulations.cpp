@@ -5,8 +5,6 @@
 
 #include <ctime>
 #include "simulation.h"
-#include "single_relay.h"
-#include "single_no_relay.h"
 #include "relay_line.h"
 #include "commandline_arguments.h"
 
