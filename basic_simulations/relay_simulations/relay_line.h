@@ -38,8 +38,6 @@ inline void relay_line(const boost::program_options::variables_map &options,
                        boost::shared_ptr<simulation_factory> factory)
 {
 
-    std::cout << "Running relay line" << std::endl;
-
     bool recode =
         get_option<bool>("recode", options);
 
@@ -155,8 +153,11 @@ inline void run_relay_line(const boost::program_options::variables_map &options,
         c->value<uint32_t>("iterations") = iterations;
 
         for(uint32_t i = 0; i < iterations; ++i)
+        {
+            std::cout << "Running relay line ( " << i
+                      << " / " << iterations << " )" << std::endl;
             relay_line(options, factory);
-
+        }
 
         std::string filter = get_option<std::string>("filter", options);
         c->print(std::cout, filter);

@@ -83,12 +83,12 @@ struct counter_list
         {
             std::vector<counter_data>::iterator it_values;
 
-            uint32_t runs = 0;
+            //uint32_t runs = 0;
 
             for(it_values = m_values.begin();
                 it_values != m_values.end(); ++it_values)
                 {
-                    std::cout << "Run: " << runs << std::endl;
+                    //std::cout << "Run: " << runs << std::endl;
 
                     counter_data::iterator it_data;
 
@@ -103,7 +103,7 @@ struct counter_list
                     }
                     std::cout << std::endl;
 
-                    ++runs;
+                    //++runs;
                 }
         }
 
@@ -271,7 +271,6 @@ public:
 
     virtual ~node()
         {
-            std::cout << "Node " << m_id << " died" << std::endl;
         }
 
     virtual void receive(packet payload) = 0;
@@ -567,11 +566,16 @@ public:
 
     void systematic_off()
         {
+            //if(kodo::is_systematic_encoder(m_encoder))
+            //    kodo::set_systematic_off(m_encoder);
             m_encoder->systematic_off();
         }
 
     void systematic_on()
         {
+//            if(kodo::is_systematic_encoder(m_encoder))
+//                kodo::set_systematic_on(m_encoder);
+
             m_encoder->systematic_on();
         }
 
