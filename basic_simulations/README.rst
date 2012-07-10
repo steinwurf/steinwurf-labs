@@ -34,5 +34,12 @@ After building you may e.g. the relay_simulations build typing:
 ::
   ./build/linux/relay_simulations/relay_simulations
 
+Want an executable?
+===================
+We use a buildbot to build and test the code on a number of different platforms.
+If you just want an executable to play with our buildbots upload theirs here:
+
+http://176.28.49.184:12344/labs/
+
 
 
