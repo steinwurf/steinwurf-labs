@@ -269,7 +269,10 @@ public:
         : m_id(id)
         {}
 
-    virtual ~node(){}
+    virtual ~node()
+        {
+            std::cout << "Node " << m_id << " died" << std::endl;
+        }
 
     virtual void receive(packet payload) = 0;
     virtual void tick() = 0;
@@ -777,7 +780,6 @@ public:
           m_random_generator(random_generator)
         {
             m_counter = boost::make_shared<counter_list>();
-            m_scheduler = boost::make_shared<tick_scheduler>();
 
             uint32_t max_block_size =
                 m_encoder_factory.max_symbols() * m_encoder_factory.max_symbol_size();
@@ -806,7 +808,6 @@ public:
             boost::shared_ptr<sink> sink =
                 boost::make_shared< basic_sink<Decoder> >(id, decoder, m_counter);
 
-            m_scheduler->add_node(sink);
             return sink;
         }
 
@@ -817,7 +818,6 @@ public:
             boost::shared_ptr<relay> relay =
                 boost::make_shared< basic_relay<Decoder> >(id, decoder, m_counter);
 
-            m_scheduler->add_node(relay);
             return relay;
         }
 
@@ -828,7 +828,6 @@ public:
             boost::shared_ptr<source> source =
                 boost::make_shared< basic_source<Encoder> >(id, encoder, m_counter);
 
-            m_scheduler->add_node(source);
             return source;
         }
 
@@ -840,7 +839,7 @@ public:
 
     boost::shared_ptr<tick_scheduler> do_scheduler()
         {
-            return m_scheduler;
+            return boost::make_shared<tick_scheduler>();
         }
 
 private:
@@ -892,10 +891,6 @@ private:
 
     /// Statistics
     boost::shared_ptr<counter_list> m_counter;
-
-    /// The scheduler
-    boost::shared_ptr<tick_scheduler> m_scheduler;
-
 
     /// The random generator
     boost::random::mt19937 &m_random_generator;

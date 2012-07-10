@@ -28,8 +28,8 @@ po::variables_map parse_commandline(int argc, const char *argv[])
          "the generation size")
         ("packet_size", po::value<uint32_t>()->default_value(100),
          "the packet size")
-//        ("iterations", po::value<uint32_t>()->default_value(1),
-//         "how many times to run the simulation")
+        ("iterations", po::value<uint32_t>()->default_value(1),
+         "how many times to run the simulation")
         ("recode", po::value<bool>()->default_value(true),
          "recoding at relay or not --recode=1 turns on recoding")
         ("relays", po::value<uint32_t>()->default_value(1),

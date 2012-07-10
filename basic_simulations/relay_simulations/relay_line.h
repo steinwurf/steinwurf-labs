@@ -58,6 +58,7 @@ inline void relay_line(const boost::program_options::variables_map &options,
     uint32_t number_relays =
         get_option<uint32_t>("relays", options);
 
+    boost::shared_ptr<tick_scheduler> scheduler = factory->scheduler();
 
     boost::shared_ptr<channel> channel_source_relay =
         factory->build_channel(error_source_relays);
@@ -75,6 +76,8 @@ inline void relay_line(const boost::program_options::variables_map &options,
         std::string id = "relay" + to_string(i);
         boost::shared_ptr<relay> node_relay = factory->build_relay(id);
 
+        scheduler->add_node(node_relay);
+
         if(recode)
         {
             node_relay->set_recode_on();
@@ -91,6 +94,7 @@ inline void relay_line(const boost::program_options::variables_map &options,
     }
 
     boost::shared_ptr<source> node_source = factory->build_source("source");
+    scheduler->add_node(node_source);
 
     if(source_systematic)
     {
@@ -102,7 +106,7 @@ inline void relay_line(const boost::program_options::variables_map &options,
     }
 
     boost::shared_ptr<sink> node_sink = factory->build_sink("sink");
-    boost::shared_ptr<tick_scheduler> scheduler = factory->scheduler();
+    scheduler->add_node(node_sink);
 
     // Wire-up the channels
     node_source->add_node(channel_source_relay);
@@ -134,7 +138,7 @@ inline void run_relay_line(const boost::program_options::variables_map &options,
 {
     uint32_t generation_size = get_option<uint32_t>("generation_size", options);
     uint32_t packet_size = get_option<uint32_t>("packet_size", options);
-    //uint32_t iterations = get_option<uint32_t>("iterations", options);
+    uint32_t iterations = get_option<uint32_t>("iterations", options);
     typedef basic_simulation_factory<Encoder, Decoder> factory_type;
 
     {
@@ -148,10 +152,10 @@ inline void run_relay_line(const boost::program_options::variables_map &options,
 
         c->value<uint32_t>("generation_size") = generation_size;
         c->value<uint32_t>("packet_size") = packet_size;
-        //c->value<uint32_t>("iterations") = iterations;
+        c->value<uint32_t>("iterations") = iterations;
 
-        //for(uint32_t i = 0; i < iterations; ++i)
-        relay_line(options, factory);
+        for(uint32_t i = 0; i < iterations; ++i)
+            relay_line(options, factory);
 
 
         std::string filter = get_option<std::string>("filter", options);
