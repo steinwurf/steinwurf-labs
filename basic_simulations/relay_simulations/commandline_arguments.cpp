@@ -23,9 +23,11 @@ po::variables_map parse_commandline(int argc, const char *argv[])
          "example --filter=source_sent")
         ("source_systematic", po::value<bool>()->default_value(true),
          "whether the source is systematic or not --systematic=1 "
-         "turns on systematic source")
+         "turns on systematic source. Systematic means that all packets "
+         "in a generation are sent first once without coding. After sending "
+         "everything once coding starts.")
         ("generation_size", po::value<uint32_t>()->default_value(32),
-         "the generation size")
+         "the generation size, the number of packets which are coded together.")
         ("packet_size", po::value<uint32_t>()->default_value(100),
          "the packet size")
         ("iterations", po::value<uint32_t>()->default_value(1),
