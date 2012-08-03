@@ -28,7 +28,6 @@ Class Declrarations
 -------------------
 
 We group private and public functions and members in different sections:
-
 ::
   class foo
   {
@@ -51,7 +50,6 @@ We group private and public functions and members in different sections:
   };
 
 With one newline between scope specifiers, members and functions:
-
 ::
   class coffee_machine
   {
