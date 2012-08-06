@@ -15,6 +15,7 @@ These instructions have only tested on:
 Installing prerequisites
 -------------------------
 We need to install the following tools:
+
 1. System packages
 ::
  sudo aptitude install openjdk-7-jre ia32-libs
