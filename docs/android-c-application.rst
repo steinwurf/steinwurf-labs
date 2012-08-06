@@ -109,7 +109,7 @@ You have two options:
      sudo ./adb start-server
 
 2. You can add appropriate udev rules (which is more convenient in the 
-   long run). See this `page <http://developer.android.com/tools/device.html/>`_ for more information.
+   long run). See this `page <http://developer.android.com/tools/device.html>`_ for more information.
 
 Once the Android device is correctly attached you should see the 
 following output of the ``adb devices`` command:
