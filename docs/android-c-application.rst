@@ -27,7 +27,7 @@ We need to install the following tools:
 
 3. You may want to copy the sdk to some suitable location (I have it in ~/dev):
 ::
-  cp -R android-sdk-linux/ ~/dev/android-sdk-linux
+  cp -R android-sdk-linux/ ~/dev/android-sdk-linux-r20.0.1
 
 4. Android NDK (check `here <http://developer.android.com/sdk/ndk>`_ for the newest version)
 ::
@@ -93,7 +93,7 @@ We will use the ``adb`` tool from the android SDK to deploy and run our
 application on our Android device. Make sure the ``adb`` command is avaible
 and check which devices we have connected:
 ::
-  export PATH=~/dev/android-sdk-linux-r18/platform-tools/:$PATH
+  export PATH=~/dev/android-sdk-linux-r20.0.1/platform-tools/:$PATH
   adb devices
 
 If you see the following:
