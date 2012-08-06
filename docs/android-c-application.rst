@@ -56,8 +56,8 @@ Create the an Android Stand-Alone toolchain
 Navigate to the Android NDK and use the build command to crate a 
 stand-alone toolchain.
 ::
-  cd android-ndk-r8
-  ./build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=/home/user/dev/android-ndk-r8-platform9-arm-4.4.3 --ndk-dir=.
+  cd android-ndk-r8b
+  ./build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=/home/mvp/dev/android-ndk-r8b-platform9-arm-4.6 --ndk-dir=.
 
 If you omit the --install-dir path the script will create a tar.bz2 
 archive in your /tmp folder. Here we have used the long install-dir 
