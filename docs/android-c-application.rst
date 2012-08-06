@@ -22,8 +22,8 @@ We need to install the following tools:
 
 2. Android SDK (check `here <http://developer.android.com/sdk>`_ for the newest version)
 :: 
-  wget http://dl.google.com/android/android-sdk_r18-linux.tgz
-  tar xvf android-sdk_r18-linux.tgz
+  wget http://dl.google.com/android/android-sdk_r20.0.1-linux.tgz
+  tar xvf android-sdk_r20.0.1-linux.tgz
 
 3. Android NDK
 ::
