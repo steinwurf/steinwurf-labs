@@ -20,7 +20,7 @@ We need to install the following tools:
 ::
  sudo aptitude install openjdk-7-jre ia32-libs
 
-2. Android SDK
+2. Android SDK (check `here <http://developer.android.com/sdk>`_ for the newest version)
 :: 
   wget http://dl.google.com/android/android-sdk_r18-linux.tgz
   tar xvf android-sdk_r18-linux.tgz
