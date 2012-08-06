@@ -25,10 +25,14 @@ We need to install the following tools:
   wget http://dl.google.com/android/android-sdk_r20.0.1-linux.tgz
   tar xvf android-sdk_r20.0.1-linux.tgz
 
-3. Android NDK
+3. You may want to copy the sdk to some suitable location (I have it in ~/dev):
 ::
-  wget http://dl.google.com/android/ndk/android-ndk-r8-linux-x86.tar.bz2
-  tar xvf android-ndk-r8-linux-x86.tar.bz2
+  cp -R android-sdk-linux/ ~/dev/android-sdk-linux
+
+4. Android NDK (check `here <http://developer.android.com/sdk/ndk>`_ for the newest version)
+::
+  wget http://dl.google.com/android/ndk/android-ndk-r8b-linux-x86.tar.bz2
+  tar xvf android-ndk-r8b-linux-x86.tar.bz2
 
 Updating the Android SDK
 -------------------------
