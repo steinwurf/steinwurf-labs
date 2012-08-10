@@ -75,3 +75,6 @@ We have a one class one file rule. So if you make a new class ``heppy``
 put it in ``heppy.h``. This makes the classes easier to find in the
 source thee. Exceptions to this rule are nested classes.
 
+Indentation
+-----------
+We always indent code using spaces and not tabs. The size of an indentation is four spaces.
