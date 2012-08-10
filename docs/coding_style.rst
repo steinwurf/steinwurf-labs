@@ -9,7 +9,7 @@ Naming
 
 * Template parameters CamelCase
 
-* Member variables are prefixed ``_m``
+* Member variables are prefixed ``m_``
 
 
 
