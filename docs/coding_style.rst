@@ -24,7 +24,7 @@ should be:
 ::
   KODO_RLNC_FULL_VECTOR_CODES_H
 
-Class Declrarations
+Class Declarations
 -------------------
 
 We group private and public functions and members in different sections:
@@ -77,4 +77,14 @@ source thee. Exceptions to this rule are nested classes.
 
 Indentation
 -----------
-We always indent code using spaces and not tabs. The size of an indentation is four spaces.
+We always indent code using spaces and not tabs. The size of an indentation 
+is four spaces.
+
+Warnings
+--------
+- All code should compile without any warnings. Please 
+  make sure this is the case on all supported platforms (Linux, Windows, etc.)
+
+Line-width
+----------
+- We use the column 80 rule. Break any lines you have that exceed 80 characters.
