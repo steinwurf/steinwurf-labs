@@ -19,10 +19,14 @@ We do include guards like this:
 ::
   {PROJECT_NAME}_{INCLUDE_DIRECTORY}_{FILENAME}
 
-So in the case of a file in ``kodo/rlnc/full_vector_codes.h`` it
+So in the case of a file in ``kodo/rlnc/full_vector_codes.hpp`` it
 should be:
 ::
-  KODO_RLNC_FULL_VECTOR_CODES_H
+  KODO_RLNC_FULL_VECTOR_CODES_HPP
+
+Header files
+------------
+We have decided to start using ``.hpp`` for header files. This makes it easier to differentiate between C and C++ code.
 
 Class Declarations
 -------------------
@@ -72,7 +76,7 @@ Files and Classes
 -----------------
 
 We have a one class one file rule. So if you make a new class ``heppy``
-put it in ``heppy.h``. This makes the classes easier to find in the
+put it in ``heppy.hpp``. This makes the classes easier to find in the
 source thee. Exceptions to this rule are nested classes.
 
 Indentation
