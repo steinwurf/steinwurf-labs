@@ -92,3 +92,19 @@ Warnings
 Line-width
 ----------
 - We use the column 80 rule. Break any lines you have that exceed 80 characters.
+
+Testing
+-------
+Testing is hard, but we try to have a test for all new functionality added in our
+projects. For this purpose we use the Google C++ Test Framework (gtest). You can
+find more information on it here: http://code.google.com/p/googletest/
+
+Writing tests
+.............
+When writing tests remember to:
+
+1. Remove you debug printing before pushing your changes. 
+2. Describe what is the purpose of a tests and comment your tests
+
+
+
