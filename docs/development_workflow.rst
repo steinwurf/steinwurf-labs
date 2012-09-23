@@ -36,9 +36,6 @@ Based on these resources we have devised the following guidelines:
      git checkout add-symbol-operations-stats
      git rebase master
 
-   But that method requires additional steps.
-
-
 5. When you need feedback or help, or you think the branch is ready
    for merging open a pull request.
 
