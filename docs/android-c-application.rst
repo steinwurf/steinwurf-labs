@@ -9,8 +9,8 @@ command line.
 
 Disclaimer
 ----------
-These instructions have only tested on: 
-- XUbuntu 12.04 64bit, Android-NDK-r8 and  Android-SDK-r18 
+These instructions have only tested on:
+- Lubuntu 12.04 32bit, Android SDK 20.0.3 and Android NDK r8b
 
 Installing prerequisites
 -------------------------
@@ -22,12 +22,12 @@ We need to install the following tools:
 
 2. Android SDK (check `here <http://developer.android.com/sdk>`_ for the newest version)
 :: 
-  wget http://dl.google.com/android/android-sdk_r20.0.1-linux.tgz
-  tar xvf android-sdk_r20.0.1-linux.tgz
+  wget http://dl.google.com/android/android-sdk_r20.0.3-linux.tgz
+  tar xvf android-sdk_r20.0.3-linux.tgz
 
 3. You may want to copy the sdk to some suitable location (I have it in ~/dev):
 ::
-  cp -R android-sdk-linux/ ~/dev/android-sdk-linux-r20.0.1
+  cp -R android-sdk-linux/ ~/dev/android-sdk-linux-r20.0.3
 
 4. Android NDK (check `here <http://developer.android.com/sdk/ndk>`_ for the newest version)
 ::
@@ -44,8 +44,8 @@ See the tools which can be installed:
 
 We need the:
 ::
-  1- Android SDK Tools, revision 19
-  2- Android SDK Platform-tools, revision 11
+  1- Android SDK Tools, revision 20.0.3
+  2- Android SDK Platform-tools, revision 14
 
 To install these run:
 ::
@@ -53,16 +53,16 @@ To install these run:
 
 Create the an Android Stand-Alone toolchain
 -------------------------------------------
-Navigate to the Android NDK and use the build command to crate a 
+Note:
+If you are using the, as of writing, newest version of the NDK (r8b), you will have to replace the make-standalone-toolchain.sh file with the one from the issue, `here <http://code.google.com/p/android/issues/detail?id=35279#c18>`_.
+
+Navigate to the Android NDK and use the build command to create a 
 stand-alone toolchain.
 ::
   cd android-ndk-r8b
-  ./build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=/home/mvp/dev/android-ndk-r8b-platform9-arm-4.6 --ndk-dir=.
+  ./build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=~/dev/android-ndk-r8b-platform9-arm-4.6 --ndk-dir=.
 
-If you omit the --install-dir path the script will create a tar.bz2 
-archive in your /tmp folder. Here we have used the long install-dir 
-``android-ndk-r8-platform9-arm-4.4.3`` to be able to remember which 
-ndk version etc. was used etc.
+If you omit the --install-dir path the script will create a tar.bz2 archive in your /tmp folder. Here we have used the long install-dir to be able to remember which ndk version etc. was used etc.
 
 Build a C++ Executable using the NDK
 ------------------------------------
@@ -80,14 +80,14 @@ Open you favorite editor and paste the following save the file as ``main.cpp``:
 
 Make sure the compiler can be found and then compile the application:
 ::
-  export PATH=~/dev/android-ndk-r8-platform9-arm-4.4.3/bin:$PATH
+  export PATH=~/dev/android-ndk-r8b-platform9-arm-4.6/bin:$PATH
   arm-linux-androideabi-g++ main.cpp -o hello_android
 
 If no hiccups the executable ``hello_android`` is produced. 
 
 Running the Executable
 ----------------------
-Instructions from here: http://stackoverflow.com/questions/10133274/
+Instructions from `here <http://stackoverflow.com/questions/10133274/>`_
 
 We will use the ``adb`` tool from the android SDK to deploy and run our
 application on our Android device. Make sure the ``adb`` command is avaible
@@ -126,9 +126,6 @@ Now push our application to the device and run it:
 You shold now see ``Hello Android!`` printed to your screen. 
 
 Typically for automated testing we want the return code to see whether 
-something went wrong (from here http://stackoverflow.com/questions/9379400/):
+something went wrong (from `here <http://stackoverflow.com/questions/9379400/>`_):
 ::
   adb shell '/data/local/tmp/hello_android; echo $?'
-
-
-
