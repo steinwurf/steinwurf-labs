@@ -31,11 +31,6 @@ Based on these resources we have devised the following guidelines:
 4. Rebase against the upstream frequently to prevent your branch from
    diverging significantly
    ::
-      git fetch origin master
-      git rebase origin/master
-
-   Notice, this is equivalent to
-   ::
      git checkout master
      git pull
      git checkout add-symbol-operations-stats
