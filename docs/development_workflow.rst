@@ -45,6 +45,8 @@ Based on these resources we have devised the following guidelines:
      git checkout master
      git merge add-symbol-operations-stats
 
+   remember to update the NEWS file, check if the current master is indicated to be
+   a MAJOR, MINOR, or BUGFIX and bump the severity if necessary.
 
 7. Once it is merged - push it into master
    ::
