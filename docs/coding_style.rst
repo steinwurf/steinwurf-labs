@@ -24,6 +24,24 @@ should be:
 ::
   KODO_RLNC_FULL_VECTOR_CODES_HPP
 
+Includes (both hpp and cpp)
+---------------------------
+
+The most general includes at the top 
+::
+  #include <vector>
+  #include <math>
+
+  #include <boost/shared_ptr>
+
+  #include <fifi/log_table.hpp>
+  #include <fifi/is_binary.hpp>
+
+  #include <kodo/storage.hpp>
+  
+  #include "myfile.hpp"
+
+
 Header files
 ------------
 We have decided to start using ``.hpp`` for header files. This makes it easier to differentiate between C and C++ code.
