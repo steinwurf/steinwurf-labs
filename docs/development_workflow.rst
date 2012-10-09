@@ -51,10 +51,6 @@ Based on these resources we have devised the following guidelines:
 7. Once it is merged - push it into master
    ::
      git push origin master
-     git branch -d add-symbol-operations-stats
-
-
-
 
 8. If you are done with your branch - remove it from the remote
    ::
