@@ -44,12 +44,11 @@ See the tools which can be installed:
 
 We need the:
 ::
-  1- Android SDK Tools, revision 20.0.3
-  2- Android SDK Platform-tools, revision 14
+  1- Android SDK Platform-tools, revision 14
 
 To install these run:
 ::
-  ./tools/android update sdk --filter 1,2 --no-ui
+  ./tools/android update sdk --filter 1 --no-ui
 
 Create the Android Stand-Alone toolchain
 -------------------------------------------
