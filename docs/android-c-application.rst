@@ -51,7 +51,7 @@ To install these run:
 ::
   ./tools/android update sdk --filter 1,2 --no-ui
 
-Create the an Android Stand-Alone toolchain
+Create the Android Stand-Alone toolchain
 -------------------------------------------
 Note:
 If you are using the, as of writing, newest version of the NDK (r8b), you will have to replace the make-standalone-toolchain.sh file with the one from the issue, `here <http://code.google.com/p/android/issues/detail?id=35279#c18>`_.
