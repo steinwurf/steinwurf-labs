@@ -190,6 +190,11 @@ public:
             std::copy(data, data + size, &m_impl->m_data[0]);
         }
 
+    bool is_valid()
+        {
+            return m_impl->m_data.size() > 0;
+        }
+
     void set_sender(const std::string &sender_id)
         {
             m_impl->m_sender_id = sender_id;
@@ -340,6 +345,7 @@ public:
     virtual void set_recode_on() = 0;
     virtual void set_recode_off() = 0;
     virtual bool is_recode_on() const = 0;
+    virtual void set_transmit_on_receive(bool) = 0;
 };
 
 class sink : public node
@@ -611,6 +617,7 @@ public:
           m_decoder(decoder),
           m_counter(counter),
           m_recode_on(true),
+          m_transmit_on_receive(false),
           m_new_packet(false)
         {
             assert(m_decoder);
@@ -660,6 +667,16 @@ public:
 
     void tick()
         {
+            if(m_transmit_on_receive && !m_new_packet)
+            {
+                // In this mode we only transmit if we got an packet
+                return;
+            }
+
+            // We send a packet either:
+            // 1) We are transmitting on receive and we got a packet
+            // 2) We always transmit on every tick
+            
             if(m_recode_on)
             {
                 m_decoder->recode(&m_recode_buffer[0]);
@@ -669,12 +686,15 @@ public:
             }
             else
             {
-                if(m_new_packet)
-                {
-                    m_last_packet.set_sender(node_id());
-                    forward_packet(m_last_packet);
-                }
+                if(!m_last_packet.is_valid())
+                    return;
+                
+                m_last_packet.set_sender(node_id());
+                forward_packet(m_last_packet);
             }
+
+            m_new_packet = false;
+
         }
 
     void forward_packet(packet payload)
@@ -701,6 +721,11 @@ public:
             return m_recode_on;
         }
 
+    void set_transmit_on_receive(bool value)
+        {
+            m_transmit_on_receive = value;
+        }
+
 
 private:
 
@@ -717,6 +742,9 @@ private:
 
     /// Boolean whether we recode or simply forward packets
     bool m_recode_on;
+
+    /// Boolean whether relay should transmit in every tick, or when a packet is received from sink
+    bool m_transmit_on_receive;
 
     /// We store the last packet for forwarding
     bool m_new_packet;

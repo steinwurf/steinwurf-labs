@@ -34,6 +34,8 @@ po::variables_map parse_commandline(int argc, const char *argv[])
          "how many times to run the simulation")
         ("recode", po::value<bool>()->default_value(true),
          "recoding at relay or not --recode=1 turns on recoding")
+        ("relay_transmit_on_receive", po::value<bool>()->default_value(false),
+         "whether relay should transmit in every tick or when a packet is received from source")
         ("relays", po::value<uint32_t>()->default_value(1),
          "number of relays example --relays=3")
         ("error_source_sink", po::value<double>()->default_value(0.5),

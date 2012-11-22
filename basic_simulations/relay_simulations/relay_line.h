@@ -56,6 +56,9 @@ inline void relay_line(const boost::program_options::variables_map &options,
     uint32_t number_relays =
         get_option<uint32_t>("relays", options);
 
+    bool relay_transmit_on_receive =
+        get_option<bool>("relay_transmit_on_receive", options);
+
     boost::shared_ptr<tick_scheduler> scheduler = factory->scheduler();
 
     boost::shared_ptr<channel> channel_source_relay =
@@ -84,6 +87,8 @@ inline void relay_line(const boost::program_options::variables_map &options,
         {
             node_relay->set_recode_off();
         }
+
+        node_relay->set_transmit_on_receive(relay_transmit_on_receive);
 
         relays.push_back(node_relay);
 
