@@ -128,3 +128,7 @@ Typically for automated testing we want the return code to see whether
 something went wrong (from `here <http://stackoverflow.com/questions/9379400/>`_):
 ::
   adb shell '/data/local/tmp/hello_android; echo $?'
+
+To direct commands to a specific USB device or emulator, the serial number can be specified like so:
+::
+  adb -s <serial number> <command>
