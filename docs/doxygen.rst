@@ -1,6 +1,12 @@
+Prerequisite
+============
 
-Doxygen Style
-=============
+To compile the documentation you need
+ * Doxygen 1.8.2
+
+
+Style
+=====
 
 We use doxygen for all code documentation
 
