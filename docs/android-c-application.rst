@@ -9,8 +9,8 @@ command line.
 
 Disclaimer
 ----------
-These instructions have only tested on:
-- Lubuntu 12.04 32bit, Android SDK 20.0.3 and Android NDK r8b
+These instructions have been tested for:
+- Android SDK 21 and Android NDK r8c
 
 Installing prerequisites
 -------------------------
@@ -20,19 +20,20 @@ We need to install the following tools:
 ::
  sudo aptitude install openjdk-7-jre ia32-libs
 
-2. Android SDK (check `here <http://developer.android.com/sdk>`_ for the newest version)
+2. Android SDK (check `here <http://developer.android.com/sdk>`_ for the newest version, 
+click the "DOWNLOAD FOR OTHER PLATFORMS" to see the SDK only downloads)
 :: 
-  wget http://dl.google.com/android/android-sdk_r20.0.3-linux.tgz
-  tar xvf android-sdk_r20.0.3-linux.tgz
+  wget http://dl.google.com/android/android-sdk_r21-linux.tgz
+  tar xvf android-sdk_r21-linux.tgz
 
 3. You may want to copy the sdk to some suitable location (I have it in ~/dev):
 ::
-  cp -R android-sdk-linux/ ~/dev/android-sdk-linux-r20.0.3
+  cp -R android-sdk-linux/ ~/dev/android-sdk-linux-r21
 
 4. Android NDK (check `here <http://developer.android.com/sdk/ndk>`_ for the newest version)
 ::
-  wget http://dl.google.com/android/ndk/android-ndk-r8b-linux-x86.tar.bz2
-  tar xvf android-ndk-r8b-linux-x86.tar.bz2
+  wget http://dl.google.com/android/ndk/android-ndk-r8c-linux-x86.tar.bz2
+  tar xvf android-ndk-r8c-linux-x86.tar.bz2
 
 Updating the Android SDK
 -------------------------
@@ -44,7 +45,7 @@ See the tools which can be installed:
 
 We need the:
 ::
-  1- Android SDK Platform-tools, revision 14
+  1- Android SDK Platform-tools, revision 16
 
 To install these run:
 ::
@@ -52,14 +53,11 @@ To install these run:
 
 Create the Android Stand-Alone toolchain
 -------------------------------------------
-Note:
-If you are using the, as of writing, newest version of the NDK (r8b), you will have to replace the make-standalone-toolchain.sh file with the one from the issue, `here <http://code.google.com/p/android/issues/detail?id=35279#c18>`_.
-
 Navigate to the Android NDK and use the build command to create a 
 stand-alone toolchain.
 ::
-  cd android-ndk-r8b
-  ./build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=~/dev/android-ndk-r8b-platform9-arm-4.6 --ndk-dir=.
+  cd android-ndk-r8c
+  ./build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=/home/youruser/dev/android-ndk-r8c-platform9-toolchain --ndk-dir=.
 
 If you omit the --install-dir path the script will create a tar.bz2 archive in your /tmp folder. Here we have used the long install-dir to be able to remember which ndk version etc. was used etc.
 
