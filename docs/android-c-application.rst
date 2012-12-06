@@ -26,11 +26,7 @@ click the "DOWNLOAD FOR OTHER PLATFORMS" to see the SDK only downloads)
   wget http://dl.google.com/android/android-sdk_r21-linux.tgz
   tar xvf android-sdk_r21-linux.tgz
 
-3. You may want to copy the sdk to some suitable location (I have it in ~/dev):
-::
-  cp -R android-sdk-linux/ ~/dev/android-sdk-linux-r21
-
-4. Android NDK (check `here <http://developer.android.com/sdk/ndk>`_ for the newest version)
+3. Android NDK (check `here <http://developer.android.com/sdk/ndk>`_ for the newest version)
 ::
   wget http://dl.google.com/android/ndk/android-ndk-r8c-linux-x86.tar.bz2
   tar xvf android-ndk-r8c-linux-x86.tar.bz2
@@ -50,6 +46,10 @@ We need the:
 To install these run:
 ::
   ./tools/android update sdk --filter 1 --no-ui
+
+You may want to copy the sdk to some suitable location (I have it in ~/dev):
+::
+  cp -R android-sdk-linux/ ~/dev/android-sdk-linux-r21
 
 Create the Android Stand-Alone toolchain
 -------------------------------------------
