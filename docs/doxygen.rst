@@ -41,6 +41,12 @@ Below is an example from a documented file
    .
 
 
+Grouping
+========
+
+http://www.stack.nl/~dimitri/doxygen/grouping.html
+
+
 Practical Stuff
 ===============
 
