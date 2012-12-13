@@ -9,7 +9,6 @@ def build(bld):
                             'commandline_arguments.cpp'],
                 target   = 'relay_simulations',
                 includes = '..',
-                cxxflags = bld.toolchain_cxx_flags(),
                 use      = ['kodo_includes', 'boost_includes',
                             'fifi_includes', 'sak_includes',
                             'boost_program_options'])
