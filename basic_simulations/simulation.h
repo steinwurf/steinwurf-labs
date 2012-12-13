@@ -6,7 +6,7 @@
 #ifndef STEINWURF_KODO_SIMULATIONS_SIMULATION_H
 #define STEINWURF_KODO_SIMULATIONS_SIMULATION_H
 
-#include <kodo/rlnc/full_vector_codes.h>
+#include <kodo/rlnc/full_vector_codes.hpp>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/bernoulli_distribution.hpp>
 #include <boost/variant.hpp>
@@ -572,17 +572,14 @@ public:
 
     void systematic_off()
         {
-            //if(kodo::is_systematic_encoder(m_encoder))
-            //    kodo::set_systematic_off(m_encoder);
-            m_encoder->systematic_off();
+            if(kodo::is_systematic_encoder(m_encoder))
+                kodo::set_systematic_off(m_encoder);
         }
 
     void systematic_on()
         {
-//            if(kodo::is_systematic_encoder(m_encoder))
-//                kodo::set_systematic_on(m_encoder);
-
-            m_encoder->systematic_on();
+           if(kodo::is_systematic_encoder(m_encoder))
+               kodo::set_systematic_on(m_encoder);
         }
 
     void receive(packet /*p*/)
@@ -676,7 +673,7 @@ public:
             // We send a packet either:
             // 1) We are transmitting on receive and we got a packet
             // 2) We always transmit on every tick
-            
+
             if(m_recode_on)
             {
                 m_decoder->recode(&m_recode_buffer[0]);
@@ -688,7 +685,7 @@ public:
             {
                 if(!m_last_packet.is_valid())
                     return;
-                
+
                 m_last_packet.set_sender(node_id());
                 forward_packet(m_last_packet);
             }
