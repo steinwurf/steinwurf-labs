@@ -23,13 +23,13 @@ We need to install the following tools:
 2. Android SDK (check `here <http://developer.android.com/sdk>`_ for the newest version, 
 click the "DOWNLOAD FOR OTHER PLATFORMS" to see the SDK only downloads)
 :: 
-  wget http://dl.google.com/android/android-sdk_r21-linux.tgz
-  tar xvf android-sdk_r21-linux.tgz
+  wget http://dl.google.com/android/android-sdk_r21.0.1-linux.tgz
+  tar xvf android-sdk_r21.0.1-linux.tgz
 
 3. Android NDK (check `here <http://developer.android.com/sdk/ndk>`_ for the newest version)
 ::
-  wget http://dl.google.com/android/ndk/android-ndk-r8c-linux-x86.tar.bz2
-  tar xvf android-ndk-r8c-linux-x86.tar.bz2
+  wget http://dl.google.com/android/ndk/android-ndk-r8d-linux-x86.tar.bz2
+  tar xvf android-ndk-r8d-linux-x86.tar.bz2
 
 Updating the Android SDK
 -------------------------
@@ -49,15 +49,15 @@ To install these run:
 
 You may want to copy the sdk to some suitable location (I have it in ~/dev):
 ::
-  cp -R android-sdk-linux/ ~/dev/android-sdk-linux-r21
+  cp -R android-sdk-linux/ ~/dev/android-sdk-linux-r21.0.1
 
 Create the Android Stand-Alone toolchain
 -------------------------------------------
 Navigate to the Android NDK and use the build command to create a 
 stand-alone toolchain.
 ::
-  cd android-ndk-r8c
-  ./build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=/home/youruser/dev/android-ndk-r8c-platform9-toolchain --ndk-dir=.
+  cd android-ndk-r8d
+  ./build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=/home/youruser/dev/android-ndk-r8d-platform9-toolchain --ndk-dir=.
 
 If you omit the --install-dir path the script will create a tar.bz2 archive in your /tmp folder. Here we have used the long install-dir to be able to remember which ndk version etc. was used etc.
 
@@ -90,7 +90,7 @@ We will use the ``adb`` tool from the android SDK to deploy and run our
 application on our Android device. Make sure the ``adb`` command is avaible
 and check which devices we have connected:
 ::
-  export PATH=~/dev/android-sdk-linux-r20.0.1/platform-tools/:$PATH
+  export PATH=~/dev/android-sdk-linux-r21.0.1/platform-tools/:$PATH
   adb devices
 
 If you see the following:
