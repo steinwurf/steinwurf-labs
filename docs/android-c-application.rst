@@ -1,16 +1,12 @@
 Running a C/C++ application on Android using adb shell
 ======================================================
-In Steinwurf we like automated tests, first step to 
-sucessfully implementing this is to run be able to build
-and deploy via the command line. In this document
-we descripe the steps needed in order to execute an
-C/C++ application on an Android device using only the
-command line.
+In Steinwurf we like automated tests, the first step to successfully implement this is to be able to build
+and deploy via the command line. This document describes the steps needed to run a C/C++ application on an Android device using only the command line.
 
 Disclaimer
 ----------
 These instructions have been tested for:
-- Android SDK 21 and Android NDK r8c
+- Android SDK 21 and Android NDK r8d
 
 Installing prerequisites
 -------------------------
@@ -53,13 +49,32 @@ You may want to copy the sdk to some suitable location (I have it in ~/dev):
 
 Create the Android Stand-Alone toolchain
 -------------------------------------------
-Navigate to the Android NDK and use the build command to create a 
-stand-alone toolchain.
+Navigate to the Android NDK and use the build command to create a stand-alone toolchain.
 ::
   cd android-ndk-r8d
   ./build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=/home/youruser/dev/android-ndk-r8d-platform9-toolchain --ndk-dir=.
 
 If you omit the --install-dir path the script will create a tar.bz2 archive in your /tmp folder. Here we have used the long install-dir to be able to remember which ndk version etc. was used etc.
+
+How to create the toolchain manually on Windows
+###############################################
+
+The shell script will not work correctly on Windows, but the necessary files can be copied manually.
+
+We use directory placeholders for the NDK root (NDK) and the install directory for the stand-alone toolchain (TARGET), on my system these point to:
+::
+  NDK=D:\Android\android-ndk-r8d
+  TARGET=D:\Android\satc9
+
+We have to copy the following files/folders (assuming the android-9 platform and the gcc-4.6 compiler):
+::
+    NDK\toolchains\arm-linux-androideabi-4.6\prebuilt\windows\* => TARGET
+    NDK\platforms\android-9\arch-arm\* => TARGET\sysroot
+    NDK\sources\cxx-stl\gnu-libstdc++\4.6\include\* => TARGET\include\c++\4.6\
+    NDK\sources\cxx-stl\gnu-libstdc++\4.6\libs\armeabi\include\bits => TARGET\include\c++\4.6\include\arm-linux-androideabi\bits
+    NDK\sources\cxx-stl\gnu-libstdc++\4.6\libs\armeabi\*.so => TARGET\arm-linux-androideabi\lib\
+    NDK\sources\cxx-stl\gnu-libstdc++\4.6\libs\armeabi\*.a => TARGET\arm-linux-androideabi\lib\
+    (additional directories are necessary to target armeabi-v7a instead of the default armeabi)
 
 Build a C++ Executable using the NDK
 ------------------------------------
