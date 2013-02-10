@@ -124,5 +124,17 @@ When writing tests remember to:
 1. Remove you debug printing before pushing your changes. 
 2. Describe what is the purpose of a tests and comment your tests
 
+Casts
+-----
+
+1. Numeric types: If you are casting from a numeric type use either 
+   C-style cast or C++ style casts. E.g. both of these are OK:
+   ::
+     uint32_t o = (uint32_t) some_value;
+     uint32_t k = static_cast<uint32_t>(some_value);
+
+   See this http://stackoverflow.com/a/12321860 for more info.
+
+2. All other caes (pointers etc.): Cast using C++ style casts e.g. `static_cast` etc. 
 
 
