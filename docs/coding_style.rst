@@ -135,6 +135,6 @@ Casts
 
    See this http://stackoverflow.com/a/12321860 for more info.
 
-2. All other caes (pointers etc.): Cast using C++ style casts e.g. `static_cast` etc. 
+2. All other cases (pointers etc.): Cast using C++ style casts e.g. `static_cast` etc. 
 
 
