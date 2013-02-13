@@ -137,4 +137,23 @@ Casts
 
 2. All other cases (pointers etc.): Cast using C++ style casts e.g. `static_cast` etc. 
 
+Barce Style
+-----------
+
+1. We always put braces - and always with a new-line.
+   ::
+     // Correct
+     if(ok == true)
+     {
+         call_function();
+     }
+
+     // Wrong
+     if(ok == true)
+         call_function();
+
+     // Also wrong
+     if(ok == true) {
+         call_function();
+     }
 
