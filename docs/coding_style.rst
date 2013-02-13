@@ -93,14 +93,14 @@ With one newline between scope specifiers, members and functions:
 Files and Classes
 -----------------
 
-We have a one class one file rule. So if you make a new class ``heppy``
-put it in ``heppy.hpp``. This makes the classes easier to find in the
-source thee. Exceptions to this rule are nested classes.
+We have a one class one file rule. So if you make a new class ``happy``
+put it in ``happy.hpp``. This makes the classes easier to find in the
+source tree. Exceptions to this rule are nested classes.
 
 Indentation
 -----------
 We always indent code using spaces and not tabs. The size of an indentation 
-is four spaces.
+is 4 spaces.
 
 Warnings
 --------
@@ -137,7 +137,7 @@ Casts
 
 2. All other cases (pointers etc.): Cast using C++ style casts e.g. `static_cast` etc. 
 
-Barce Style
+Brace Style
 -----------
 
 1. We always put braces - and always with a new-line.
