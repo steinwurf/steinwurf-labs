@@ -122,3 +122,40 @@ We create new releases using the git tagging mechanism.
 
   git tag -a 1.0.2-gtest_1_6_0 -m "version 1.0.2"
   git push --tags
+
+Merging a pull-request
+----------------------
+One great way to get contributions is via the Github pull-request system. 
+In Steinwurf we use the following approach to merge incoming pull-requests:
+
+* If the pull-request is a pure documentation update, simply review the change
+  and merge at will.
+* If the pull request contains code (bug-fixes, new features, etc.) we have to 
+  first ensure that the changes work on all tested platforms (this is done using
+  our buildbot).
+
+Lets imagine that a pull-request with id 20 has been sent at the Kodo library. We 
+now go through the following steps.
+
+1. Create a new branch `pull-request-20`:
+   ::
+     git checkout -b pull-request-20
+
+2. Apply the patch:
+   ::
+     curl https://github.com/steinwurf/kodo/pull/20.patch | git am
+
+3. Push the patch to Github:
+   ::
+     git push origin pull-request-20
+
+4. Check the buildbot (http://176.28.49.184:12344/) that all platforms and compilers work.
+
+5. If succesfull merge with master and delete the branch otherwise notify the author of the 
+   patch and report the errors encounterd. 
+
+The above steps was inspired from here (http://beust.com/weblog/2010/09/15/a-quick-guide-to-pull-requests/)
+
+
+
+
