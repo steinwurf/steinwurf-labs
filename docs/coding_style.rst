@@ -140,18 +140,45 @@ Casts
 Braces
 ------
 
-1. We always put braces - and always with a new-line.
+1. In very simple statements e.g. an if with single statment you may optionally omit the braces:
    ::
-     // CORRECT (Allman/ANSI-style)
+     // Is ok
+     if(coffee_pot == full)
+         continue;
+
+     // Is also ok
+     if(coffee_pot == empty)
+     { 
+         continue;
+     }
+
+2. However in more complicated statements we always put braces - and always with a new-line.
+   ::
+     // Correct (Allman/ANSI-style)
      if(ok == true)
      {
+         call_mom();
          call_function();
      }
 
-     // Wrong (missing braces)
-     if(ok == true)
-         call_function();
+     // Wrong (in multiline statements, put the braces)
+     if(ok == false)
+     {
+         // do something fun
+     }
+     else
+         continue;
 
+     // Correct 
+     if(ok == false)
+     {
+         // do something fun
+     }
+     else
+     {
+         continue;
+     }
+     
      // Also wrong (K&R style)
      if(ok == true) {
          call_function();
