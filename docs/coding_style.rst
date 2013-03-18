@@ -177,3 +177,10 @@ We believe that the * and & characters should be part of the type names, and not
   void add(const complex &x, const complex &y)
   {
   }
+
+The following regular expressions are helpful to check&replace any violations for this rule:
+::
+  Find &: (\S)\s+&(\w)
+  Replace with: $1& $2
+  Find *: (\S)\s+\*(\w) 
+  Replace with: $1* $2
