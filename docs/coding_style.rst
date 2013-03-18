@@ -15,19 +15,18 @@ Naming
 
 Include Guards
 --------------
-We do include guards like this:
-::
-  {PROJECT_NAME}_{INCLUDE_DIRECTORY}_{FILENAME}
 
-So in the case of a file in ``kodo/rlnc/full_vector_codes.hpp`` it
-should be:
+Using #pragma once is preferred instead of the lengthy include guards, as this approach is shorter and less error-prone. Furthermore, it might speed up the compilation on modern compilers.
+
+Start every header file like this (after copyright comment):
 ::
-  KODO_RLNC_FULL_VECTOR_CODES_HPP
+  #pragma once
+
 
 Includes (both hpp and cpp)
 ---------------------------
 
-The most general includes at the top 
+The most general includes should be placed at the top:
 ::
   #include <vector>
   #include <math>
@@ -42,8 +41,9 @@ The most general includes at the top
   #include "myfile.hpp"
 
 
-Header files
-------------
+Header file extension
+---------------------
+
 We have decided to start using ``.hpp`` for header files. This makes it easier to differentiate between C and C++ code.
 
 Class Declarations
@@ -63,7 +63,7 @@ We group private and public functions and members in different sections:
 
   public:
 
-      // Public members
+      // Public members (avoid these!)
 
   private:
 
@@ -93,7 +93,7 @@ With one newline between scope specifiers, members and functions:
 Files and Classes
 -----------------
 
-We have a one class one file rule. So if you make a new class ``happy``
+We have a one class per one file rule. If you make a new class ``happy``, then
 put it in ``happy.hpp``. This makes the classes easier to find in the
 source tree. Exceptions to this rule are nested classes.
 
@@ -121,14 +121,14 @@ Writing tests
 .............
 When writing tests remember to:
 
-1. Remove you debug printing before pushing your changes. 
+1. Remove your debug prints before pushing your changes. 
 2. Describe what is the purpose of a tests and comment your tests
 
 Casts
 -----
 
 1. Numeric types: If you are casting from a numeric type use either 
-   C-style cast or C++ style casts. E.g. both of these are OK:
+   C-style cast or C++ style casts. E.g. both of these are fine:
    ::
      uint32_t o = (uint32_t) some_value;
      uint32_t k = static_cast<uint32_t>(some_value);
@@ -137,23 +137,43 @@ Casts
 
 2. All other cases (pointers etc.): Cast using C++ style casts e.g. `static_cast` etc. 
 
-Brace Style
------------
+Braces
+------
 
 1. We always put braces - and always with a new-line.
    ::
-     // Correct
+     // CORRECT (Allman/ANSI-style)
      if(ok == true)
      {
          call_function();
      }
 
-     // Wrong
+     // Wrong (missing braces)
      if(ok == true)
          call_function();
 
-     // Also wrong
+     // Also wrong (K&R style)
      if(ok == true) {
          call_function();
      }
 
+Declaring pointers and references
+---------------------------------
+
+We believe that the * and & characters should be part of the type names, and not the variable names. 
+::
+  // CORRECT (C++-style)
+  int* pValue;
+
+  // Wrong (C-style)
+  int *pValue;
+
+  // CORRECT (C++-style)
+  void add(const complex& x, const complex& y)
+  {
+  }
+
+  // Wrong (C-style)
+  void add(const complex &x, const complex &y)
+  {
+  }
