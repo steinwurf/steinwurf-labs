@@ -207,7 +207,8 @@ We believe that the * and & characters should be part of the type names, and not
 
 The following regular expressions are helpful to check&replace any violations for this rule:
 ::
-  Find &: (\S)\s+&(\w)
+  Find &: ([\w>])\s+&(\w)
   Replace with: $1& $2
-  Find *: (\S)\s+\*(\w) 
+  Find *: ([\w>])\s+\*(\w) 
   Replace with: $1* $2
+  Watch out for return statements like: return *io_ptr;
