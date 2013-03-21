@@ -212,3 +212,4 @@ The following regular expressions are helpful to check&replace any violations fo
   Find *: ([\w>])\s+\*(\w) 
   Replace with: $1* $2
   Watch out for return statements like: return *io_ptr;
+  Regex to find trailing whitespace: [ \t]+(?=\r?$)
