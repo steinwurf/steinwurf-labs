@@ -4,8 +4,7 @@
 import os
 import sys
 sys.path.append('..')
-#import plotAll
-#reload(plotAll)
+
 
 ## Python recipe here: http://code.activestate.com/recipes/577058/
 def query_yes_no(question, default="yes"):
@@ -81,6 +80,7 @@ def config_win32():
     bundle_opt = \
     '--bundle=ALL,-waf-tools --waf-tools-path="../external-waf-tools" --bundle-path="../deps"'
     tool_opt = '--options=cxx_mkspec='+mkspec
+
     msvs_opt = ''
     if vsver == 'Visual Studio 2008':
         msvs_opt = 'msvs2008'
@@ -88,16 +88,18 @@ def config_win32():
         msvs_opt = 'msvs2010'
     elif vsver == 'Visual Studio 2012':
         msvs_opt = 'msvs2012'
+
     full_cmd = str.format('{} {} {} {}',command, bundle_opt, tool_opt, msvs_opt).strip()
     print('Full cmd: '+full_cmd)
     os.system(full_cmd)
 
-
-if __name__ == '__main__':
-    print('Smart Project Config Tool')
+def config_tool():
+    print('Steinwurf Smart Project Config Tool')
     if sys.platform == 'win32':
         config_win32()
     else:
         print("OS not supported.")
 
+if __name__ == '__main__':
+    config_tool()
     raw_input('Press ENTER to exit...')

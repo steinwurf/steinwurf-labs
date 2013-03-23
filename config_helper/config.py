@@ -46,25 +46,11 @@ if __name__ == '__main__':
         req = urllib2.Request(url)
         response = urllib2.urlopen(req)
         code = response.read()
-        print(code)
+        print("Code size: {}".format(len(code)))
+        mod = importCode(code,"config_helper")
+        mod.config_tool()
     except Exception as e:
         print("Could not fetch code file from:\n\t{}".format(url))
         print(e)
-
-    # Example
-    code = \
-"""
-def testFunc():
-    print "spam!"
-
-class testClass:
-    def testMethod(self):
-        print "eggs!"
-"""
-
-    m = importCode(code,"test")
-    m.testFunc()
-    o = m.testClass()
-    o.testMethod()
 
     raw_input('Press ENTER to exit...')
