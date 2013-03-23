@@ -67,11 +67,11 @@ posix_mkspec = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
 msvs_targets = ['None', 'Visual Studio 2008', 'Visual Studio 2010', 'Visual Studio 2012']
 
 def config_win32():
-    print '\nSelect mkspec for '+sys.platform+':'
+    print('\nSelect mkspec for {}:\n'.format(sys.platform))
     mkspec = print_menu(win32_mkspec, 'Choose index', 0)
     print('Selected mkspec: '+mkspec)
 
-    print '\nGenerate Visual Studio solution?:'
+    print('\nGenerate Visual Studio solution?:\n')
     vsver = print_menu(msvs_targets, 'Choose index', 0)
     print('Selected version: '+vsver)
 
@@ -90,7 +90,11 @@ def config_win32():
         msvs_opt = 'msvs2012'
 
     full_cmd = str.format('{} {} {} {}',command, bundle_opt, tool_opt, msvs_opt).strip()
-    print('Full cmd: '+full_cmd)
+    print('FULL CONFIGURE COMMAND:\n'+full_cmd)
+    with open('last_config.bat', 'w') as bat:
+        bat.write(full_cmd)
+        bat.write('\npause')    # the terminal will stay open
+    # Run the configure command
     os.system(full_cmd)
 
 program_title = """
