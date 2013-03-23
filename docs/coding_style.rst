@@ -46,6 +46,11 @@ Header file extension
 
 We have decided to start using ``.hpp`` for header files. This makes it easier to differentiate between C and C++ code.
 
+Comments
+--------
+- Use ``//`` for simple inline c++ comments that are not meant for doxygen, but for other devs.
+- Use ``///`` for comments that are meant for doxygen.
+
 Class Declarations
 -------------------
 
@@ -77,15 +82,15 @@ With one newline between scope specifiers, members and functions:
   {
   public:
 
-      /// Some comment
+      // Some comment
       void make_me_a_cup();
 
-      /// Another comment
+      // Another comment
       void better_make_that_two();
 
   private:
 
-      /// Important functionality
+      // Important functionality
       void grind_beans();
 
   };
