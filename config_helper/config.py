@@ -46,7 +46,7 @@ if __name__ == '__main__':
         req = urllib2.Request(url)
         response = urllib2.urlopen(req)
         code = response.read()
-        print("Code size: {}".format(len(code)))
+        print("Update complete. Code size: {}\n".format(len(code)))
         mod = importCode(code,"config_helper")
         mod.config_tool()
     except Exception as e:

@@ -93,8 +93,14 @@ def config_win32():
     print('Full cmd: '+full_cmd)
     os.system(full_cmd)
 
+program_title = """
+---------------------------------------
+| Steinwurf Smart Project Config Tool |
+---------------------------------------
+"""
+
 def config_tool():
-    print('Steinwurf Smart Project Config Tool')
+    print(program_title)
     if sys.platform == 'win32':
         config_win32()
     else:
