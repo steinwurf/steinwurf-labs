@@ -138,23 +138,25 @@ def config_win32():
     # Bundle options
     bundle_opt = '--bundle=ALL'
     if user_config:
-        print('Current dir: '+os.getcwd())
+        # print('Current dir: '+os.getcwd())
         projects = []
         for proj_name, proj_path in waf_projects.iteritems():
             if os.path.exists(proj_path) and os.getcwd() != os.path.abspath(proj_path):
                 projects.append(proj_name)
         if len(projects) > 0:
+            projects.sort()
             projects.insert(0, 'None')
             print('\nThe following projects were found in your user_config.\n'
                     'Which projects should be used to directly resolve bundle dependencies?:')
             proj_name = print_menu(projects, 'Choose projects:', 0)
             if proj_name != 'None':
                 bundle_opt += ',-' + proj_name
-                bundle_opt += ' --{}-path="{}"'.format(proj_name, waf_projects[proj_name])
+                rel_path = os.path.relpath(waf_projects[proj_name])
+                bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
 
         if bundle_path is not None:
-            print('Using bundle path from your user_config: '.format(bundle_path))
-            bundle_opt += ' --bundle-path="{}"'.format(bundle_path)
+            print('Using bundle path from your user_config: {}'.format(bundle_path))
+            bundle_opt += ' --bundle-path="{}"'.format(os.path.relpath(bundle_path))
     else:
         default_bundle_path = './bundle_dependencies'
         dep_path = query('Enter bundle path to change default "{}"'.format(default_bundle_path))
