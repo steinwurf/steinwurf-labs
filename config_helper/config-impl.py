@@ -125,7 +125,7 @@ def config_win32():
     # Offer to generate project files for supported IDEs
     print('\nGenerate project files for the following IDEs?:')
     ide_names = print_menu(msvs_targets, 'Choose options (e.g. "1,2,3"):', 0, True)
-    print('Selected option: '+ide_names)
+    print('Selected options: {}'.format(ide_names))
 
     ide_opt = ''
     if 'None' not in ide_names:

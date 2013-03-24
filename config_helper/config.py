@@ -1,7 +1,7 @@
 ﻿#!/usr/bin/env python
 # encoding: utf-8
 
-import os, sys, urllib2
+import os, sys, urllib2, traceback
 
 # Importing a dynamically generated module
 # Python recipe from http://code.activestate.com/recipes/82234
@@ -43,12 +43,19 @@ if __name__ == '__main__':
           "master/config_helper/config-impl.py"
 
     try:
+        # Fetch the code file from the given url
         req = urllib2.Request(url)
         response = urllib2.urlopen(req)
         code = response.read()
         print("Update complete. Code size: {}\n".format(len(code)))
-        mod = importCode(code,"config_helper")
-        mod.config_tool()
+        try:
+            # Import the code string as a module
+            mod = importCode(code,"config_helper")
+            # Run the actual config tool from the dynamic module
+            mod.config_tool()
+        except:
+            print("Unexpected error:")
+            print traceback.format_exc()
     except Exception as e:
         print("Could not fetch code file from:\n\t{}".format(url))
         print(e)
