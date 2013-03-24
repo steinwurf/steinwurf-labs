@@ -6,10 +6,11 @@ Naming
 
 * Classes, members, functions, namespaces all lowercase letters with
   ``_`` if it enhances readability.
-
 * Template parameters CamelCase
-
 * Member variables are prefixed ``m_``
+* In general we try to avoid abbreviations in parameter names, member variables, class names.
+* For temporary local variables you can use abbriviations, single character names etc., as 
+  long as you use common sense (what you think makes the code most readable).
 
 
 
@@ -46,6 +47,11 @@ Header file extension
 
 We have decided to start using ``.hpp`` for header files. This makes it easier to differentiate between C and C++ code.
 
+Comments
+--------
+- Use ``//`` for simple inline c++ comments that are not meant for doxygen, but for other devs.
+- Use ``///`` for comments that are meant for doxygen.
+
 Class Declarations
 -------------------
 
@@ -77,15 +83,15 @@ With one newline between scope specifiers, members and functions:
   {
   public:
 
-      /// Some comment
+      // Some comment
       void make_me_a_cup();
 
-      /// Another comment
+      // Another comment
       void better_make_that_two();
 
   private:
 
-      /// Important functionality
+      // Important functionality
       void grind_beans();
 
   };
