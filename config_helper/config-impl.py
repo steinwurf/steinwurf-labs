@@ -73,7 +73,7 @@ def query(question, default=None):
 
 
 # Draw all the options, but highlight the selected index
-def print_menu(options, question, default_index=0):
+def print_menu(options, question, default_index=0, multiple=False):
     counter = 0
     for idx,item in enumerate(options):
         print str.format('  [{}] {}', idx, item)
@@ -84,6 +84,9 @@ def print_menu(options, question, default_index=0):
         choice = raw_input().lower()
         if default_index is not None and choice == '':
             return options[default_index]
+        elif multiple:
+            indices = [int(i) for i in choice.split(',') if i.isdigit() and int(i) < len(options)]
+            return [options[i] for i in indices]
         elif choice.isdigit() and int(choice) < len(options):
             return options[int(choice)]
         else:
@@ -120,17 +123,19 @@ def config_win32():
         tool_opt += ',android_ndk_dir='+android_ndk_dir
 
     # Offer to generate project files for supported IDEs
-    print('\nGenerate Visual Studio solution?:')
-    vsver = print_menu(msvs_targets, 'Choose option:', 0)
-    print('Selected option: '+vsver)
+    print('\nGenerate project files for the following IDEs?:')
+    ide_names = print_menu(msvs_targets, 'Choose options (e.g. "1,2,3"):', 0, True)
+    print('Selected option: '+ide_names)
 
-    msvs_opt = ''
-    if vsver == 'Visual Studio 2008':
-        msvs_opt = 'msvs2008'
-    elif vsver == 'Visual Studio 2010':
-        msvs_opt = 'msvs2010'
-    elif vsver == 'Visual Studio 2012':
-        msvs_opt = 'msvs2012'
+    ide_opt = ''
+    if 'None' not in ide_names:
+        if 'Visual Studio 2008' in ide_names:
+            ide_opt += ' msvs2008'
+        if 'Visual Studio 2010' in ide_names:
+            ide_opt += ' msvs2010'
+        if 'Visual Studio 2012' in ide_names:
+            ide_opt += ' msvs2012'
+        ide_opt = ide_opt.strip()
 
     # The default configure command
     command = 'python waf configure'
@@ -148,11 +153,13 @@ def config_win32():
             projects.insert(0, 'None')
             print('\nThe following projects were found in your user_config.\n'
                     'Which projects should be used to directly resolve bundle dependencies?:')
-            proj_name = print_menu(projects, 'Choose projects:', 0)
-            if proj_name != 'None':
-                bundle_opt += ',-' + proj_name
-                rel_path = os.path.relpath(waf_projects[proj_name])
-                bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
+            proj_names = print_menu(projects, 'Choose projects (e.g. "1,2,3"):', 0, True)
+            if 'None' not in proj_names:
+                for proj_name in proj_names: # ALL,-project
+                    bundle_opt += ',-' + proj_name
+                for proj_name in proj_names: # Use relative project path
+                    rel_path = os.path.relpath(waf_projects[proj_name])
+                    bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
 
         if bundle_path is not None:
             print('Using bundle path from your user_config: {}'.format(bundle_path))
@@ -168,7 +175,7 @@ def config_win32():
 ##        ' --bundle-path="../deps"'
 
     # Assemble the final configure command
-    full_cmd = str.format('{} {} {} {}',command, bundle_opt, tool_opt, msvs_opt).strip()
+    full_cmd = str.format('{} {} {} {}',command, bundle_opt, tool_opt, ide_opt).strip()
     print('\nFULL CONFIGURE COMMAND:\n'+full_cmd)
     with open('last_config.bat', 'w') as bat:
         bat.write(full_cmd)
