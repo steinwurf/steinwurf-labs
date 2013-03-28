@@ -1,6 +1,6 @@
 Visual Studio project generator for WAF
 =======================================================
-This document describes the steps needed to build and run a C/C++ application with WAF 
+This document describes how to build and run a C/C++ application with WAF 
 from Visual Studio as a custom Makefile project.
 
 Disclaimer
@@ -12,7 +12,7 @@ These instructions have been tested for the following IDEs:
 - Visual Studio 2012 Express
 
 Note that the only supported compiler is msvc11 (Visual Studio 2012),
-but you may use a previous version as an IDE (WAF will invoke the new compiler).
+but you may use a previous version of Visual Studio as an IDE (WAF will invoke the new compiler).
 
 Instructions 
 ---------------------
