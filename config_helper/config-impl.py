@@ -93,6 +93,7 @@ def print_menu(options, question, default_index=0, multiple=False):
             sys.stdout.write("Please respond with a valid index!\n")
 
 
+build_variants = ['Release', 'Debug']
 
 android_mkspec = ['cxx_gxx46_arm_android']
 win32_mkspec = ['cxx_msvc11_x86', 'cxx_msvc11_x64',
@@ -101,6 +102,7 @@ posix_mkspec = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
                 'cxx_gxx47_x86', 'cxx_gxx47_x64'] + android_mkspec
 
 msvs_targets = ['None', 'Visual Studio 2008', 'Visual Studio 2010', 'Visual Studio 2012']
+
 
 def config_win32():
     # Select the mkspec first
@@ -121,6 +123,13 @@ def config_win32():
             android_ndk_dir = query('Enter android_ndk_dir')
         tool_opt += ',android_sdk_dir='+android_sdk_dir
         tool_opt += ',android_ndk_dir='+android_ndk_dir
+
+    # Select the mkspec first
+    print('\nSelect build variant:')
+    variant = print_menu(build_variants, 'Choose option:', 0)
+    print('Selected build variant: '+variant)
+    if variant == 'Debug':
+        tool_opt += ',cxx_debug'
 
     # Offer to generate project files for supported IDEs
     print('\nGenerate project files for the following IDEs?:')
