@@ -8,7 +8,7 @@ Naming
   ``_`` if it enhances readability.
 * Template parameters CamelCase
 * Member variables are prefixed ``m_``
-* In general we try to avoid abbreviations in parameter names, member variables, class names.
+* In general we try to avoid abbreviations in parameter names, member variables, class names, function names.
 * For temporary local variables, you can use abbreviations, single character names as 
   long as you use common sense (what you think makes the code most readable).
 
