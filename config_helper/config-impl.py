@@ -200,12 +200,12 @@ def config_options(available_mkspecs):
             bat.write('pause')    # the terminal will stay open
     else:
         with open('last_config.sh', 'w') as bat:
-            bat.write('#!/bin/sh') # Shebang line
+            bat.write('#!/bin/sh'+'\n') # Shebang line
             bat.write(full_cmd+'\n')
-            bat.write('echo -n "Press ENTER to continue..."\n')
+            bat.write('echo "Press ENTER to continue..."\n')
             bat.write('read')    # the terminal will stay open
-        # Change the file permission
-        #os.system('chmod %d "%s"' % ("+x", file))
+        # Set script permission to executable
+        os.system('chmod +x "{}"'.format('last_config.sh'))
     # Run the configure command
     os.system(full_cmd)
 
@@ -222,7 +222,7 @@ def config_tool():
     elif sys.platform == 'darwin' or sys.platform.startswith('linux'):
         config_options(unix_mkspec)
     else:
-        print("OS not supported.")
+        print('Platform "{}" is not supported.'.format(sys.platform))
 
 if __name__ == '__main__':
     config_tool()
