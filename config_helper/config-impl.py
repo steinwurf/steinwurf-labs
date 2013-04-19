@@ -92,22 +92,28 @@ def print_menu(options, question, default_index=0, multiple=False):
         else:
             sys.stdout.write("Please respond with a valid index!\n")
 
-
+# Define the available build variants
 build_variants = ['Release', 'Debug']
 
+# Define the supported mkspecs
 android_mkspec = ['cxx_gxx46_arm_android']
-win32_mkspec = ['cxx_msvc11_x86', 'cxx_msvc11_x64',
-                'cxx_gxx46_x86', 'cxx_gxx47_x86'] + android_mkspec
-posix_mkspec = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
-                'cxx_gxx47_x86', 'cxx_gxx47_x64'] + android_mkspec
+msvc_mkspec    = ['cxx_msvc11_x86', 'cxx_msvc11_x64']
+gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
+                  'cxx_gxx47_x86', 'cxx_gxx47_x64']
+clang_mkspec   = ['cxx_clang30_x86', 'cxx_clang30_x64']
 
-msvs_targets = ['None', 'Visual Studio 2008', 'Visual Studio 2010', 'Visual Studio 2012']
+# Define which mkspecs are supported on different platforms
+win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec
+unix_mkspec = gxx_mkspec + clang_mkspec + android_mkspec
+
+# Project generator targets
+project_targets = ['None', 'Visual Studio 2008', 'Visual Studio 2010', 'Visual Studio 2012']
 
 
-def config_win32():
+def config_options(available_mkspecs):
     # Select the mkspec first
     print('\nSelect mkspec for {}:'.format(sys.platform))
-    mkspec = print_menu(win32_mkspec, 'Choose option:', 0)
+    mkspec = print_menu(available_mkspecs, 'Choose option:', 0)
     print('Selected mkspec: '+mkspec)
     tool_opt = '--options=cxx_mkspec='+mkspec
 
@@ -133,7 +139,7 @@ def config_win32():
 
     # Offer to generate project files for supported IDEs
     print('\nGenerate project files for the following IDEs?:')
-    ide_names = print_menu(msvs_targets, 'Choose options (e.g. "1,2,3"):', 0, True)
+    ide_names = print_menu(project_targets, 'Choose options (e.g. "1,2,3"):', 0, True)
     print('Selected options: {}'.format(ide_names))
 
     ide_opt = ''
@@ -186,9 +192,20 @@ def config_win32():
     # Assemble the final configure command
     full_cmd = str.format('{} {} {} {}',command, bundle_opt, tool_opt, ide_opt).strip()
     print('\nFULL CONFIGURE COMMAND:\n'+full_cmd)
-    with open('last_config.bat', 'w') as bat:
-        bat.write(full_cmd)
-        bat.write('\npause')    # the terminal will stay open
+
+    # Save the configure command in a .bat or .sh file
+    if sys.platform == 'win32':
+        with open('last_config.bat', 'w') as bat:
+            bat.write(full_cmd+'\n')
+            bat.write('pause')    # the terminal will stay open
+    else:
+        with open('last_config.sh', 'w') as bat:
+            bat.write('#!/bin/sh') # Shebang line
+            bat.write(full_cmd+'\n')
+            bat.write('echo -n "Press ENTER to continue..."\n')
+            bat.write('read')    # the terminal will stay open
+        # Change the file permission
+        #os.system('chmod %d "%s"' % ("+x", file))
     # Run the configure command
     os.system(full_cmd)
 
@@ -201,7 +218,9 @@ program_title = """
 def config_tool():
     print(program_title)
     if sys.platform == 'win32':
-        config_win32()
+        config_options(win32_mkspec)
+    elif sys.platform == 'darwin' or sys.platform.startswith('linux'):
+        config_options(unix_mkspec)
     else:
         print("OS not supported.")
 
