@@ -1,6 +1,6 @@
-Git work flow
--------------
-This document describes our git work flow within the Steinwurf projects.
+Git workflow
+------------
+This document describes our git workflow for the Steinwurf projects.
 
 We roughly follow the work flow described here:
 
@@ -9,7 +9,7 @@ We roughly follow the work flow described here:
 
 Based on these resources we have devised the following guidelines:
 
-1. Don't break master, make sure everything you
+1. Don't break master, make sure everything that you
    merge into master builds and passes all tests.
 
 2. When changing something, create a descriptive branch off master
@@ -23,52 +23,36 @@ Based on these resources we have devised the following guidelines:
      git checkout -b 32-android-segfault-large-blocks
 
 
-3. Commit to that branch and push your work to the same named
-   branch on the server [pro-git-ch3-5_].
+3. Commit to that branch and push your work to an upstream
+   branch on the server with the same name[pro-git-ch3-5_].
    ::
     git push -u origin add-symbol-operations-stats
 
-4. Rebase against the upstream frequently to prevent your branch from
-   diverging significantly
+4. Merge with the master frequently to get the latest changes
+   in your branch
    ::
-     git checkout master
-     git pull
-     git checkout add-symbol-operations-stats
-     git rebase master
+     git fetch
+     git merge master     
 
-5. When you need feedback or help, or you think the branch is ready
-   for merging open a pull request.
+5. Remember to update the NEWS file to indicate if your changes 
+   should be categorized as MAJOR, MINOR or BUGFIX.
 
-6. When someone else has reviews and signed off on the feature, you
-   can merge it into master.
-   ::
-     git checkout master
-     git merge add-symbol-operations-stats
+6. When you need feedback or you think the branch is ready
+   for merging, open a Pull Request on github.
 
-   remember to update the NEWS file, check if the current master is indicated to be
-   a MAJOR, MINOR, or BUGFIX and bump the severity if necessary.
-
-7. Once it is merged - push it into master
-   ::
-     git push origin master
-
-8. If you are done with your branch - remove it from the remote
-   ::
-     git push origin :add-symbol-operations-stats
-
-   And delete your local branch
-   ::
-     git checkout master
-     git branch -d add-symbol-operations-stats
-
+7. When the Pull Request has been approved and tested on the buildbot, 
+   you can merge your branch into master (use the Green button on github).
+   At this point, you should also delete your branch on the remote 
+   (use the button for this on github).
 
 .. _pro-git-ch3-5: http://progit.org/book/ch3-5.html
 
 
-Keeping forked repository up to data
+Keeping forked repository up-to-date
 ------------------------------------
 
-If you have forked a repository and want to keep it up to date with the original repository, setup an upstream repository, e.g.  
+If you have forked a repository and want to keep it up to date with the original repository, 
+setup an upstream repository, e.g.  
 ::
   git remote add upstream git@github.com:steinwurf/kodo.git
 
@@ -84,13 +68,14 @@ You can also simply pull the upstream changes into your master
 If you have local branches you can subsequently rebase those on the updated master.
 
 
-Working on a branch you did not create
---------------------------------------
+Working on a remote branch
+--------------------------
 
 Sometimes somebody else creates a new branch as does some work. Now you 
 would like to contribute. To do this you need to get a local working copy
 of the branch. See which branches are available:
 ::
+  git fetch --prune
   git branch -r
 
 Checkout the one you would like to work on:
@@ -134,7 +119,7 @@ In Steinwurf we use the following approach to merge incoming pull-requests:
   first ensure that the changes work on all tested platforms (this is done using
   our buildbot).
 
-Lets imagine that a pull-request with id 20 has been sent at the Kodo library. We 
+Let's imagine that a pull-request with id 20 has been sent at the Kodo library. We 
 now go through the following steps.
 
 1. Create a new branch `pull-request-20`:
@@ -155,7 +140,3 @@ now go through the following steps.
    patch and report the errors encounterd. 
 
 The above steps was inspired from here (http://beust.com/weblog/2010/09/15/a-quick-guide-to-pull-requests/)
-
-
-
-
