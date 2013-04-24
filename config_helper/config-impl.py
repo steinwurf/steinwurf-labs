@@ -101,10 +101,12 @@ msvc_mkspec    = ['cxx_msvc11_x86', 'cxx_msvc11_x64']
 gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
                   'cxx_gxx47_x86', 'cxx_gxx47_x64']
 clang_mkspec   = ['cxx_clang30_x86', 'cxx_clang30_x64']
+llvm_mkspec   = ['cxx_llvm42_x86', 'cxx_llvm42_x64']
 
 # Define which mkspecs are supported on different platforms
 win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec
-unix_mkspec = gxx_mkspec + clang_mkspec + android_mkspec
+linux_mkspec = gxx_mkspec + clang_mkspec + android_mkspec
+mac_mkspec = llvm_mkspec + gxx_mkspec + android_mkspec
 
 # Project generator targets
 project_targets = ['None', 'Visual Studio 2008', 'Visual Studio 2010', 'Visual Studio 2012']
@@ -113,7 +115,7 @@ project_targets = ['None', 'Visual Studio 2008', 'Visual Studio 2010', 'Visual S
 def config_options(available_mkspecs):
     # Select the mkspec first
     print('\nSelect mkspec for {}:'.format(sys.platform))
-    mkspec = print_menu(available_mkspecs, 'Choose option:', 0)
+    mkspec = print_menu(['cxx_default']+available_mkspecs, 'Choose option:', 0)
     print('Selected mkspec: '+mkspec)
     tool_opt = '--options=cxx_mkspec='+mkspec
 
@@ -190,6 +192,7 @@ def config_options(available_mkspecs):
 ##        ' --bundle-path="../deps"'
 
     # Assemble the final configure command
+
     full_cmd = str.format('{} {} {} {}',command, bundle_opt, tool_opt, ide_opt).strip()
     print('\nFULL CONFIGURE COMMAND:\n'+full_cmd)
 
@@ -219,8 +222,10 @@ def config_tool():
     print(program_title)
     if sys.platform == 'win32':
         config_options(win32_mkspec)
-    elif sys.platform == 'darwin' or sys.platform.startswith('linux'):
-        config_options(unix_mkspec)
+    elif sys.platform == 'darwin':
+        config_options(mac_mkspec)
+    elif sys.platform.startswith('linux'):
+        config_options(linux_mkspec)
     else:
         print('Platform "{}" is not supported.'.format(sys.platform))
 
