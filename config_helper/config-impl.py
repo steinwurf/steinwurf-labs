@@ -11,11 +11,38 @@ user_config = False
         "fabric_user_config.py" located in the current directory(.) or
         in the parent directory(..)
 """
+
+# By default, we expect that the other projects are next to current dir
+project_path = '../'
+
+waf_projects = \
+{
+# Public repos:
+    'fifi':              project_path+'fifi',
+    'kodo':              project_path+'kodo',
+    'sak':               project_path+'sak',
+    'gauge':             project_path+'cxx-gauge',
+    'boost':             project_path+'external-boost',
+    'gtest':             project_path+'external-gtest',
+    'gmock':             project_path+'external-gmock',
+    'protobuf':          project_path+'external-protobuf',
+    'waf':               project_path+'external-waf',
+    'waf-tools':         project_path+'external-waf-tools',
+    'steinwurf-labs':    project_path+'steinwurf-labs',
+# Private repos:
+    'beem':              project_path+'beem',
+    'imp':               project_path+'imp',
+    'steinwurf-private': project_path+'steinwurf-private',
+    'photofeed_engine':  project_path+'photofeed_engine',
+    'photofeed_android': project_path+'photofeed_android',
+}
+
+bundle_path = project_path+'deps'
+waf_build_path = project_path+'external-waf\\waf'
+
+# There are no good default values for these
 android_sdk_dir = None
 android_ndk_dir = None
-waf_projects = {}
-bundle_path = None
-waf_build_path = None
 
 try:
     # Also search in the parent folder when loading user config
@@ -159,37 +186,33 @@ def config_options(available_mkspecs):
 
     # Bundle options
     bundle_opt = '--bundle=ALL'
+
+    # print('Current dir: '+os.getcwd())
+    projects = []
+    for proj_name, proj_path in waf_projects.iteritems():
+        if os.path.exists(proj_path) and os.getcwd() != os.path.abspath(proj_path):
+            projects.append(proj_name)
+    if len(projects) > 0:
+        projects.sort()
+        projects.insert(0, 'None')
+        print('\nThe following projects were found on your computer.\n'
+                'Which projects should be used to directly resolve bundle dependencies?:')
+        proj_names = print_menu(projects, 'Choose projects (e.g. "1,2,3"):', 0, True)
+        if 'None' not in proj_names:
+            for proj_name in proj_names: # ALL,-project
+                bundle_opt += ',-' + proj_name
+            for proj_name in proj_names: # Use relative project path
+                rel_path = os.path.relpath(waf_projects[proj_name])
+                bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
+
     if user_config:
-        # print('Current dir: '+os.getcwd())
-        projects = []
-        for proj_name, proj_path in waf_projects.iteritems():
-            if os.path.exists(proj_path) and os.getcwd() != os.path.abspath(proj_path):
-                projects.append(proj_name)
-        if len(projects) > 0:
-            projects.sort()
-            projects.insert(0, 'None')
-            print('\nThe following projects were found in your user_config.\n'
-                    'Which projects should be used to directly resolve bundle dependencies?:')
-            proj_names = print_menu(projects, 'Choose projects (e.g. "1,2,3"):', 0, True)
-            if 'None' not in proj_names:
-                for proj_name in proj_names: # ALL,-project
-                    bundle_opt += ',-' + proj_name
-                for proj_name in proj_names: # Use relative project path
-                    rel_path = os.path.relpath(waf_projects[proj_name])
-                    bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
-
-        if bundle_path is not None:
-            print('Using bundle path from your user_config: {}'.format(bundle_path))
-            bundle_opt += ' --bundle-path="{}"'.format(os.path.relpath(bundle_path))
+        print('Using bundle path from your user_config: {}'.format(bundle_path))
+        bundle_opt += ' --bundle-path="{}"'.format(os.path.relpath(bundle_path))
     else:
-        default_bundle_path = './bundle_dependencies'
-        dep_path = query('Enter bundle path to change default "{}"'.format(default_bundle_path))
-        if dep_path != '':
-            bundle_opt += ' --bundle-path="{}"'.format(dep_path)
-
-##    bundle_opt = '--bundle=ALL,-waf-tools,-beem' \
-##        ' --waf-tools-path="../external-waf-tools" --beem-path="../beem"' \
-##        ' --bundle-path="../deps"'
+        # default_bundle_path = './bundle_dependencies'
+        bundle_path = query('Enter bundle path',bundle_path)
+        if bundle_path != '':
+            bundle_opt += ' --bundle-path="{}"'.format(bundle_path)
 
     # Assemble the final configure command
 
