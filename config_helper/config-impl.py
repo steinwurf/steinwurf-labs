@@ -205,11 +205,11 @@ def config_options(available_mkspecs):
                 rel_path = os.path.relpath(waf_projects[proj_name])
                 bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
 
+    global bundle_path
     if user_config:
         print('Using bundle path from your user_config: {}'.format(bundle_path))
         bundle_opt += ' --bundle-path="{}"'.format(os.path.relpath(bundle_path))
     else:
-        global bundle_path
         # default_bundle_path = './bundle_dependencies'
         bundle_path = query('Enter bundle path',bundle_path)
         if bundle_path != '':
