@@ -11,11 +11,14 @@ user_config = False
         "fabric_user_config.py" located in the current directory(.) or
         in the parent directory(..)
 """
-
+# There are no good default values for these
+android_sdk_dir = None
+android_ndk_dir = None
 # By default, we expect that the other projects are next to current dir
 project_path = '../'
+waf_projects = {}
 
-waf_projects = \
+default_waf_projects = \
 {
 # Public repos:
     'fifi':              project_path+'fifi',
@@ -40,9 +43,7 @@ waf_projects = \
 bundle_path = project_path+'deps'
 waf_build_path = project_path+'external-waf\\waf'
 
-# There are no good default values for these
-android_sdk_dir = None
-android_ndk_dir = None
+
 
 try:
     # Also search in the parent folder when loading user config
@@ -52,6 +53,7 @@ try:
 except Exception as e:
     print("Exception when loading fabric_user_config.py:")
     print(e)
+    waf_projects = default_waf_projects
 
 
 ## Python recipe here: http://code.activestate.com/recipes/577058/
@@ -123,12 +125,12 @@ def print_menu(options, question, default_index=0, multiple=False):
 build_variants = ['Release', 'Debug']
 
 # Define the supported mkspecs
-android_mkspec = ['cxx_gxx46_arm_android']
+android_mkspec = ['cxx_android_gxx46_arm']
 msvc_mkspec    = ['cxx_msvc11_x86', 'cxx_msvc11_x64']
 gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
                   'cxx_gxx47_x86', 'cxx_gxx47_x64']
 clang_mkspec   = ['cxx_clang30_x86', 'cxx_clang30_x64']
-llvm_mkspec   = ['cxx_llvm42_x86', 'cxx_llvm42_x64']
+llvm_mkspec    = ['cxx_apple_llvm42_x86', 'cxx_apple_llvm42_x64']
 
 # Define which mkspecs are supported on different platforms
 win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec
@@ -139,7 +141,7 @@ mac_mkspec = llvm_mkspec + gxx_mkspec + android_mkspec
 project_targets = ['None', 'Visual Studio 2008', 'Visual Studio 2010', 'Visual Studio 2012']
 
 
-def config_options(available_mkspecs):
+def config_options(available_mkspecs, dependencies = None):
     # Select the mkspec first
     print('\nSelect mkspec for {}:'.format(sys.platform))
     mkspec = print_menu(['cxx_default']+available_mkspecs, 'Choose option:', 0)
@@ -189,15 +191,43 @@ def config_options(available_mkspecs):
 
     # print('Current dir: '+os.getcwd())
     projects = []
-    for proj_name, proj_path in waf_projects.iteritems():
-        if os.path.exists(proj_path) and os.getcwd() != os.path.abspath(proj_path):
-            projects.append(proj_name)
+    # Enumerate the project dependencies
+    if dependencies != None:
+        for proj_name in dependencies:
+            path = None
+            # Look in the user-specified waf_projects first
+            if proj_name in waf_projects:
+                path = waf_projects[proj_name]
+            # Also try the default path in default_waf_projects
+            elif proj_name in default_waf_projects:
+                path = default_waf_projects[proj_name]
+                # Store the default project path for later
+                if os.path.exists(path):
+                    waf_projects[proj_name] = path
+            if path != None and os.path.exists(path):
+                projects.append(proj_name)
+    else:
+        # If the dependencies were not specified then show all available projects
+        for proj_name, proj_path in waf_projects.iteritems():
+            if os.path.exists(proj_path) and os.getcwd() != os.path.abspath(proj_path):
+                projects.append(proj_name)
+
+    proj_names = []
     if len(projects) > 0:
         projects.sort()
+        # Only include the ALL option if the dependencies were specified
+        if dependencies != None:
+            projects.insert(0, 'ALL')
         projects.insert(0, 'None')
         print('\nThe following projects were found on your computer.\n'
                 'Which projects should be used to directly resolve bundle dependencies?:')
         proj_names = print_menu(projects, 'Choose projects (e.g. "1,2,3"):', 0, True)
+        if 'ALL' in proj_names:
+            bundle_opt = ''  # No bundle needed
+            for proj_name in dependencies:
+                rel_path = os.path.relpath(waf_projects[proj_name])
+                bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
+
         if 'None' not in proj_names:
             for proj_name in proj_names: # ALL,-project
                 bundle_opt += ',-' + proj_name
@@ -205,18 +235,19 @@ def config_options(available_mkspecs):
                 rel_path = os.path.relpath(waf_projects[proj_name])
                 bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
 
-    global bundle_path
-    if user_config:
-        print('Using bundle path from your user_config: {}'.format(bundle_path))
-        bundle_opt += ' --bundle-path="{}"'.format(os.path.relpath(bundle_path))
-    else:
-        # default_bundle_path = './bundle_dependencies'
-        bundle_path = query('Enter bundle path',bundle_path)
-        if bundle_path != '':
-            bundle_opt += ' --bundle-path="{}"'.format(bundle_path)
+    # bundle_path is not needed if ALL dependencies are resolved manually
+    if 'ALL' not in proj_names:
+        global bundle_path
+        if user_config:
+            print('Using bundle path from your user_config: {}'.format(bundle_path))
+            bundle_opt += ' --bundle-path="{}"'.format(os.path.relpath(bundle_path))
+        else:
+            # default_bundle_path = './bundle_dependencies'
+            bundle_path = query('Enter bundle path',bundle_path)
+            if bundle_path != '':
+                bundle_opt += ' --bundle-path="{}"'.format(bundle_path)
 
     # Assemble the final configure command
-
     full_cmd = str.format('{} {} {} {}',command, bundle_opt, tool_opt, ide_opt).strip()
     print('\nFULL CONFIGURE COMMAND:\n'+full_cmd)
 
@@ -242,14 +273,14 @@ program_title = """
 ---------------------------------------
 """
 
-def config_tool():
+def config_tool(dependencies = None):
     print(program_title)
     if sys.platform == 'win32':
-        config_options(win32_mkspec)
+        config_options(win32_mkspec, dependencies)
     elif sys.platform == 'darwin':
-        config_options(mac_mkspec)
+        config_options(mac_mkspec, dependencies)
     elif sys.platform.startswith('linux'):
-        config_options(linux_mkspec)
+        config_options(linux_mkspec, dependencies)
     else:
         print('Platform "{}" is not supported.'.format(sys.platform))
 
