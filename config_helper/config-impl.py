@@ -222,13 +222,13 @@ def config_options(available_mkspecs, dependencies = None):
         print('\nThe following projects were found on your computer.\n'
                 'Which projects should be used to directly resolve bundle dependencies?:')
         proj_names = print_menu(projects, 'Choose projects (e.g. "1,2,3"):', 0, True)
+        print('Selected projects: {}'.format(proj_names))
         if 'ALL' in proj_names:
             bundle_opt = ''  # No bundle needed
             for proj_name in dependencies:
                 rel_path = os.path.relpath(waf_projects[proj_name])
                 bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
-
-        if 'None' not in proj_names:
+        elif 'None' not in proj_names:
             for proj_name in proj_names: # ALL,-project
                 bundle_opt += ',-' + proj_name
             for proj_name in proj_names: # Use relative project path
@@ -239,11 +239,11 @@ def config_options(available_mkspecs, dependencies = None):
     if 'ALL' not in proj_names:
         global bundle_path
         if user_config:
-            print('Using bundle path from your user_config: {}'.format(bundle_path))
+            print('\nUsing bundle path from your user_config: {}'.format(bundle_path))
             bundle_opt += ' --bundle-path="{}"'.format(os.path.relpath(bundle_path))
         else:
             # default_bundle_path = './bundle_dependencies'
-            bundle_path = query('Enter bundle path',bundle_path)
+            bundle_path = query('\nEnter bundle path',bundle_path)
             if bundle_path != '':
                 bundle_opt += ' --bundle-path="{}"'.format(bundle_path)
 
