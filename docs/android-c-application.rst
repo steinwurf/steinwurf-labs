@@ -1,7 +1,8 @@
 Running a C/C++ application on Android using adb shell
 ======================================================
 In Steinwurf we like automated tests, the first step to successfully implement this is to be able to build
-and deploy via the command line. This document describes the steps needed to run a C/C++ application on an Android device using only the command line.
+and deploy via the command line. 
+This document describes the steps needed to run a C/C++ application on an Android device using only the command line.
 
 Disclaimer
 ----------
@@ -47,9 +48,9 @@ You may want to copy the sdk to some suitable location (I have it in ~/dev):
 ::
   cp -R android-sdk-linux/ ~/dev/android-sdk-linux-r21.0.1
 
-Create the Android Stand-Alone toolchain
+Create the Android Standalone toolchain
 -------------------------------------------
-Navigate to the Android NDK and use the build command to create a stand-alone toolchain.
+Navigate to the Android NDK and use the build command to create a standalone toolchain.
 ::
   cd android-ndk-r8d
   ./build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=/home/youruser/dev/android-ndk-r8d-platform9-toolchain --ndk-dir=.
