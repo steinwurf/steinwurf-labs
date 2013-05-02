@@ -26,6 +26,7 @@ default_waf_projects = \
     'sak':               project_path+'sak',
     'gauge':             project_path+'cxx-gauge',
     'boost':             project_path+'external-boost',
+    'boost-modules':     project_path+'external-boost-modules',
     'gtest':             project_path+'external-gtest',
     'gmock':             project_path+'external-gmock',
     'protobuf':          project_path+'external-protobuf',
