@@ -164,7 +164,7 @@ def config_options(available_mkspecs, dependencies = None):
         tool_opt += ',android_ndk_dir='+android_ndk_dir
 
     # Handle extra options for iOS
-    if mkspec in [ios_apple_mkspec] or mkspec in [ios_clang_mkspec]:
+    if mkspec in ios_apple_mkspec or mkspec in ios_clang_mkspec:
         # Try to set ios_toolchain_dir and ios_sdk_dir here
         # These variables might have been already set in user_config
         global ios_toolchain_dir
