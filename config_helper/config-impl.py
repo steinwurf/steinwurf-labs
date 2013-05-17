@@ -134,8 +134,8 @@ llvm_mkspec    = ['cxx_apple_llvm42_x86', 'cxx_apple_llvm42_x64']
 ios_mkspec     = ['cxx_ios50_apple_llvm42_armv7']
 
 # Define which mkspecs are supported on different platforms
-win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec
-linux_mkspec = gxx_mkspec + clang_mkspec + android_mkspec
+win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec + ios_mkspec
+linux_mkspec = gxx_mkspec + clang_mkspec + android_mkspec + ios_mkspec
 mac_mkspec = llvm_mkspec + gxx_mkspec + android_mkspec + ios_mkspec
 
 # Project generator targets
