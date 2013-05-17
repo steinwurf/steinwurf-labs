@@ -131,12 +131,13 @@ gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
                   'cxx_gxx47_x86', 'cxx_gxx47_x64']
 clang_mkspec   = ['cxx_clang30_x86', 'cxx_clang30_x64']
 llvm_mkspec    = ['cxx_apple_llvm42_x86', 'cxx_apple_llvm42_x64']
-ios_mkspec     = ['cxx_ios50_apple_llvm42_armv7']
+ios_apple_mkspec = ['cxx_ios50_apple_llvm42_armv7']
+ios_clang_mkspec = ['cxx_ios50_clang32_armv7']
 
 # Define which mkspecs are supported on different platforms
-win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec + ios_mkspec
-linux_mkspec = gxx_mkspec + clang_mkspec + android_mkspec + ios_mkspec
-mac_mkspec = llvm_mkspec + gxx_mkspec + android_mkspec + ios_mkspec
+win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec + ios_clang_mkspec
+linux_mkspec = gxx_mkspec + clang_mkspec + android_mkspec + ios_clang_mkspec
+mac_mkspec = llvm_mkspec + gxx_mkspec + android_mkspec + ios_apple_mkspec
 
 # Project generator targets
 project_targets = ['None', 'Visual Studio 2008', 'Visual Studio 2010', 'Visual Studio 2012']
