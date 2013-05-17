@@ -14,6 +14,8 @@ user_config = False
 # There are no good default values for these
 android_sdk_dir = None
 android_ndk_dir = None
+ios_toolchain_dir = None
+ios_sdk_dir = None
 # By default, we expect that the other projects are next to current dir
 project_path = '../'
 waf_projects = {}
@@ -25,11 +27,8 @@ default_waf_projects = \
     'kodo':              project_path+'kodo',
     'sak':               project_path+'sak',
     'gauge':             project_path+'cxx-gauge',
-    'boost':             project_path+'external-boost',
-    'boost-modules':     project_path+'external-boost-modules',
+    'boost':             project_path+'external-boost-light',
     'gtest':             project_path+'external-gtest',
-    'gmock':             project_path+'external-gmock',
-    'protobuf':          project_path+'external-protobuf',
     'waf':               project_path+'external-waf',
     'waf-tools':         project_path+'external-waf-tools',
     'steinwurf-labs':    project_path+'steinwurf-labs',
@@ -132,11 +131,12 @@ gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
                   'cxx_gxx47_x86', 'cxx_gxx47_x64']
 clang_mkspec   = ['cxx_clang30_x86', 'cxx_clang30_x64']
 llvm_mkspec    = ['cxx_apple_llvm42_x86', 'cxx_apple_llvm42_x64']
+ios_mkspec     = ['cxx_ios50_apple_llvm42_armv7']
 
 # Define which mkspecs are supported on different platforms
 win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec
 linux_mkspec = gxx_mkspec + clang_mkspec + android_mkspec
-mac_mkspec = llvm_mkspec + gxx_mkspec + android_mkspec
+mac_mkspec = llvm_mkspec + gxx_mkspec + android_mkspec + ios_mkspec
 
 # Project generator targets
 project_targets = ['None', 'Visual Studio 2008', 'Visual Studio 2010', 'Visual Studio 2012']
@@ -161,6 +161,23 @@ def config_options(available_mkspecs, dependencies = None):
             android_ndk_dir = query('Enter android_ndk_dir')
         tool_opt += ',android_sdk_dir='+android_sdk_dir
         tool_opt += ',android_ndk_dir='+android_ndk_dir
+
+    # Handle extra options for iOS
+    if mkspec in ios_mkspec:
+        # Try to set ios_toolchain_dir and ios_sdk_dir here
+        # These variables might have been already set in user_config
+        global ios_toolchain_dir
+        global ios_sdk_dir
+        # The XCode default toolchain path will be used
+        # if the ios_toolchain_dir variable was not set
+        toolchain = '/Applications/Xcode.app/Contents/Developer/' \
+                    'Toolchains/XcodeDefault.xctoolchain/usr/bin/'
+        if ios_toolchain_dir == None:
+            ios_toolchain_dir = query('Enter ios_toolchain_dir', toolchain)
+        if ios_sdk_dir == None:
+            ios_sdk_dir = query('Enter ios_sdk_dir')
+        tool_opt += ',ios_toolchain_dir='+ios_toolchain_dir
+        tool_opt += ',ios_sdk_dir='+ios_sdk_dir
 
     # Select the mkspec first
     print('\nSelect build variant:')
