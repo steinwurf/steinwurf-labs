@@ -19,7 +19,7 @@ Include Guards
 
 Using #pragma once is preferred instead of the lengthy include guards, as this approach is shorter and less error-prone. Furthermore, it might speed up the compilation on modern compilers.
 
-Start every header file like this (after copyright comment):
+Start every header file like this (after the copyright comment):
 ::
   #pragma once
 
@@ -49,8 +49,9 @@ We have decided to start using ``.hpp`` for header files. This makes it easier t
 
 Comments
 --------
-- Use ``//`` for simple inline c++ comments that are not meant for doxygen, but for other devs.
-- Use ``///`` for comments that are meant for doxygen.
+- Use ``//`` for simple inline C++ comments that are not meant for Doxygen, but for other devs.
+- Use ``///`` for comments that are meant for Doxygen (do not use this in function bodies).
+- Start comments on new lines if possible 
 
 Class Declarations
 -------------------
@@ -83,52 +84,50 @@ With one newline between scope specifiers, members and functions:
   {
   public:
 
-      // Some comment
+      /// Some comment
       void make_me_a_cup();
 
-      // Another comment
+      /// Another comment
       void better_make_that_two();
 
   private:
 
-      // Important functionality
+      /// Important functionality
       void grind_beans();
 
   };
 
 Files and Classes
 -----------------
-
 We have a one class per one file rule. If you make a new class ``happy``, then
 put it in ``happy.hpp``. This makes the classes easier to find in the
 source tree. Exceptions to this rule are nested classes.
 
 Indentation
 -----------
-We always indent code using spaces and not tabs. The size of an indentation 
+We always indent code using SPACES and NOT TABS. The size of an indentation 
 is 4 spaces.
 
 Warnings
 --------
-- All code should compile without any warnings. Please 
-  make sure this is the case on all supported platforms (Linux, Windows, etc.)
+All code should compile without any warnings. Please make sure this is the case on all supported platforms (Linux, Windows, etc.)
 
-Line-width
+Line width
 ----------
-- We use the column 80 rule. Break any lines you have that exceed 80 characters.
+We use the column 80 rule. Break any lines you have that exceed 80 characters.
 
 Testing
 -------
 Testing is hard, but we try to have a test for all new functionality added in our
-projects. For this purpose we use the Google C++ Test Framework (gtest). You can
+projects. For this purpose we use the GoogleTest framework (gtest). You can
 find more information on it here: http://code.google.com/p/googletest/
 
 Writing tests
 .............
 When writing tests remember to:
 
-1. Remove your debug prints before pushing your changes. 
-2. Describe what is the purpose of a tests and comment your tests
+1. Remove your debug prints before merging with the master. 
+2. Describe what is the purpose of a test and comment your tests
 
 Casts
 -----
@@ -146,37 +145,37 @@ Casts
 Braces
 ------
 
-1. In very simple statements e.g. an if with single statment you may optionally omit the braces:
+1. In very simple statements (e.g. an if with single statement) you may optionally omit the braces:
    ::
-     // Is ok
-     if(coffee_pot == full)
+     // Fine
+     if (coffee_pot == full)
          continue;
 
-     // Is also ok
-     if(coffee_pot == empty)
+     // Also fine
+     if (coffee_pot == empty)
      { 
          continue;
      }
 
 2. However in more complicated statements we always put braces - and always with a new-line.
    ::
-     // Correct (Allman/ANSI-style)
-     if(ok == true)
+     // CORRECT (Allman/ANSI-style)
+     if (ok == true)
      {
          call_mom();
          call_function();
      }
 
-     // Wrong (in multiline statements, put the braces)
-     if(ok == false)
+     // WRONG (in multiline statements, put the braces)
+     if (ok == false)
      {
          // do something fun
      }
      else
          continue;
 
-     // Correct 
-     if(ok == false)
+     // CORRECT 
+     if (ok == false)
      {
          // do something fun
      }
@@ -185,20 +184,98 @@ Braces
          continue;
      }
      
-     // Also wrong (K&R style)
-     if(ok == true) {
+     // WRONG (K&R style)
+     if (ok == true) {
          call_function();
      }
+     
+Operators
+---------
+Do not start lines with operators (e.g. +-\*/%&^|:=). Unary operators (e.g. ~-&) are exceptions to this rule.
+
+Add one space around common arithmetic operators to clearly separate the operands.
+::
+  // CORRECT
+  boost::shared_ptr<very_long_type> instance =
+      boost::make_shared<very_long_type>(param);
+            
+  // WRONG (misplaced = sign)
+  boost::shared_ptr<very_long_type> instance
+      = boost::make_shared<very_long_type>(param);
+      
+  // CORRECT
+  m_pep = m_pep * std::pow(base, losses + 1.0) +
+          (1.0 - std::pow(base, losses));
+  
+  // WRONG (misplaced + sign)
+  m_pep = m_pep * std::pow(base, losses + 1.0)
+          + (1.0 - std::pow(base, losses));
+          
+  // WRONG (missing spaces)
+  m_pep=m_pep*std::pow(base,losses+1.0)+
+        (1.0-std::pow(base,losses));
+          
+Padding
+-------
+Padding can greatly improve the readability of long code lines. Always try to keep symmetry and indent continuation lines so that the code is aligned with the counterpart symbols in the previous line. For example:
+::
+  // Long method signature
+  void fake_loopback::send(const uint8_t* data, uint32_t size,
+                           const address& address, uint16_t port,
+                           fake_udp_socket* socket)
+  
+  // Member initializer list
+  mutable_storage() :
+      m_data(0),
+      m_size(0)
+  {
+      // Constructor body
+  }
+  
+  // Stack of mixin layers
+  template<class Field>
+  class on_the_fly_encoder : public
+      // Payload Codec API
+      payload_encoder<
+      // Codec Header API
+      systematic_encoder<
+      symbol_id_encoder<
+      // Symbol ID API
+      plain_symbol_id_writer<
+      // Coefficient Generator API
+      storage_aware_generator<
+      uniform_generator<
+      // Codec API
+      encode_symbol_tracker<
+      zero_symbol_encoder<
+      linear_block_encoder<
+      storage_aware_encoder<
+      // Coefficient Storage API
+      coefficient_info<
+      // Symbol Storage API
+      deep_symbol_storage<
+      storage_bytes_used<
+      storage_block_info<
+      // Finite Field API
+      finite_field_math<typename fifi::default_field<Field>::type,
+      finite_field_info<Field,
+      // Factory API
+      final_coder_factory_pool<
+      // Final type
+      on_the_fly_encoder<Field>
+      > > > > > > > > > > > > > > > > >
+  { };
+
 
 Declaring pointers and references
 ---------------------------------
 
-We believe that the * and & characters should be part of the type names, and not the variable names. 
+The * and & characters should be part of the type names, and not the variable names. 
 ::
   // CORRECT (C++-style)
   int* pValue;
 
-  // Wrong (C-style)
+  // WRONG (C-style)
   int *pValue;
 
   // CORRECT (C++-style)
@@ -206,7 +283,7 @@ We believe that the * and & characters should be part of the type names, and not
   {
   }
 
-  // Wrong (C-style)
+  // WRONG (C-style)
   void add(const complex &x, const complex &y)
   {
   }
