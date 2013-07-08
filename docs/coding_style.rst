@@ -85,16 +85,24 @@ With one newline between scope specifiers, members and functions:
   public:
 
       /// Some comment
-      void make_me_a_cup();
+      void make_me_a_cup()
+      {
+          // Function body
+      }
 
       /// Another comment
-      void better_make_that_two();
+      void better_make_that_two()
+      {
+          // Function body
+      }
 
   private:
 
       /// Important functionality
-      void grind_beans();
-
+      void grind_beans()
+      {
+          // Function body
+      }
   };
 
 Files and Classes
@@ -166,7 +174,7 @@ Braces
          call_function();
      }
 
-     // WRONG (in multiline statements, put the braces)
+     // WRONG (in multi-line statements, put the braces)
      if (ok == false)
      {
          // do something fun
@@ -288,7 +296,7 @@ The * and & characters should be part of the type names, and not the variable na
   {
   }
 
-The following regular expressions are helpful to check&replace any violations for this rule:
+The following regular expressions are helpful to check & replace any violations for this rule:
 ::
   Find &: ([\w>])\s+&(\w)
   Replace with: $1& $2
