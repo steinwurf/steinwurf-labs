@@ -4,10 +4,10 @@ Steinwurf Coding Style
 Naming
 ------
 
-* Classes, members, functions, namespaces all lowercase letters with
+* Classes, members, functions, namespaces all lowercase letters separated with
   ``_`` if it enhances readability.
-* Template parameters CamelCase
-* Member variables are prefixed ``m_``
+* Template parameters should be CamelCase
+* Member variables are prefixed with ``m_``
 * In general we try to avoid abbreviations in parameter names, member variables, class names, function names.
 * For temporary local variables, you can use abbreviations, single character names as 
   long as you use common sense (what you think makes the code most readable).
@@ -207,7 +207,7 @@ Add one space around common arithmetic operators to clearly separate the operand
   boost::shared_ptr<very_long_type> instance =
       boost::make_shared<very_long_type>(param);
             
-  // WRONG (misplaced = sign)
+  // WRONG (misplaced '=' sign)
   boost::shared_ptr<very_long_type> instance
       = boost::make_shared<very_long_type>(param);
       
@@ -215,7 +215,7 @@ Add one space around common arithmetic operators to clearly separate the operand
   m_pep = m_pep * std::pow(base, losses + 1.0) +
           (1.0 - std::pow(base, losses));
   
-  // WRONG (misplaced + sign)
+  // WRONG (misplaced '+' sign)
   m_pep = m_pep * std::pow(base, losses + 1.0)
           + (1.0 - std::pow(base, losses));
           
