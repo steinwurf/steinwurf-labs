@@ -1,3 +1,4 @@
-Take a look at the Labs blog_
+About
+=====
 
-.. _blog: http://steinwurf.github.com/steinwurf-labs/index.html
+This repository contains documents and helper scripts for the development process at Steinwurf.
