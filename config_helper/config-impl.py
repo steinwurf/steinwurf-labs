@@ -129,7 +129,7 @@ android_mkspec = ['cxx_android_gxx46_arm']
 msvc_mkspec    = ['cxx_msvc11_x86', 'cxx_msvc11_x64']
 gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
                   'cxx_gxx47_x86', 'cxx_gxx47_x64',
-                  'crosslinux-gxx46-x86', 'crosslinux-gxx46-x64']
+                  'cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64']
 clang_mkspec   = ['cxx_clang30_x86', 'cxx_clang30_x64']
 llvm_mkspec    = ['cxx_apple_llvm42_x86', 'cxx_apple_llvm42_x64']
 ios_apple_mkspec = ['cxx_ios50_apple_llvm42_armv7']
@@ -281,8 +281,7 @@ def config_options(available_mkspecs, dependencies = None):
             bat.write('#!/bin/sh'+'\n') # Shebang line
             bat.write(full_cmd+'\n')
             # the terminal will stay open
-            bat.write('local dummy\n')
-            bat.write('read -s -r -p "Press any key to continue..." -n 1 dummy\n')
+            bat.write('read -r -p "Press any key to continue..."\n')
         # Set script permission to executable
         os.system('chmod +x "{}"'.format('last_config.sh'))
     # Run the configure command
