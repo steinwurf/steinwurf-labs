@@ -280,8 +280,6 @@ def config_options(available_mkspecs, dependencies = None):
         with open('last_config.sh', 'w') as bat:
             bat.write('#!/bin/sh'+'\n') # Shebang line
             bat.write(full_cmd+'\n')
-            # the terminal will stay open
-            bat.write('read -r -p "Press any key to continue..."\n')
         # Set script permission to executable
         os.system('chmod +x "{}"'.format('last_config.sh'))
     # Run the configure command
