@@ -9,6 +9,9 @@ We roughly follow the work flow described here:
 
 Based on these resources we have devised the following guidelines:
 
+#. Your branch should be as small as possible and only contain the related changes.
+   If you find other things which requires fixing, you should make a new branch to contain these.
+
 #. Don't break master, make sure everything that you
    merge into master builds and passes all tests.
 
@@ -49,7 +52,6 @@ Based on these resources we have devised the following guidelines:
    (use the button for this on github).
 
 .. _pro-git-ch3-5: http://progit.org/book/ch3-5.html
-
 
 Keeping forked repository up-to-date
 ------------------------------------
