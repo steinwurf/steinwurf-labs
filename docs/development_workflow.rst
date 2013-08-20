@@ -9,10 +9,10 @@ We roughly follow the work flow described here:
 
 Based on these resources we have devised the following guidelines:
 
-1. Don't break master, make sure everything that you
+#. Don't break master, make sure everything that you
    merge into master builds and passes all tests.
 
-2. When changing something, create a descriptive branch off master
+#. When changing something, create a descriptive branch off master
    (e.g. add-symbol-operations-stats)
    ::
      git checkout -b add-symbol-operations-stats
@@ -23,24 +23,27 @@ Based on these resources we have devised the following guidelines:
      git checkout -b 32-android-segfault-large-blocks
 
 
-3. Commit to that branch and push your work to an upstream
+#. Commit to that branch and push your work to an upstream
    branch on the server with the same name[pro-git-ch3-5_].
    ::
     git push -u origin add-symbol-operations-stats
+   
+#. Go to buildbot and check that the code compiles. 
+   ::
+   http://buildbot.steinwurf.dk:12344
 
-4. Merge with the master frequently to get the latest changes
-   in your branch
+#. During your development, make sure that your branch stays up to date with the master
    ::
      git fetch
      git merge master     
 
-5. Remember to update the NEWS file to indicate if your changes 
+#. Remember to update the NEWS file to indicate if your changes 
    should be categorized as MAJOR, MINOR or BUGFIX.
 
-6. When you need feedback or you think the branch is ready
+#. When you need feedback or you think the branch is ready
    for merging, open a Pull Request on github.
 
-7. When the Pull Request has been approved and tested on the buildbot, 
+#. When the Pull Request has been approved and tested on the buildbot, 
    you can merge your branch into master (use the Green button on github).
    At this point, you should also delete your branch on the remote 
    (use the button for this on github).
