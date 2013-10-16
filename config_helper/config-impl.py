@@ -128,10 +128,13 @@ build_variants = ['Release', 'Debug']
 android_mkspec = ['cxx_android_gxx46_arm']
 msvc_mkspec    = ['cxx_msvc11_x86', 'cxx_msvc11_x64']
 gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
-                  'cxx_gxx47_x86', 'cxx_gxx47_x64']
+                  'cxx_gxx47_x86', 'cxx_gxx47_x64',
+                  'cxx_gxx48_x86', 'cxx_gxx48_x64']
 cross_mskpec   = ['cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64',
                   'cxx_raspberry_gxx47_arm']
-clang_mkspec   = ['cxx_clang30_x86', 'cxx_clang30_x64']
+clang_mkspec   = ['cxx_clang30_x86', 'cxx_clang30_x64',
+                  'cxx_clang32_x86', 'cxx_clang32_x64',
+                  'cxx_clang33_x86', 'cxx_clang33_x64']
 llvm_mkspec    = ['cxx_apple_llvm42_x86', 'cxx_apple_llvm42_x64']
 ios_apple_mkspec = ['cxx_ios50_apple_llvm42_armv7']
 ios_clang_mkspec = ['cxx_ios50_clang32_armv7']
