@@ -135,7 +135,8 @@ cross_mskpec   = ['cxx_crosslinux_gxx46_arm',
                   'cxx_crosslinux_gxx47_mips', 'cxx_raspberry_gxx47_arm']
 clang_mkspec   = ['cxx_clang33_x86', 'cxx_clang33_x64']
 llvm_mkspec    = ['cxx_apple_llvm50_x86', 'cxx_apple_llvm50_x64']
-ios_apple_mkspec = ['cxx_ios50_apple_llvm42_armv7']
+ios_apple_mkspec = ['cxx_ios50_apple_llvm42_armv7',
+                    'cxx_ios50_apple_llvm50_armv7']
 ios_clang_mkspec = ['cxx_ios50_clang32_armv7']
 
 # Define which mkspecs are supported on different platforms
