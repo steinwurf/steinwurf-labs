@@ -32,17 +32,19 @@ default_waf_projects = \
     'waf':               project_path+'external-waf',
     'waf-tools':         project_path+'external-waf-tools',
     'steinwurf-labs':    project_path+'steinwurf-labs',
+    'tables':            project_path+'tables',
 # Private repos:
     'beem':              project_path+'beem',
     'imp':               project_path+'imp',
     'steinwurf-private': project_path+'steinwurf-private',
     'photofeed_engine':  project_path+'photofeed_engine',
     'photofeed_android': project_path+'photofeed_android',
+    'kfifi':             project_path+'fifi-kernel-module',
+    'kkodo':             project_path+'kodo-kernel-module'
 }
 
 bundle_path = project_path+'deps'
-waf_build_path = project_path+'external-waf\\waf'
-
+waf_build_path = project_path+'external-waf/waf'
 
 
 try:
