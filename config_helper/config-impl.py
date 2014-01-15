@@ -127,7 +127,7 @@ def print_menu(options, question, default_index=0, multiple=False):
 build_variants = ['Release', 'Debug']
 
 # Define the supported mkspecs
-android_mkspec = ['cxx_android_gxx46_arm']
+android_mkspec = ['cxx_android_gxx46_arm', 'cxx_android_gxx48_arm']
 msvc_mkspec    = ['cxx_msvc11_x86', 'cxx_msvc11_x64']
 gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
                   'cxx_gxx47_x86', 'cxx_gxx47_x64',
@@ -135,7 +135,8 @@ gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
 cross_mskpec   = ['cxx_crosslinux_gxx46_arm',
                   'cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64',
                   'cxx_crosslinux_gxx47_mips', 'cxx_raspberry_gxx47_arm']
-clang_mkspec   = ['cxx_clang33_x86', 'cxx_clang33_x64']
+clang_mkspec   = ['cxx_clang33_x86', 'cxx_clang33_x64',
+                  'cxx_clang34_x86', 'cxx_clang34_x64']
 llvm_mkspec    = ['cxx_apple_llvm50_x86', 'cxx_apple_llvm50_x64']
 ios_apple_mkspec = ['cxx_ios50_apple_llvm42_armv7',
                     'cxx_ios50_apple_llvm50_armv7']
@@ -163,12 +164,14 @@ def config_options(available_mkspecs, dependencies = None):
         # These variables might have been already set in user_config
         global android_sdk_dir
         global android_ndk_dir
-        if android_sdk_dir == None:
-            android_sdk_dir = query('Enter android_sdk_dir')
-        if android_ndk_dir == None:
-            android_ndk_dir = query('Enter android_ndk_dir')
-        tool_opt += ',android_sdk_dir='+android_sdk_dir
-        tool_opt += ',android_ndk_dir='+android_ndk_dir
+##        if android_sdk_dir == None:
+##            android_sdk_dir = query('Enter android_sdk_dir')
+##        if android_ndk_dir == None:
+##            android_ndk_dir = query('Enter android_ndk_dir')
+        if android_sdk_dir:
+            tool_opt += ',android_sdk_dir='+android_sdk_dir
+        if android_ndk_dir:
+            tool_opt += ',android_ndk_dir='+android_ndk_dir
 
     # Handle extra options for iOS
     if mkspec in ios_apple_mkspec or mkspec in ios_clang_mkspec:
