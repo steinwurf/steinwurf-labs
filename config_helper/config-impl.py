@@ -253,7 +253,7 @@ def config_options(available_mkspecs, dependencies = None):
         proj_names = print_menu(projects, 'Choose projects (e.g. "1,2,3"):', 0, True)
         print('Selected projects: {}'.format(proj_names))
         if 'ALL' in proj_names:
-            bundle_opt = ''  # No bundle needed
+            bundle_opt = '--bundle=None'  # No bundle needed
             for proj_name in dependencies:
                 rel_path = os.path.relpath(waf_projects[proj_name])
                 bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
