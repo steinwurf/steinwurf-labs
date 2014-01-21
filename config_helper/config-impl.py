@@ -95,7 +95,7 @@ def query_yes_no(question, default="yes"):
 def query(question, default=None):
     prompt = ": "
     if default is not None:
-        prompt = str.format(' ["{}"]: ', default)
+        prompt = ' ["{}"]: '.format(default)
     sys.stdout.write(question + prompt)
     answer = raw_input()
     if default is not None and answer == '':
@@ -107,9 +107,9 @@ def query(question, default=None):
 def print_menu(options, question, default_index=0, multiple=False):
     counter = 0
     for idx,item in enumerate(options):
-        print str.format('  [{}] {}', idx, item)
+        print('  [{}] {}'.format(idx, item))
         counter += 1
-    prompt = str.format(' [{}] ', default_index)
+    prompt = ' [{}] '.format(default_index)
     while 1:
         sys.stdout.write(question + prompt)
         choice = raw_input().lower()
