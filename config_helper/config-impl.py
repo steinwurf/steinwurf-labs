@@ -128,7 +128,8 @@ build_variants = ['Release', 'Debug']
 
 # Define the supported mkspecs
 android_mkspec = ['cxx_android_gxx46_arm', 'cxx_android_gxx48_arm']
-msvc_mkspec    = ['cxx_msvc11_x86', 'cxx_msvc11_x64']
+msvc_mkspec    = ['cxx_msvc11_x86', 'cxx_msvc11_x64',
+                  'cxx_msvc12_x86', 'cxx_msvc12_x64']
 gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
                   'cxx_gxx47_x86', 'cxx_gxx47_x64',
                   'cxx_gxx48_x86', 'cxx_gxx48_x64']
