@@ -26,6 +26,8 @@ default_waf_projects = \
     'fifi':              project_path+'fifi',
     'kodo':              project_path+'kodo',
     'sak':               project_path+'sak',
+    'cpuid':             project_path+'cpuid',
+    'platform':          project_path+'platform',
     'gauge':             project_path+'cxx-gauge',
     'boost':             project_path+'external-boost-light',
     'gtest':             project_path+'external-gtest',
