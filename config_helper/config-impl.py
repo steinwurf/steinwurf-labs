@@ -135,10 +135,9 @@ msvc_mkspec    = ['cxx_msvc11_x86', 'cxx_msvc11_x64',
 gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
                   'cxx_gxx47_x86', 'cxx_gxx47_x64',
                   'cxx_gxx48_x86', 'cxx_gxx48_x64']
-cross_mskpec   = ['cxx_crosslinux_gxx46_arm',
+cross_mskpec   = ['cxx_crosslinux_gxx46_arm', 'cxx_crosslinux_gxx48_arm',
                   'cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64',
-                  'cxx_crosslinux_gxx47_mips', 'cxx_raspberry_gxx47_arm',
-                  'cxx_crosslinux_gxx48_arm']
+                  'cxx_crosslinux_gxx47_mips', 'cxx_raspberry_gxx47_arm']
 clang_mkspec   = ['cxx_clang33_x86', 'cxx_clang33_x64',
                   'cxx_clang34_x86', 'cxx_clang34_x64',
                   'cxx_clang34_address_sanitizer_x64',
