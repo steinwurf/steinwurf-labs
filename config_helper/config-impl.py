@@ -125,8 +125,8 @@ def print_menu(options, question, default_index=0, multiple=False):
         else:
             sys.stdout.write("Please respond with a valid index!\n")
 
-# Define the available build variants
-build_variants = ['Release', 'Debug']
+# Define some common build options
+build_options = ['None', 'cxx_debug', 'cxx_nodebug']
 
 # Define the supported mkspecs
 android_mkspec = ['cxx_android_gxx46_arm', 'cxx_android_gxx48_arm']
@@ -137,7 +137,8 @@ gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
                   'cxx_gxx48_x86', 'cxx_gxx48_x64']
 cross_mskpec   = ['cxx_crosslinux_gxx46_arm',
                   'cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64',
-                  'cxx_crosslinux_gxx47_mips', 'cxx_raspberry_gxx47_arm']
+                  'cxx_crosslinux_gxx47_mips', 'cxx_raspberry_gxx47_arm',
+                  'cxx_crosslinux_gxx48_arm']
 clang_mkspec   = ['cxx_clang33_x86', 'cxx_clang33_x64',
                   'cxx_clang34_x86', 'cxx_clang34_x64',
                   'cxx_clang34_address_sanitizer_x64',
@@ -154,7 +155,8 @@ linux_mkspec = gxx_mkspec + clang_mkspec + android_mkspec + cross_mskpec
 mac_mkspec = llvm_mkspec + gxx_mkspec + android_mkspec + ios_apple_mkspec
 
 # Project generator targets
-project_targets = ['None', 'Visual Studio 2008', 'Visual Studio 2010', 'Visual Studio 2012']
+project_targets = ['None', 'Visual Studio 2008',
+                   'Visual Studio 2010', 'Visual Studio 2012']
 
 
 def config_options(available_mkspecs, dependencies = None):
@@ -197,11 +199,11 @@ def config_options(available_mkspecs, dependencies = None):
         tool_opt += ',ios_sdk_dir='+ios_sdk_dir
 
     # Select the mkspec first
-    print('\nSelect build variant:')
-    variant = print_menu(build_variants, 'Choose option:', 0)
-    print('Selected build variant: '+variant)
-    if variant == 'Debug':
-        tool_opt += ',cxx_debug'
+    print('\nSelect additional build options:')
+    extra_option = print_menu(build_options, 'Choose option:', 0)
+    print('Selected build option: '+extra_option)
+    if extra_option != 'None':
+        tool_opt += ',' + extra_option
 
     # Offer to generate project files for supported IDEs
     print('\nGenerate project files for the following IDEs?:')
