@@ -304,3 +304,24 @@ The following regular expressions are helpful to check & replace any violations 
   Replace with: $1* $2
   Watch out for return statements like: return *io_ptr;
   Regex to find trailing whitespace: [ \t]+(?=\r?$)
+
+
+Using asserts
+-------------
+Using ``asserts`` is a hot-potato in many development discussions. In particiular when talking 
+about high performance code. In our projects we will adopt the following simple strategy:
+
+* Before **using** a variable or parameter we use an ``assert``:
+::
+  
+  void test(int a, int* p)
+  {
+      // We just use the p variable so we only assert on that one. The 
+      // variable a is only forwarded so it should have an assert elsewhere.
+      assert(p);
+      
+      p += 10;
+      test2(a, p);
+  }
+
+Read the following article for more information on this http://queue.acm.org/detail.cfm?id=2220317
