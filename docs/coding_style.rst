@@ -325,3 +325,37 @@ about high performance code. In our projects we will adopt the following simple 
   }
 
 Read the following article for more information on this http://queue.acm.org/detail.cfm?id=2220317
+
+
+Handling Unused Parameters
+--------------------------
+Use the following approach to handle warnings caused by unused parameters:
+::
+  void test(int a);
+  {
+      (void) a;
+  }
+
+
+Hiding Internal Implementation Details
+--------------------------------------
+To prevent polluting the namespace of a project with internal helper function,
+use a nested namespace called detail to hide them:
+::
+  namespace project_name
+  {
+      namespace detail
+      {
+          void help()
+          {
+              // Do help
+          }
+      }
+      void api()
+      {
+          // Get help
+          detail::help();
+      }
+  }
+
+An example of this can be seen here https://github.com/steinwurf/sak/blob/8a75568b80c063331ae08d5667a1d67bb92c87b8/src/sak/easy_bind.hpp#L38
