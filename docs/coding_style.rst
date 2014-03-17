@@ -1,5 +1,16 @@
+======================
 Steinwurf Coding Style
 ======================
+------
+Python
+------
+For Python the `PEP8 <http://legacy.python.org/dev/peps/pep-0008/>`_ standard
+is used. There are plenty of plugins and tools for automatically locate and fix
+any diversions from this style.
+
+---
+C++
+---
 
 Naming
 ------
@@ -9,7 +20,7 @@ Naming
 * Template parameters should be CamelCase
 * Member variables are prefixed with ``m_``
 * In general we try to avoid abbreviations in parameter names, member variables, class names, function names.
-* For temporary local variables, you can use abbreviations, single character names as 
+* For temporary local variables, you can use abbreviations, single character names as
   long as you use common sense (what you think makes the code most readable).
 
 
@@ -38,7 +49,7 @@ The most general includes should be placed at the top:
   #include <fifi/is_binary.hpp>
 
   #include <kodo/storage.hpp>
-  
+
   #include "myfile.hpp"
 
 
@@ -51,7 +62,7 @@ Comments
 --------
 - Use ``//`` for simple inline C++ comments that are not meant for Doxygen, but for other devs.
 - Use ``///`` for comments that are meant for Doxygen (do not use this in function bodies).
-- Start comments on new lines if possible 
+- Start comments on new lines if possible
 
 Class Declarations
 -------------------
@@ -113,7 +124,7 @@ source tree. Exceptions to this rule are nested classes.
 
 Indentation
 -----------
-We always indent code using SPACES and NOT TABS. The size of an indentation 
+We always indent code using SPACES and NOT TABS. The size of an indentation
 is 4 spaces.
 
 Warnings
@@ -134,13 +145,13 @@ Writing tests
 .............
 When writing tests remember to:
 
-1. Remove your debug prints before merging with the master. 
+1. Remove your debug prints before merging with the master.
 2. Describe what is the purpose of a test and comment your tests
 
 Casts
 -----
 
-1. Numeric types: If you are casting from a numeric type use either 
+1. Numeric types: If you are casting from a numeric type use either
    C-style cast or C++ style casts. E.g. both of these are fine:
    ::
      uint32_t o = (uint32_t) some_value;
@@ -148,7 +159,7 @@ Casts
 
    See this http://stackoverflow.com/a/12321860 for more info.
 
-2. All other cases (pointers etc.): Cast using C++ style casts e.g. `static_cast` etc. 
+2. All other cases (pointers etc.): Cast using C++ style casts e.g. `static_cast` etc.
 
 Braces
 ------
@@ -161,7 +172,7 @@ Braces
 
      // Also fine
      if (coffee_pot == empty)
-     { 
+     {
          continue;
      }
 
@@ -182,7 +193,7 @@ Braces
      else
          continue;
 
-     // CORRECT 
+     // CORRECT
      if (ok == false)
      {
          // do something fun
@@ -191,12 +202,12 @@ Braces
      {
          continue;
      }
-     
+
      // WRONG (K&R style)
      if (ok == true) {
          call_function();
      }
-     
+
 Operators
 ---------
 Do not start lines with operators (e.g. +-\*/%&^|:=). Unary operators (e.g. ~-&) are exceptions to this rule.
@@ -206,23 +217,23 @@ Add one space around common arithmetic operators to clearly separate the operand
   // CORRECT
   boost::shared_ptr<very_long_type> instance =
       boost::make_shared<very_long_type>(param);
-            
+
   // WRONG (misplaced '=' sign)
   boost::shared_ptr<very_long_type> instance
       = boost::make_shared<very_long_type>(param);
-      
+
   // CORRECT
   m_pep = m_pep * std::pow(base, losses + 1.0) +
           (1.0 - std::pow(base, losses));
-  
+
   // WRONG (misplaced '+' sign)
   m_pep = m_pep * std::pow(base, losses + 1.0)
           + (1.0 - std::pow(base, losses));
-          
+
   // WRONG (missing spaces)
   m_pep=m_pep*std::pow(base,losses+1.0)+
         (1.0-std::pow(base,losses));
-          
+
 Padding
 -------
 Padding can greatly improve the readability of long code lines. Always try to keep symmetry and indent continuation lines so that the code is aligned with the counterpart symbols in the previous line. For example:
@@ -231,7 +242,7 @@ Padding can greatly improve the readability of long code lines. Always try to ke
   void fake_loopback::send(const uint8_t* data, uint32_t size,
                            const address& address, uint16_t port,
                            fake_udp_socket* socket)
-  
+
   // Member initializer list
   mutable_storage() :
       m_data(0),
@@ -239,7 +250,7 @@ Padding can greatly improve the readability of long code lines. Always try to ke
   {
       // Constructor body
   }
-  
+
   // Stack of mixin layers
   template<class Field>
   class on_the_fly_encoder : public
@@ -278,7 +289,7 @@ Padding can greatly improve the readability of long code lines. Always try to ke
 Declaring pointers and references
 ---------------------------------
 
-The * and & characters should be part of the type names, and not the variable names. 
+The * and & characters should be part of the type names, and not the variable names.
 ::
   // CORRECT (C++-style)
   int* pValue;
@@ -300,7 +311,7 @@ The following regular expressions are helpful to check & replace any violations 
 ::
   Find &: ([\w>])\s+&(\w)
   Replace with: $1& $2
-  Find *: ([\w>])\s+\*(\w) 
+  Find *: ([\w>])\s+\*(\w)
   Replace with: $1* $2
   Watch out for return statements like: return *io_ptr;
   Regex to find trailing whitespace: [ \t]+(?=\r?$)
@@ -308,18 +319,18 @@ The following regular expressions are helpful to check & replace any violations 
 
 Using asserts
 -------------
-Using ``asserts`` is a hot-potato in many development discussions. In particiular when talking 
+Using ``asserts`` is a hot-potato in many development discussions. In particiular when talking
 about high performance code. In our projects we will adopt the following simple strategy:
 
 * Before **using** a variable or parameter we use an ``assert``:
 ::
-  
+
   void test(int a, int* p)
   {
-      // We just use the p variable so we only assert on that one. The 
+      // We just use the p variable so we only assert on that one. The
       // variable a is only forwarded so it should have an assert elsewhere.
       assert(p);
-      
+
       p += 10;
       test2(a, p);
   }
