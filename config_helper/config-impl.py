@@ -16,6 +16,7 @@ android_sdk_dir = None
 android_ndk_dir = None
 ios_toolchain_dir = None
 ios_sdk_dir = None
+usbmux_dir = None
 # By default, we expect that the other projects are next to current dir
 project_path = '../'
 waf_projects = {}
@@ -187,6 +188,7 @@ def config_options(available_mkspecs, dependencies = None):
         # These variables might have been already set in user_config
         global ios_toolchain_dir
         global ios_sdk_dir
+        global usbmux_dir
         # The XCode default toolchain path will be used
         # if the ios_toolchain_dir variable was not set
         toolchain = '/Applications/Xcode.app/Contents/Developer/' \
@@ -195,8 +197,12 @@ def config_options(available_mkspecs, dependencies = None):
             ios_toolchain_dir = query('Enter ios_toolchain_dir', toolchain)
         if ios_sdk_dir == None:
             ios_sdk_dir = query('Enter ios_sdk_dir')
+        usbmux_default_dir = '~/usbmuxd-1.0.8/python-client/'
+        if usbmux_dir == None:
+            usbmux_dir = query('Enter usbmux_dir', usbmux_default_dir)
         tool_opt += ',ios_toolchain_dir='+ios_toolchain_dir
         tool_opt += ',ios_sdk_dir='+ios_sdk_dir
+        tool_opt += ',usbmux_dir='+usbmux_dir
 
     # Select the mkspec first
     print('\nSelect additional build options:')
