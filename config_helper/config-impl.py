@@ -131,7 +131,8 @@ build_options = ['None', 'cxx_debug', 'cxx_nodebug']
 
 # Define the supported mkspecs
 android_mkspec = ['cxx_android_gxx46_arm', 'cxx_android_gxx48_arm',
-                  'cxx_android_gxx48_armv7']
+                  'cxx_android_gxx48_armv7', 'cxx_android_clang34_arm',
+                  'cxx_android_clang34_armv7']
 msvc_mkspec    = ['cxx_msvc11_x86', 'cxx_msvc11_x64',
                   'cxx_msvc12_x86', 'cxx_msvc12_x64']
 gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
