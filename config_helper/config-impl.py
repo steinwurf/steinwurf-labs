@@ -119,7 +119,8 @@ def print_menu(options, question, default_index=0, multiple=False):
         if default_index is not None and choice == '':
             return options[default_index]
         elif multiple:
-            indices = [int(i) for i in choice.split(',') if i.isdigit() and int(i) < len(options)]
+            indices = [int(i) for i in choice.split(',')
+                       if i.isdigit() and int(i) < len(options)]
             return [options[i] for i in indices]
         elif choice.isdigit() and int(choice) < len(options):
             return options[int(choice)]
@@ -144,12 +145,12 @@ clang_mkspec   = ['cxx_clang34_x86', 'cxx_clang34_x64',
                   'cxx_clang34_memory_sanitizer_x64',
                   'cxx_clang34_thread_sanitizer_x64']
 llvm_mkspec    = ['cxx_apple_llvm50_x86', 'cxx_apple_llvm50_x64']
-ios_apple_mkspec = ['cxx_ios50_apple_llvm50_armv7']
+ios_mkspec     = ['cxx_ios50_apple_llvm50_armv7']
 
 # Define which mkspecs are supported on different platforms
 win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec
 linux_mkspec = gxx_mkspec + clang_mkspec + android_mkspec + cross_mskpec
-mac_mkspec = llvm_mkspec + gxx_mkspec + android_mkspec + ios_apple_mkspec
+mac_mkspec = llvm_mkspec + gxx_mkspec + android_mkspec + ios_mkspec
 
 # Project generator targets
 project_targets = ['None', 'Visual Studio 2008',
@@ -179,7 +180,7 @@ def config_options(available_mkspecs, dependencies = None):
             tool_opt += ',android_ndk_dir='+android_ndk_dir
 
     # Handle extra options for iOS
-    if mkspec in ios_apple_mkspec or mkspec in ios_clang_mkspec:
+    if mkspec in ios_mkspec:
         # Try to set ios_toolchain_dir and ios_sdk_dir here
         # These variables might have been already set in user_config
         global ios_toolchain_dir
@@ -209,7 +210,8 @@ def config_options(available_mkspecs, dependencies = None):
 
     # Offer to generate project files for supported IDEs
     print('\nGenerate project files for the following IDEs?:')
-    ide_names = print_menu(project_targets, 'Choose options (e.g. "1,2,3"):', 0, True)
+    ide_names = \
+        print_menu(project_targets, 'Choose options (e.g. "1,2,3"):', 0, True)
     print('Selected options: {}'.format(ide_names))
 
     ide_opt = ''
@@ -246,10 +248,11 @@ def config_options(available_mkspecs, dependencies = None):
             if path != None and os.path.exists(path):
                 projects.append(proj_name)
     else:
-        # If the dependencies were not specified then show all available projects
+        # If the dependencies were not specified, show all available projects
         for proj_name, proj_path in waf_projects.iteritems():
-            if os.path.exists(proj_path) and os.getcwd() != os.path.abspath(proj_path):
-                projects.append(proj_name)
+            if os.path.exists(proj_path):
+                if os.getcwd() != os.path.abspath(proj_path):
+                    projects.append(proj_name)
 
     proj_names = []
     if len(projects) > 0:
@@ -258,9 +261,10 @@ def config_options(available_mkspecs, dependencies = None):
         if dependencies != None:
             projects.insert(0, 'ALL')
         projects.insert(0, 'None')
-        print('\nThe following projects were found on your computer.\n'
-                'Which projects should be used to directly resolve bundle dependencies?:')
-        proj_names = print_menu(projects, 'Choose projects (e.g. "1,2,3"):', 0, True)
+        print('\nThe following project folders were found on your computer.\n'
+                'Which folders should be used as bundle dependencies?:')
+        proj_names = \
+            print_menu(projects, 'Choose projects (e.g. "1,2,3"):', 0, True)
         print('Selected projects: {}'.format(proj_names))
         if 'ALL' in proj_names:
             bundle_opt = '--bundle=NONE'  # No bundle needed
