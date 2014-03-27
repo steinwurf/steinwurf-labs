@@ -130,26 +130,21 @@ def print_menu(options, question, default_index=0, multiple=False):
 build_options = ['None', 'cxx_debug', 'cxx_nodebug']
 
 # Define the supported mkspecs
-android_mkspec = ['cxx_android_gxx46_arm', 'cxx_android_gxx48_arm',
-                  'cxx_android_gxx48_armv7', 'cxx_android_clang34_arm',
-                  'cxx_android_clang34_armv7']
+android_mkspec = ['cxx_android_gxx48_arm',
+                  'cxx_android_gxx48_armv7', 'cxx_android_clang34_armv7']
 msvc_mkspec    = ['cxx_msvc11_x86', 'cxx_msvc11_x64',
                   'cxx_msvc12_x86', 'cxx_msvc12_x64']
-gxx_mkspec     = ['cxx_gxx46_x86', 'cxx_gxx46_x64',
-                  'cxx_gxx47_x86', 'cxx_gxx47_x64',
+gxx_mkspec     = ['cxx_gxx47_x86', 'cxx_gxx47_x64',
                   'cxx_gxx48_x86', 'cxx_gxx48_x64']
 cross_mskpec   = ['cxx_crosslinux_gxx46_arm', 'cxx_crosslinux_gxx47_arm',
                   'cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64',
                   'cxx_crosslinux_gxx47_mips', 'cxx_raspberry_gxx47_arm']
-clang_mkspec   = ['cxx_clang33_x86', 'cxx_clang33_x64',
-                  'cxx_clang34_x86', 'cxx_clang34_x64',
+clang_mkspec   = ['cxx_clang34_x86', 'cxx_clang34_x64',
                   'cxx_clang34_address_sanitizer_x64',
                   'cxx_clang34_memory_sanitizer_x64',
                   'cxx_clang34_thread_sanitizer_x64']
 llvm_mkspec    = ['cxx_apple_llvm50_x86', 'cxx_apple_llvm50_x64']
-ios_apple_mkspec = ['cxx_ios50_apple_llvm42_armv7',
-                    'cxx_ios50_apple_llvm50_armv7']
-ios_clang_mkspec = ['cxx_ios50_clang32_armv7']
+ios_apple_mkspec = ['cxx_ios50_apple_llvm50_armv7']
 
 # Define which mkspecs are supported on different platforms
 win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec
