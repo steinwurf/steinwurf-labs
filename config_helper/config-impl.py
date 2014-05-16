@@ -143,8 +143,8 @@ clang_mkspec = ['cxx_clang34_x86', 'cxx_clang34_x64',
                 'cxx_clang34_address_sanitizer_x64',
                 'cxx_clang34_memory_sanitizer_x64',
                 'cxx_clang34_thread_sanitizer_x64']
-llvm_mkspec = ['cxx_apple_llvm50_x86', 'cxx_apple_llvm50_x64']
-ios_mkspec = ['cxx_ios50_apple_llvm50_armv7']
+llvm_mkspec = ['cxx_apple_llvm51_x86', 'cxx_apple_llvm51_x64']
+ios_mkspec = ['cxx_ios50_apple_llvm51_armv7']
 
 # Define which mkspecs are supported on different platforms
 win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec
