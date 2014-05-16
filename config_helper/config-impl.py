@@ -21,33 +21,32 @@ usbmux_dir = None
 project_path = '../'
 waf_projects = {}
 
-default_waf_projects = \
-{
-# Public repos:
-    'fifi':              project_path+'fifi',
-    'kodo':              project_path+'kodo',
-    'sak':               project_path+'sak',
-    'cpuid':             project_path+'cpuid',
-    'platform':          project_path+'platform',
-    'gauge':             project_path+'cxx-gauge',
-    'boost':             project_path+'external-boost-light',
-    'gtest':             project_path+'external-gtest',
-    'waf':               project_path+'external-waf',
-    'waf-tools':         project_path+'external-waf-tools',
-    'steinwurf-labs':    project_path+'steinwurf-labs',
-    'tables':            project_path+'tables',
-# Private repos:
-    'beem':              project_path+'beem',
-    'imp':               project_path+'imp',
-    'steinwurf-private': project_path+'steinwurf-private',
-    'photofeed_engine':  project_path+'photofeed_engine',
-    'photofeed_android': project_path+'photofeed_android',
-    'kfifi':             project_path+'fifi-kernel-module',
-    'kkodo':             project_path+'kodo-kernel-module'
+default_waf_projects = {
+    # Public repos:
+    'fifi':              project_path + 'fifi',
+    'kodo':              project_path + 'kodo',
+    'sak':               project_path + 'sak',
+    'cpuid':             project_path + 'cpuid',
+    'platform':          project_path + 'platform',
+    'gauge':             project_path + 'cxx-gauge',
+    'boost':             project_path + 'external-boost-light',
+    'gtest':             project_path + 'external-gtest',
+    'waf':               project_path + 'external-waf',
+    'waf-tools':         project_path + 'external-waf-tools',
+    'steinwurf-labs':    project_path + 'steinwurf-labs',
+    'tables':            project_path + 'tables',
+    # Private repos:
+    'beem':              project_path + 'beem',
+    'imp':               project_path + 'imp',
+    'steinwurf-private': project_path + 'steinwurf-private',
+    'photofeed_engine':  project_path + 'photofeed_engine',
+    'photofeed_android': project_path + 'photofeed_android',
+    'kfifi':             project_path + 'fifi-kernel-module',
+    'kkodo':             project_path + 'kodo-kernel-module'
 }
 
-bundle_path = project_path+'deps'
-waf_build_path = project_path+'external-waf/waf'
+bundle_path = project_path + 'deps'
+waf_build_path = project_path + 'external-waf/waf'
 
 
 try:
@@ -61,7 +60,7 @@ except Exception as e:
     waf_projects = default_waf_projects
 
 
-## Python recipe here: http://code.activestate.com/recipes/577058/
+# Python recipe here: http://code.activestate.com/recipes/577058/
 def query_yes_no(question, default="yes"):
     """Ask a yes/no question via raw_input() and return their answer.
 
@@ -72,9 +71,9 @@ def query_yes_no(question, default="yes"):
 
     The "answer" return value is one of "yes" or "no".
     """
-    valid = {"yes":"yes",   "y":"yes",  "ye":"yes",
-             "no":"no",     "n":"no"}
-    if default == None:
+    valid = {"yes": "yes",   "y": "yes",  "ye": "yes",
+             "no": "no",     "n": "no"}
+    if default is None:
         prompt = " [y/n] "
     elif default == "yes":
         prompt = " [Y/n] "
@@ -91,7 +90,7 @@ def query_yes_no(question, default="yes"):
         elif choice in valid.keys():
             return valid[choice]
         else:
-            sys.stdout.write("Please respond with 'yes' or 'no' "\
+            sys.stdout.write("Please respond with 'yes' or 'no' "
                              "(or 'y' or 'n').\n")
 
 
@@ -109,7 +108,7 @@ def query(question, default=None):
 # Draw all the options, but highlight the selected index
 def print_menu(options, question, default_index=0, multiple=False):
     counter = 0
-    for idx,item in enumerate(options):
+    for idx, item in enumerate(options):
         print('  [{}] {}'.format(idx, item))
         counter += 1
     prompt = ' [{}] '.format(default_index)
@@ -133,19 +132,19 @@ build_options = ['None', 'cxx_debug', 'cxx_nodebug']
 # Define the supported mkspecs
 android_mkspec = ['cxx_android_gxx48_arm',
                   'cxx_android_gxx48_armv7', 'cxx_android_clang34_armv7']
-msvc_mkspec    = ['cxx_msvc11_x86', 'cxx_msvc11_x64',
-                  'cxx_msvc12_x86', 'cxx_msvc12_x64']
-gxx_mkspec     = ['cxx_gxx47_x86', 'cxx_gxx47_x64',
-                  'cxx_gxx48_x86', 'cxx_gxx48_x64']
-cross_mskpec   = ['cxx_crosslinux_gxx46_arm', 'cxx_crosslinux_gxx47_arm',
-                  'cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64',
-                  'cxx_crosslinux_gxx47_mips', 'cxx_raspberry_gxx47_arm']
-clang_mkspec   = ['cxx_clang34_x86', 'cxx_clang34_x64',
-                  'cxx_clang34_address_sanitizer_x64',
-                  'cxx_clang34_memory_sanitizer_x64',
-                  'cxx_clang34_thread_sanitizer_x64']
-llvm_mkspec    = ['cxx_apple_llvm50_x86', 'cxx_apple_llvm50_x64']
-ios_mkspec     = ['cxx_ios50_apple_llvm50_armv7']
+msvc_mkspec = ['cxx_msvc11_x86', 'cxx_msvc11_x64',
+               'cxx_msvc12_x86', 'cxx_msvc12_x64']
+gxx_mkspec = ['cxx_gxx47_x86', 'cxx_gxx47_x64',
+              'cxx_gxx48_x86', 'cxx_gxx48_x64']
+cross_mskpec = ['cxx_crosslinux_gxx46_arm', 'cxx_crosslinux_gxx47_arm',
+                'cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64',
+                'cxx_crosslinux_gxx47_mips', 'cxx_raspberry_gxx47_arm']
+clang_mkspec = ['cxx_clang34_x86', 'cxx_clang34_x64',
+                'cxx_clang34_address_sanitizer_x64',
+                'cxx_clang34_memory_sanitizer_x64',
+                'cxx_clang34_thread_sanitizer_x64']
+llvm_mkspec = ['cxx_apple_llvm50_x86', 'cxx_apple_llvm50_x64']
+ios_mkspec = ['cxx_ios50_apple_llvm50_armv7']
 
 # Define which mkspecs are supported on different platforms
 win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec
@@ -157,12 +156,13 @@ project_targets = ['None', 'Visual Studio 2008',
                    'Visual Studio 2010', 'Visual Studio 2012']
 
 
-def config_options(available_mkspecs, dependencies = None):
+def config_options(available_mkspecs, dependencies=None):
     # Select the mkspec first
     print('\nSelect mkspec for {}:'.format(sys.platform))
-    mkspec = print_menu(['cxx_default']+available_mkspecs, 'Choose option:', 0)
-    print('Selected mkspec: '+mkspec)
-    tool_opt = '--options=cxx_mkspec='+mkspec
+    mkspec = print_menu(
+        ['cxx_default'] + available_mkspecs, 'Choose option:', 0)
+    print('Selected mkspec: ' + mkspec)
+    tool_opt = '--options=cxx_mkspec=' + mkspec
 
     # Handle extra options for Android
     if mkspec in android_mkspec:
@@ -170,14 +170,14 @@ def config_options(available_mkspecs, dependencies = None):
         # These variables might have been already set in user_config
         global android_sdk_dir
         global android_ndk_dir
-##        if android_sdk_dir == None:
+# if android_sdk_dir == None:
 ##            android_sdk_dir = query('Enter android_sdk_dir')
-##        if android_ndk_dir == None:
+# if android_ndk_dir == None:
 ##            android_ndk_dir = query('Enter android_ndk_dir')
         if android_sdk_dir:
-            tool_opt += ',android_sdk_dir='+android_sdk_dir
+            tool_opt += ',android_sdk_dir=' + android_sdk_dir
         if android_ndk_dir:
-            tool_opt += ',android_ndk_dir='+android_ndk_dir
+            tool_opt += ',android_ndk_dir=' + android_ndk_dir
 
     # Handle extra options for iOS
     if mkspec in ios_mkspec:
@@ -190,21 +190,21 @@ def config_options(available_mkspecs, dependencies = None):
         # if the ios_toolchain_dir variable was not set
         toolchain = '/Applications/Xcode.app/Contents/Developer/' \
                     'Toolchains/XcodeDefault.xctoolchain/usr/bin/'
-        if ios_toolchain_dir == None:
+        if ios_toolchain_dir is None:
             ios_toolchain_dir = query('Enter ios_toolchain_dir', toolchain)
-        if ios_sdk_dir == None:
+        if ios_sdk_dir is None:
             ios_sdk_dir = query('Enter ios_sdk_dir')
         usbmux_default_dir = '~/usbmuxd-1.0.8/python-client/'
-        if usbmux_dir == None:
+        if usbmux_dir is None:
             usbmux_dir = query('Enter usbmux_dir', usbmux_default_dir)
-        tool_opt += ',ios_toolchain_dir='+ios_toolchain_dir
-        tool_opt += ',ios_sdk_dir='+ios_sdk_dir
-        tool_opt += ',usbmux_dir='+usbmux_dir
+        tool_opt += ',ios_toolchain_dir=' + ios_toolchain_dir
+        tool_opt += ',ios_sdk_dir=' + ios_sdk_dir
+        tool_opt += ',usbmux_dir=' + usbmux_dir
 
     # Select the mkspec first
     print('\nSelect additional build options:')
     extra_option = print_menu(build_options, 'Choose option:', 0)
-    print('Selected build option: '+extra_option)
+    print('Selected build option: ' + extra_option)
     if extra_option != 'None':
         tool_opt += ',' + extra_option
 
@@ -233,7 +233,7 @@ def config_options(available_mkspecs, dependencies = None):
     # print('Current dir: '+os.getcwd())
     projects = []
     # Enumerate the project dependencies
-    if dependencies != None:
+    if dependencies is not None:
         for proj_name in dependencies:
             path = None
             # Look in the user-specified waf_projects first
@@ -245,7 +245,7 @@ def config_options(available_mkspecs, dependencies = None):
                 # Store the default project path for later
                 if os.path.exists(path):
                     waf_projects[proj_name] = path
-            if path != None and os.path.exists(path):
+            if path is not None and os.path.exists(path):
                 projects.append(proj_name)
     else:
         # If the dependencies were not specified, show all available projects
@@ -258,11 +258,11 @@ def config_options(available_mkspecs, dependencies = None):
     if len(projects) > 0:
         projects.sort()
         # Only include the ALL option if the dependencies were specified
-        if dependencies != None:
+        if dependencies is not None:
             projects.insert(0, 'ALL')
         projects.insert(0, 'None')
         print('\nThe following project folders were found on your computer.\n'
-                'Which folders should be used as bundle dependencies?:')
+              'Which folders should be used as bundle dependencies?:')
         proj_names = \
             print_menu(projects, 'Choose projects (e.g. "1,2,3"):', 0, True)
         print('Selected projects: {}'.format(proj_names))
@@ -272,9 +272,9 @@ def config_options(available_mkspecs, dependencies = None):
                 rel_path = os.path.relpath(waf_projects[proj_name])
                 bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
         elif 'None' not in proj_names:
-            for proj_name in proj_names: # ALL,-project
+            for proj_name in proj_names:  # ALL,-project
                 bundle_opt += ',-' + proj_name
-            for proj_name in proj_names: # Use relative project path
+            for proj_name in proj_names:  # Use relative project path
                 rel_path = os.path.relpath(waf_projects[proj_name])
                 bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
 
@@ -282,27 +282,30 @@ def config_options(available_mkspecs, dependencies = None):
     if 'ALL' not in proj_names:
         global bundle_path
         if user_config:
-            print('\nUsing bundle path from your user_config: {}'.format(bundle_path))
-            bundle_opt += ' --bundle-path="{}"'.format(os.path.relpath(bundle_path))
+            print('\nUsing bundle path from your user_config: {}'.format(
+                bundle_path))
+            bundle_opt += ' --bundle-path="{}"'.format(
+                os.path.relpath(bundle_path))
         else:
             # default_bundle_path = './bundle_dependencies'
-            bundle_path = query('\nEnter bundle path',bundle_path)
+            bundle_path = query('\nEnter bundle path', bundle_path)
             if bundle_path != '':
                 bundle_opt += ' --bundle-path="{}"'.format(bundle_path)
 
     # Assemble the final configure command
-    full_cmd = str.format('{} {} {} {}',command, bundle_opt, tool_opt, ide_opt).strip()
-    print('\nFULL CONFIGURE COMMAND:\n'+full_cmd)
+    full_cmd = str.format(
+        '{} {} {} {}', command, bundle_opt, tool_opt, ide_opt).strip()
+    print('\nFULL CONFIGURE COMMAND:\n' + full_cmd)
 
     # Save the configure command in a .bat or .sh file
     if sys.platform == 'win32':
         with open('last_config.bat', 'w') as bat:
-            bat.write(full_cmd+'\n')
+            bat.write(full_cmd + '\n')
             bat.write('pause\n')    # the terminal will stay open
     else:
         with open('last_config.sh', 'w') as bat:
-            bat.write('#!/bin/sh'+'\n') # Shebang line
-            bat.write(full_cmd+'\n')
+            bat.write('#!/bin/sh' + '\n')  # Shebang line
+            bat.write(full_cmd + '\n')
         # Set script permission to executable
         os.system('chmod +x "{}"'.format('last_config.sh'))
     # Run the configure command
@@ -314,7 +317,8 @@ program_title = """
 ---------------------------------------
 """
 
-def config_tool(dependencies = None):
+
+def config_tool(dependencies=None):
     print(program_title)
     if sys.platform == 'win32':
         config_options(win32_mkspec, dependencies)
