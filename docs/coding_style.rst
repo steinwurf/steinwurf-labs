@@ -23,7 +23,10 @@ Naming
 * For temporary local variables, you can use abbreviations, single character names as
   long as you use common sense (what you think makes the code most readable).
 
-
+Explicit Constructors
+---------------------
+Use the C++ keyword ``explicit`` for constructors with one argument. This is inspired by `Google's C++ Style Guide
+<http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#Explicit_Constructors>`_.
 
 Include Guards
 --------------
