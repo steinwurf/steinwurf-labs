@@ -135,15 +135,17 @@ android_mkspec = ['cxx_android_gxx48_arm',
 msvc_mkspec = ['cxx_msvc11_x86', 'cxx_msvc11_x64',
                'cxx_msvc12_x86', 'cxx_msvc12_x64']
 gxx_mkspec = ['cxx_gxx47_x86', 'cxx_gxx47_x64',
-              'cxx_gxx48_x86', 'cxx_gxx48_x64']
+              'cxx_gxx48_x86', 'cxx_gxx48_x64',
+              'cxx_gxx49_x86', 'cxx_gxx49_x64']
 cross_mskpec = ['cxx_crosslinux_gxx46_arm', 'cxx_crosslinux_gxx47_arm',
                 'cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64',
                 'cxx_crosslinux_gxx47_mips', 'cxx_crosslinux_gxx48_mips',
                 'cxx_raspberry_gxx47_arm']
 clang_mkspec = ['cxx_clang34_x86', 'cxx_clang34_x64',
-                'cxx_clang34_address_sanitizer_x64',
-                'cxx_clang34_memory_sanitizer_x64',
-                'cxx_clang34_thread_sanitizer_x64']
+                'cxx_clang35_x86', 'cxx_clang35_x64',
+                'cxx_clang35_address_sanitizer_x64',
+                'cxx_clang35_memory_sanitizer_x64',
+                'cxx_clang35_thread_sanitizer_x64']
 llvm_mkspec = ['cxx_apple_llvm51_x86', 'cxx_apple_llvm51_x64']
 ios_mkspec = ['cxx_ios50_apple_llvm51_armv7']
 
