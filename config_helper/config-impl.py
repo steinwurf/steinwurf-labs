@@ -29,24 +29,24 @@ default_waf_projects = {
     'cpuid':             project_path + 'cpuid',
     'platform':          project_path + 'platform',
     'gauge':             project_path + 'cxx-gauge',
-    'boost':             project_path + 'external-boost-light',
-    'gtest':             project_path + 'external-gtest',
-    'waf':               project_path + 'external-waf',
-    'waf-tools':         project_path + 'external-waf-tools',
+    'boost':             project_path + 'boost',
+    'gtest':             project_path + 'gtest',
+    'waf':               project_path + 'waf',
+    'waf-tools':         project_path + 'waf-tools',
     'steinwurf-labs':    project_path + 'steinwurf-labs',
     'tables':            project_path + 'tables',
     # Private repos:
     'beem':              project_path + 'beem',
     'imp':               project_path + 'imp',
     'steinwurf-private': project_path + 'steinwurf-private',
-    'photofeed_engine':  project_path + 'photofeed_engine',
-    'photofeed_android': project_path + 'photofeed_android',
+    'photofeed_engine':  project_path + 'photofeed-engine',
+    'photofeed_android': project_path + 'photofeed-android',
     'kfifi':             project_path + 'fifi-kernel-module',
     'kkodo':             project_path + 'kodo-kernel-module'
 }
 
 bundle_path = project_path + 'deps'
-waf_build_path = project_path + 'external-waf/waf'
+waf_build_path = project_path + 'waf/waf'
 
 
 try:
