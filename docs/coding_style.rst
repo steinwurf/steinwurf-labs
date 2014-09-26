@@ -5,7 +5,7 @@ Steinwurf Coding Style
 Python
 ------
 For Python the `PEP8 <http://legacy.python.org/dev/peps/pep-0008/>`_ standard
-is used. There are plenty of plugins and tools for automatically locate and fix
+is used. There are plenty of plugins and tools to automatically locate and fix
 any diversions from this style.
 
 ---
@@ -15,13 +15,13 @@ C++
 Naming
 ------
 
-* Classes, members, functions, namespaces all lowercase letters separated with
+* Names of classes, members, functions, namespaces are all lowercase letters separated with
   ``_`` if it enhances readability.
 * Template parameters should be CamelCase
 * Member variables are prefixed with ``m_``
-* In general we try to avoid abbreviations in parameter names, member variables, class names, function names.
-* For temporary local variables, you can use abbreviations, single character names as
-  long as you use common sense (what you think makes the code most readable).
+* In general, we try to avoid abbreviations in parameter names, member variables, class names, function names.
+* For temporary local variables, you can use abbreviations, even single character names as
+  long as you use common sense (what you think makes the code the most readable).
 
 Explicit Constructors
 ---------------------
@@ -31,18 +31,19 @@ Use the C++ keyword ``explicit`` for constructors with one argument. This is ins
 Include Guards
 --------------
 
-Using #pragma once is preferred instead of the lengthy include guards, as this approach is shorter and less error-prone. Furthermore, it might speed up the compilation on modern compilers.
+Using #pragma once is preferred instead of the lengthy include guards, as this approach
+is shorter and less error-prone. Furthermore, it might speed up the compilation on modern compilers.
 
-Start every header file like this (after the copyright comment):
-::
+Start every header file like this (after the copyright comment)::
+
   #pragma once
 
 
-Includes (both hpp and cpp)
----------------------------
+Order of #include statements
+----------------------------
 
-The most general includes should be placed at the top:
-::
+The most general includes should be placed at the top::
+
   #include <vector>
   #include <math>
 
@@ -55,11 +56,22 @@ The most general includes should be placed at the top:
 
   #include "myfile.hpp"
 
+In practice, the include order will be something like this:
+
+    1. C/C++ standard headers
+    2. Boost headers
+    3. gtest headers
+    4. Headers from dependencies (start with the most general)
+    5. Headers of the current project
+    6. The hpp belonging to this cpp
+
+Insert a newline between these 6 groups (as shown above).
 
 Header file extension
 ---------------------
 
-We have decided to start using ``.hpp`` for header files. This makes it easier to differentiate between C and C++ code.
+We have decided to start using ``.hpp`` for header files. This makes it easier to 
+differentiate between C and C++ code.
 
 Comments
 --------
@@ -70,8 +82,8 @@ Comments
 Class Declarations
 -------------------
 
-We group private and public functions and members in different sections:
-::
+We group private and public functions and members in different sections::
+
   class foo
   {
   public:
@@ -89,11 +101,10 @@ We group private and public functions and members in different sections:
   private:
 
       // Private members
-
   };
 
-With one newline between scope specifiers, members and functions:
-::
+With one newline between scope specifiers, members and functions::
+
   class coffee_machine
   {
   public:
@@ -132,7 +143,8 @@ is 4 spaces.
 
 Warnings
 --------
-All code should compile without any warnings. Please make sure this is the case on all supported platforms (Linux, Windows, etc.)
+All code should compile without any warnings. Please make sure this is the case
+on all supported platforms (Linux, Windows, etc.)
 
 Line width
 ----------
@@ -155,8 +167,8 @@ Casts
 -----
 
 1. Numeric types: If you are casting from a numeric type use either
-   C-style cast or C++ style casts. E.g. both of these are fine:
-   ::
+   C-style cast or C++ style casts. E.g. both of these are fine::
+   
      uint32_t o = (uint32_t) some_value;
      uint32_t k = static_cast<uint32_t>(some_value);
 
@@ -167,8 +179,8 @@ Casts
 Braces
 ------
 
-1. In very simple statements (e.g. an if with single statement) you may optionally omit the braces:
-   ::
+1. In very simple statements (e.g. an if with single statement) you may optionally omit the braces::
+   
      // Fine
      if (coffee_pot == full)
          continue;
@@ -179,8 +191,8 @@ Braces
          continue;
      }
 
-2. However in more complicated statements we always put braces - and always with a new-line.
-   ::
+2. However in more complicated statements we always put braces - and always with a new-line::
+   
      // CORRECT (Allman/ANSI-style)
      if (ok == true)
      {
@@ -213,10 +225,11 @@ Braces
 
 Operators
 ---------
-Do not start lines with operators (e.g. +-\*/%&^|:=). Unary operators (e.g. ~-&) are exceptions to this rule.
+Do not start lines with operators (e.g. +-\*/%&^|:=).
+Unary operators (e.g. ~-&) are exceptions to this rule.
 
-Add one space around common arithmetic operators to clearly separate the operands.
-::
+Add one space around common arithmetic operators to clearly separate the operands::
+
   // CORRECT
   boost::shared_ptr<very_long_type> instance =
       boost::make_shared<very_long_type>(param);
@@ -239,8 +252,12 @@ Add one space around common arithmetic operators to clearly separate the operand
 
 Padding
 -------
-Padding can greatly improve the readability of long code lines. Always try to keep symmetry and indent continuation lines so that the code is aligned with the counterpart symbols in the previous line. For example:
-::
+Padding can greatly improve the readability of long code lines. 
+Always try to keep symmetry and indent continuation lines so that the code
+is aligned with the counterpart symbols in the previous line.
+
+For example::
+
   // Long method signature
   void fake_loopback::send(const uint8_t* data, uint32_t size,
                            const address& address, uint16_t port,
@@ -292,8 +309,8 @@ Padding can greatly improve the readability of long code lines. Always try to ke
 Declaring pointers and references
 ---------------------------------
 
-The * and & characters should be part of the type names, and not the variable names.
-::
+The * and & characters should be tied to the type names, and not to the variable names::
+
   // CORRECT (C++-style)
   int* pValue;
 
@@ -310,8 +327,9 @@ The * and & characters should be part of the type names, and not the variable na
   {
   }
 
-The following regular expressions are helpful to check & replace any violations for this rule:
-::
+The following regular expressions are helpful to check & replace any violations
+of this rule::
+
   Find &: ([\w>])\s+&(\w)
   Replace with: $1& $2
   Find *: ([\w>])\s+\*(\w)
@@ -322,40 +340,40 @@ The following regular expressions are helpful to check & replace any violations 
 
 Using asserts
 -------------
+
 Using ``asserts`` is a hot-potato in many development discussions. In particiular when talking
 about high performance code. In our projects we will adopt the following simple strategy:
 
-* Before **using** a variable or parameter we use an ``assert``:
-::
+* Before **using** a variable or parameter we use an ``assert``::
 
-  void test(int a, int* p)
-  {
-      // We just use the p variable so we only assert on that one. The
-      // variable a is only forwarded so it should have an assert elsewhere.
-      assert(p);
-
-      p += 10;
-      test2(a, p);
-  }
+    void test(int* a, int* p)
+    {
+        // We just use the p variable so we only assert on that one. The
+        // variable a is only forwarded so it should have an assert elsewhere.
+        assert(p);
+  
+        *p = 10;
+        test2(a, p);
+    }
 
 Read the following article for more information on this http://queue.acm.org/detail.cfm?id=2220317
 
 
-Handling Unused Parameters
+Handling unused parameters
 --------------------------
-Use the following approach to handle warnings caused by unused parameters:
-::
+Use the following approach to handle warnings caused by unused parameters::
+
   void test(int a);
   {
       (void) a;
   }
 
 
-Hiding Internal Implementation Details
+Hiding internal implementation details
 --------------------------------------
-To prevent polluting the namespace of a project with internal helper function,
-use a nested namespace called detail to hide them:
-::
+To prevent polluting the namespace of a project with internal helper functions,
+use a nested namespace called ``detail`` to hide them::
+
   namespace project_name
   {
       namespace detail
@@ -365,6 +383,7 @@ use a nested namespace called detail to hide them:
               // Do help
           }
       }
+      
       void api()
       {
           // Get help
@@ -372,4 +391,5 @@ use a nested namespace called detail to hide them:
       }
   }
 
-An example of this can be seen here https://github.com/steinwurf/sak/blob/8a75568b80c063331ae08d5667a1d67bb92c87b8/src/sak/easy_bind.hpp#L38
+An example of this can be seen here 
+https://github.com/steinwurf/sak/blob/8a75568b80c063331ae08d5667a1d67bb92c87b8/src/sak/easy_bind.hpp#L38
