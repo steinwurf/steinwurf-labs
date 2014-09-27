@@ -58,12 +58,12 @@ The most general includes should be placed at the top::
 
 In practice, the include order will be something like this:
 
-    1. C/C++ standard headers
-    2. Boost headers
-    3. gtest headers
-    4. Headers from dependencies (start with the most general)
-    5. Headers of the current project
-    6. The hpp belonging to this cpp
+1. C/C++ standard headers
+2. Boost headers
+3. gtest headers
+4. Headers from dependencies (start with the most general)
+5. Headers of the current project
+6. The hpp belonging to this cpp
 
 Insert a newline between these 6 groups (as shown above).
 
