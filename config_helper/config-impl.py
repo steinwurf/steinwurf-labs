@@ -132,8 +132,7 @@ build_options = ['None', 'cxx_debug', 'cxx_nodebug']
 # Define the supported mkspecs
 android_mkspec = ['cxx_android_gxx48_arm',
                   'cxx_android_gxx48_armv7', 'cxx_android_clang34_armv7']
-msvc_mkspec = ['cxx_msvc11_x86', 'cxx_msvc11_x64',
-               'cxx_msvc12_x86', 'cxx_msvc12_x64']
+msvc_mkspec = ['cxx_msvc12_x86', 'cxx_msvc12_x64']
 gxx_mkspec = ['cxx_gxx47_x86', 'cxx_gxx47_x64',
               'cxx_gxx48_x86', 'cxx_gxx48_x64',
               'cxx_gxx49_x86', 'cxx_gxx49_x64']
@@ -146,8 +145,8 @@ clang_mkspec = ['cxx_clang34_x86', 'cxx_clang34_x64',
                 'cxx_clang35_address_sanitizer_x64',
                 'cxx_clang35_memory_sanitizer_x64',
                 'cxx_clang35_thread_sanitizer_x64']
-llvm_mkspec = ['cxx_apple_llvm51_x86', 'cxx_apple_llvm51_x64']
-ios_mkspec = ['cxx_ios50_apple_llvm51_armv7']
+llvm_mkspec = ['cxx_apple_llvm51_x64', 'cxx_apple_llvm60_x64']
+ios_mkspec = ['cxx_ios50_apple_llvm60_armv7']
 
 # Define which mkspecs are supported on different platforms
 win32_mkspec = msvc_mkspec + gxx_mkspec + android_mkspec
@@ -173,10 +172,10 @@ def config_options(available_mkspecs, dependencies=None):
         # These variables might have been already set in user_config
         global android_sdk_dir
         global android_ndk_dir
-# if android_sdk_dir == None:
-##            android_sdk_dir = query('Enter android_sdk_dir')
-# if android_ndk_dir == None:
-##            android_ndk_dir = query('Enter android_ndk_dir')
+        if android_sdk_dir == None:
+            android_sdk_dir = query('Enter android_sdk_dir')
+        if android_ndk_dir == None:
+            android_ndk_dir = query('Enter android_ndk_dir')
         if android_sdk_dir:
             tool_opt += ',android_sdk_dir=' + android_sdk_dir
         if android_ndk_dir:
@@ -191,17 +190,19 @@ def config_options(available_mkspecs, dependencies=None):
         global usbmux_dir
         # The XCode default toolchain path will be used
         # if the ios_toolchain_dir variable was not set
-        toolchain = '/Applications/Xcode.app/Contents/Developer/' \
-                    'Toolchains/XcodeDefault.xctoolchain/usr/bin/'
-        if ios_toolchain_dir is None:
-            ios_toolchain_dir = query('Enter ios_toolchain_dir', toolchain)
-        if ios_sdk_dir is None:
-            ios_sdk_dir = query('Enter ios_sdk_dir')
+        #toolchain = '/Applications/Xcode.app/Contents/Developer/' \
+        #            'Toolchains/XcodeDefault.xctoolchain/usr/bin/'
+        #if ios_toolchain_dir is None:
+        #    ios_toolchain_dir = query('Enter ios_toolchain_dir', toolchain)
+        #if ios_sdk_dir is None:
+        #    ios_sdk_dir = query('Enter ios_sdk_dir')
         usbmux_default_dir = '~/usbmuxd-1.0.8/python-client/'
         if usbmux_dir is None:
             usbmux_dir = query('Enter usbmux_dir', usbmux_default_dir)
-        tool_opt += ',ios_toolchain_dir=' + ios_toolchain_dir
-        tool_opt += ',ios_sdk_dir=' + ios_sdk_dir
+        if ios_toolchain_dir:
+            tool_opt += ',ios_toolchain_dir=' + ios_toolchain_dir
+        if ios_sdk_dir:
+            tool_opt += ',ios_sdk_dir=' + ios_sdk_dir
         tool_opt += ',usbmux_dir=' + usbmux_dir
 
     # Select the mkspec first
