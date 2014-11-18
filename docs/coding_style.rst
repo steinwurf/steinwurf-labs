@@ -42,7 +42,15 @@ Start every header file like this (after the copyright comment)::
 Order of #include statements
 ----------------------------
 
-The most general includes should be placed at the top::
+If this ``.cpp`` file implements or tests a specific header file, then the first include
+should always be that header file. If some necessary includes are missing from that header,
+then the compilation of the ``.cpp`` will break at this point. Therefore every header
+file should have a corresponding ``.cpp`` (implementation or test).
+
+After the first include, the include list should go from the most general 
+to the most specific::
+
+  #include "my_own_header.hpp"
 
   #include <vector>
   #include <math>
@@ -54,16 +62,14 @@ The most general includes should be placed at the top::
 
   #include <kodo/storage.hpp>
 
-  #include "myfile.hpp"
-
 In practice, the include order will be something like this:
 
-1. C/C++ standard headers
-2. Boost headers
-3. gtest headers
-4. Headers from dependencies (start with the most general)
-5. Headers of the current project
-6. The hpp belonging to this cpp
+#. The hpp belonging to this cpp
+#. C/C++ standard headers
+#. Boost headers
+#. gtest headers
+#. Headers from dependencies (start with the most general)
+#. Headers of the current project
 
 Insert a newline between these 6 groups (as shown above).
 
