@@ -1,6 +1,10 @@
 ======================
 Steinwurf Coding Style
 ======================
+
+.. contents:: Table of Contents:
+   :local:
+
 ------
 Python
 ------
@@ -15,24 +19,29 @@ C++
 Naming
 ------
 
-* Names of classes, members, functions, namespaces are all lowercase letters separated with
-  ``_`` if it enhances readability.
+* Names of classes, members, functions, namespaces are all lowercase letters
+  separated with ``_`` if it enhances readability.
 * Template parameters should be CamelCase
 * Member variables are prefixed with ``m_``
-* In general, we try to avoid abbreviations in parameter names, member variables, class names, function names.
-* For temporary local variables, you can use abbreviations, even single character names as
-  long as you use common sense (what you think makes the code the most readable).
+* In general, we try to avoid abbreviations in parameter names, member
+  variables, class names, function names.
+* For temporary local variables, you can use abbreviations, even single
+  character names as long as you use common sense (what you think makes the code
+  the most readable).
 
 Explicit Constructors
 ---------------------
-Use the C++ keyword ``explicit`` for constructors with one argument. This is inspired by `Google's C++ Style Guide
-<http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#Explicit_Constructors>`_.
+Use the C++ keyword ``explicit`` for constructors with one argument. This is
+inspired by `Google's C++ Style Guide
+<http://google-styleguide.googlecode.com/svn/trunk/
+cppguide.xml#Explicit_Constructors>`_.
 
 Include Guards
 --------------
 
-Using #pragma once is preferred instead of the lengthy include guards, as this approach
-is shorter and less error-prone. Furthermore, it might speed up the compilation on modern compilers.
+Using #pragma once is preferred instead of the lengthy include guards, as this
+approach is shorter and less error-prone. Furthermore, it might speed up the
+compilation on modern compilers.
 
 Start every header file like this (after the copyright comment)::
 
@@ -42,12 +51,13 @@ Start every header file like this (after the copyright comment)::
 Order of #include statements
 ----------------------------
 
-If this ``.cpp`` file implements or tests a specific header file, then the first include
-should always be that header file. If some necessary includes are missing from that header,
-then the compilation of the ``.cpp`` will break at this point. Therefore every header
-file should have a corresponding ``.cpp`` (implementation or test).
+If this ``.cpp`` file implements or tests a specific header file, then the first
+include should always be that header file. If some necessary includes are
+missing from that header, then the compilation of the ``.cpp`` will break at
+this point. Therefore every header file should have a corresponding ``.cpp``
+(implementation or test).
 
-After the first include, the include list should go from the most general 
+After the first include, the include list should go from the most general
 to the most specific::
 
   #include "my_own_header.hpp"
@@ -76,13 +86,15 @@ Insert a newline between these 6 groups (as shown above).
 Header file extension
 ---------------------
 
-We have decided to start using ``.hpp`` for header files. This makes it easier to 
-differentiate between C and C++ code.
+We have decided to start using ``.hpp`` for header files. This makes it easier
+to differentiate between C and C++ code.
 
 Comments
 --------
-- Use ``//`` for simple inline C++ comments that are not meant for Doxygen, but for other devs.
-- Use ``///`` for comments that are meant for Doxygen (do not use this in function bodies).
+- Use ``//`` for simple inline C++ comments that are not meant for Doxygen, but
+  for other devs.
+- Use ``///`` for comments that are meant for Doxygen (do not use this in
+  function bodies).
 - Start comments on new lines if possible
 
 Class Declarations
@@ -158,8 +170,8 @@ We use the column 80 rule. Break any lines you have that exceed 80 characters.
 
 Testing
 -------
-Testing is hard, but we try to have a test for all new functionality added in our
-projects. For this purpose we use the GoogleTest framework (gtest). You can
+Testing is hard, but we try to have a test for all new functionality added in
+our projects. For this purpose we use the GoogleTest framework (gtest). You can
 find more information on it here: http://code.google.com/p/googletest/
 
 Writing tests
@@ -174,19 +186,21 @@ Casts
 
 1. Numeric types: If you are casting from a numeric type use either
    C-style cast or C++ style casts. E.g. both of these are fine::
-   
+
      uint32_t o = (uint32_t) some_value;
      uint32_t k = static_cast<uint32_t>(some_value);
 
    See this http://stackoverflow.com/a/12321860 for more info.
 
-2. All other cases (pointers etc.): Cast using C++ style casts e.g. `static_cast` etc.
+2. All other cases (pointers etc.): Cast using C++ style casts e.g.
+   `static_cast` etc.
 
 Braces
 ------
 
-1. In very simple statements (e.g. an if with single statement) you may optionally omit the braces::
-   
+1. In very simple statements (e.g. an if with single statement) you may
+   optionally omit the braces::
+
      // Fine
      if (coffee_pot == full)
          continue;
@@ -197,8 +211,9 @@ Braces
          continue;
      }
 
-2. However in more complicated statements we always put braces - and always with a new-line::
-   
+2. However in more complicated statements we always put braces - and always with
+   a new-line::
+
      // CORRECT (Allman/ANSI-style)
      if (ok == true)
      {
@@ -234,7 +249,8 @@ Operators
 Do not start lines with operators (e.g. +-\*/%&^|:=).
 Unary operators (e.g. ~-&) are exceptions to this rule.
 
-Add one space around common arithmetic operators to clearly separate the operands::
+Add one space around common arithmetic operators to clearly separate the
+operands::
 
   // CORRECT
   boost::shared_ptr<very_long_type> instance =
@@ -258,7 +274,7 @@ Add one space around common arithmetic operators to clearly separate the operand
 
 Padding
 -------
-Padding can greatly improve the readability of long code lines. 
+Padding can greatly improve the readability of long code lines.
 Always try to keep symmetry and indent continuation lines so that the code
 is aligned with the counterpart symbols in the previous line.
 
@@ -315,7 +331,8 @@ For example::
 Declaring pointers and references
 ---------------------------------
 
-The * and & characters should be tied to the type names, and not to the variable names::
+The * and & characters should be tied to the type names, and not to the variable
+names::
 
   // CORRECT (C++-style)
   int* pValue;
@@ -347,8 +364,9 @@ of this rule::
 Using asserts
 -------------
 
-Using ``asserts`` is a hot-potato in many development discussions. In particiular when talking
-about high performance code. In our projects we will adopt the following simple strategy:
+Using ``asserts`` is a hot-potato in many development discussions. In
+particiular when talking about high performance code. In our projects we will
+adopt the following simple strategy:
 
 * Before **using** a variable or parameter we use an ``assert``::
 
@@ -357,12 +375,13 @@ about high performance code. In our projects we will adopt the following simple 
         // We just use the p variable so we only assert on that one. The
         // variable a is only forwarded so it should have an assert elsewhere.
         assert(p);
-  
+
         *p = 10;
         test2(a, p);
     }
 
-Read the following article for more information on this http://queue.acm.org/detail.cfm?id=2220317
+Read the following article for more information on this
+http://queue.acm.org/detail.cfm?id=2220317
 
 
 Handling unused parameters
@@ -389,7 +408,7 @@ use a nested namespace called ``detail`` to hide them::
               // Do help
           }
       }
-      
+
       void api()
       {
           // Get help
@@ -397,5 +416,5 @@ use a nested namespace called ``detail`` to hide them::
       }
   }
 
-An example of this can be seen here 
-https://github.com/steinwurf/sak/blob/8a75568b80c063331ae08d5667a1d67bb92c87b8/src/sak/easy_bind.hpp#L38
+An example of this can be seen `here <https://github.com/steinwurf/sak/blob/
+8a75568b80c063331ae08d5667a1d67bb92c87b8/src/sak/easy_bind.hpp#L38>`_
