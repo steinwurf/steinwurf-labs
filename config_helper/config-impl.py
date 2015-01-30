@@ -141,13 +141,17 @@ cross_mskpec = ['cxx_crosslinux_gxx46_arm', 'cxx_crosslinux_gxx47_arm',
                 'cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64',
                 'cxx_crosslinux_gxx47_mips', 'cxx_crosslinux_gxx48_mips',
                 'cxx_raspberry_gxx47_arm']
-clang_mkspec = ['cxx_clang34_x86', 'cxx_clang34_x64',
-                'cxx_clang35_x86', 'cxx_clang35_x64',
+clang_mkspec = ['cxx_clang35_x86', 'cxx_clang35_x64',
                 'cxx_clang35_address_sanitizer_x64',
                 'cxx_clang35_memory_sanitizer_x64',
                 'cxx_clang35_thread_sanitizer_x64']
 llvm_mkspec = ['cxx_apple_llvm60_x64']
-ios_mkspec = ['cxx_ios50_apple_llvm60_armv7']
+ios_mkspec = ['cxx_ios50_apple_llvm60_armv7',
+              'cxx_ios70_apple_llvm60_armv7',
+              'cxx_ios70_apple_llvm60_armv7s',
+              'cxx_ios70_apple_llvm60_arm64',
+              'cxx_ios70_apple_llvm60_i386',
+              'cxx_ios70_apple_llvm60_x86_64']
 
 # Define which mkspecs are supported on different platforms
 win32_mkspec = msvc_mkspec + android_mkspec
