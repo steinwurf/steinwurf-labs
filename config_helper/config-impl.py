@@ -136,13 +136,10 @@ build_options = ['None', 'cxx_debug', 'cxx_nodebug']
 android_mkspec = ['cxx_android_gxx48_arm',
                   'cxx_android_gxx48_armv7', 'cxx_android_clang34_armv7']
 msvc_mkspec = ['cxx_msvc12_x86', 'cxx_msvc12_x64']
-gxx_mkspec = ['cxx_gxx47_x86', 'cxx_gxx47_x64',
-              'cxx_gxx48_x86', 'cxx_gxx48_x64',
+gxx_mkspec = ['cxx_gxx48_x86', 'cxx_gxx48_x64',
               'cxx_gxx49_x86', 'cxx_gxx49_x64']
-cross_mskpec = ['cxx_crosslinux_gxx46_arm', 'cxx_crosslinux_gxx47_arm',
-                'cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64',
-                'cxx_crosslinux_gxx47_mips', 'cxx_crosslinux_gxx48_mips',
-                'cxx_raspberry_gxx47_arm']
+cross_mskpec = ['cxx_openwrt_gxx48_arm', 'cxx_openwrt_gxx48_mips',
+                'cxx_raspberry_gxx49_arm']
 clang_mkspec = ['cxx_clang35_x86', 'cxx_clang35_x64',
                 'cxx_clang35_address_sanitizer_x64',
                 'cxx_clang35_memory_sanitizer_x64',
