@@ -29,8 +29,44 @@ Naming
   character names as long as you use common sense (what you think makes the code
   the most readable).
 
+
+Constructor Initialization Colon
+--------------------------------
+
+The constructor initialization colon should be padded one space::
+
+  // Correct style
+  class correct_style
+  {
+  public:
+    correct_style() :
+      m_value(42)
+    {
+    }
+
+  private:
+
+    int m_value;
+  };
+
+  // Incorrect style
+  class incorrect_style
+  {
+  public:
+    incorrect_style():
+      m_value(42)
+    {
+    }
+
+  private:
+
+    int m_value;
+  };
+
+
 Explicit Constructors
 ---------------------
+
 Use the C++ keyword ``explicit`` for constructors with one argument. This is
 inspired by `Google's C++ Style Guide
 <http://google-styleguide.googlecode.com/svn/trunk/
