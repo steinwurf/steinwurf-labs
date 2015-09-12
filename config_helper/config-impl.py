@@ -32,6 +32,8 @@ default_waf_projects = {
     'kodo-c':            project_path+'kodo-c',
     'kodo-cpp':          project_path+'kodo-cpp',
     'kodo-java':         project_path+'kodo-java',
+    'kodo-python':       project_path+'kodo-python',
+    'meta':              project_path+'meta',
     'platform':          project_path+'platform',
     'recycle':           project_path+'recycle',
     'sak':               project_path+'sak',
