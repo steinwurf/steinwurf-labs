@@ -14,9 +14,6 @@ user_config = False
 # There are no good default values for these
 android_sdk_dir = None
 android_ndk_dir = None
-ios_toolchain_dir = None
-ios_sdk_dir = None
-usbmux_dir = None
 # By default, we expect that the other projects are next to current dir
 project_path = '../'
 waf_projects = {}
@@ -135,9 +132,8 @@ def print_menu(options, question, default_index=0, multiple=False):
 build_options = ['None', 'cxx_debug', 'cxx_nodebug']
 
 # Define the supported mkspecs
-android_mkspec = ['cxx_android_gxx48_arm',
-                  'cxx_android_gxx48_armv7', 'cxx_android_clang34_armv7']
-msvc_mkspec = ['cxx_msvc12_x86', 'cxx_msvc12_x64']
+android_mkspec = ['cxx_android_gxx48_arm', 'cxx_android_gxx48_armv7']
+msvc_mkspec = ['cxx_msvc14_x86', 'cxx_msvc14_x64']
 gxx_mkspec = ['cxx_gxx48_x86', 'cxx_gxx48_x64',
               'cxx_gxx49_x86', 'cxx_gxx49_x64']
 cross_mskpec = ['cxx_openwrt_gxx48_arm', 'cxx_openwrt_gxx48_mips',
@@ -146,13 +142,13 @@ clang_mkspec = ['cxx_clang35_x86', 'cxx_clang35_x64',
                 'cxx_clang35_address_sanitizer_x64',
                 'cxx_clang35_memory_sanitizer_x64',
                 'cxx_clang35_thread_sanitizer_x64']
-llvm_mkspec = ['cxx_apple_llvm60_x64']
-ios_mkspec = ['cxx_ios50_apple_llvm60_armv7',
-              'cxx_ios70_apple_llvm60_armv7',
-              'cxx_ios70_apple_llvm60_armv7s',
-              'cxx_ios70_apple_llvm60_arm64',
-              'cxx_ios70_apple_llvm60_i386',
-              'cxx_ios70_apple_llvm60_x86_64']
+llvm_mkspec = ['cxx_apple_llvm70_x64']
+ios_mkspec = ['cxx_ios50_apple_llvm_armv7',
+              'cxx_ios70_apple_llvm_armv7',
+              'cxx_ios70_apple_llvm_armv7s',
+              'cxx_ios70_apple_llvm_arm64',
+              'cxx_ios70_apple_llvm_i386',
+              'cxx_ios70_apple_llvm_x86_64']
 
 # Define which mkspecs are supported on different platforms
 win32_mkspec = msvc_mkspec + android_mkspec
@@ -170,7 +166,7 @@ def config_options(available_mkspecs, dependencies=None):
     mkspec = print_menu(
         ['cxx_default'] + available_mkspecs, 'Choose option:', 0)
     print('Selected mkspec: ' + mkspec)
-    tool_opt = '--options=cxx_mkspec=' + mkspec
+    tool_opt = '--cxx_mkspec=' + mkspec
 
     # Handle extra options for Android
     if mkspec in android_mkspec:
@@ -183,40 +179,16 @@ def config_options(available_mkspecs, dependencies=None):
         if android_ndk_dir == None:
             android_ndk_dir = query('Enter android_ndk_dir')
         if android_sdk_dir:
-            tool_opt += ',android_sdk_dir=' + android_sdk_dir
+            tool_opt += ' --android_sdk_dir=' + android_sdk_dir
         if android_ndk_dir:
-            tool_opt += ',android_ndk_dir=' + android_ndk_dir
-
-    # Handle extra options for iOS
-    if mkspec in ios_mkspec:
-        # Try to set ios_toolchain_dir and ios_sdk_dir here
-        # These variables might have been already set in user_config
-        global ios_toolchain_dir
-        global ios_sdk_dir
-        global usbmux_dir
-        # The XCode default toolchain path will be used
-        # if the ios_toolchain_dir variable was not set
-        #toolchain = '/Applications/Xcode.app/Contents/Developer/' \
-        #            'Toolchains/XcodeDefault.xctoolchain/usr/bin/'
-        #if ios_toolchain_dir is None:
-        #    ios_toolchain_dir = query('Enter ios_toolchain_dir', toolchain)
-        #if ios_sdk_dir is None:
-        #    ios_sdk_dir = query('Enter ios_sdk_dir')
-        usbmux_default_dir = '~/usbmuxd-1.0.8/python-client/'
-        if usbmux_dir is None:
-            usbmux_dir = query('Enter usbmux_dir', usbmux_default_dir)
-        if ios_toolchain_dir:
-            tool_opt += ',ios_toolchain_dir=' + ios_toolchain_dir
-        if ios_sdk_dir:
-            tool_opt += ',ios_sdk_dir=' + ios_sdk_dir
-        tool_opt += ',usbmux_dir=' + usbmux_dir
+            tool_opt += ' --android_ndk_dir=' + android_ndk_dir
 
     # Select the mkspec first
     print('\nSelect additional build options:')
     extra_option = print_menu(build_options, 'Choose option:', 0)
     print('Selected build option: ' + extra_option)
     if extra_option != 'None':
-        tool_opt += ',' + extra_option
+        tool_opt += ' --' + extra_option
 
     # Offer to generate project files for supported IDEs
     print('\nGenerate project files for the following IDEs?:')
@@ -238,7 +210,7 @@ def config_options(available_mkspecs, dependencies=None):
     command = 'python waf configure'
 
     # Bundle options
-    bundle_opt = '--bundle=ALL'
+    bundle_opt = ''
 
     # print('Current dir: '+os.getcwd())
     projects = []
@@ -277,13 +249,10 @@ def config_options(available_mkspecs, dependencies=None):
             print_menu(projects, 'Choose projects (e.g. "1,2,3"):', 0, True)
         print('Selected projects: {}'.format(proj_names))
         if 'ALL' in proj_names:
-            bundle_opt = '--bundle=NONE'  # No bundle needed
             for proj_name in dependencies:
                 rel_path = os.path.relpath(waf_projects[proj_name])
                 bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
         elif 'None' not in proj_names:
-            for proj_name in proj_names:  # ALL,-project
-                bundle_opt += ',-' + proj_name
             for proj_name in proj_names:  # Use relative project path
                 rel_path = os.path.relpath(waf_projects[proj_name])
                 bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
