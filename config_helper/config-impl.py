@@ -3,7 +3,7 @@
 
 import os
 import sys
-from builtins import input
+from six.moves import input
 
 user_config = False
 """
