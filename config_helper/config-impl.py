@@ -3,6 +3,7 @@
 
 import os
 import sys
+from builtins import input
 
 user_config = False
 """
@@ -67,7 +68,7 @@ except Exception as e:
 
 # Python recipe here: http://code.activestate.com/recipes/577058/
 def query_yes_no(question, default="yes"):
-    """Ask a yes/no question via raw_input() and return their answer.
+    """Ask a yes/no question via input() and return their answer.
 
     "question" is a string that is presented to the user.
     "default" is the presumed answer if the user just hits <Enter>.
@@ -89,7 +90,7 @@ def query_yes_no(question, default="yes"):
 
     while 1:
         sys.stdout.write(question + prompt)
-        choice = raw_input().lower()
+        choice = input().lower()
         if default is not None and choice == '':
             return default
         elif choice in valid.keys():
@@ -104,7 +105,7 @@ def query(question, default=None):
     if default is not None:
         prompt = ' ["{}"]: '.format(default)
     sys.stdout.write(question + prompt)
-    answer = raw_input()
+    answer = input()
     if default is not None and answer == '':
         return default
     return answer
@@ -119,7 +120,7 @@ def print_menu(options, question, default_index=0, multiple=False):
     prompt = ' [{}] '.format(default_index)
     while 1:
         sys.stdout.write(question + prompt)
-        choice = raw_input().lower()
+        choice = input().lower()
         if default_index is not None and choice == '':
             return options[default_index]
         elif multiple:
@@ -317,4 +318,4 @@ def config_tool(dependencies=None):
 
 if __name__ == '__main__':
     config_tool()
-    raw_input('Press ENTER to exit...')
+    input('Press ENTER to exit...')
