@@ -1,9 +1,13 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 # encoding: utf-8
 
 import os
 import sys
-from six.moves import input
+
+try:
+    input = raw_input
+except NameError:
+    pass
 
 user_config = False
 """
