@@ -140,21 +140,23 @@ def print_menu(options, question, default_index=0, multiple=False):
 build_options = ['None', 'cxx_debug', 'cxx_nodebug']
 
 # Define the supported mkspecs
-android_mkspec = ['cxx_android_gxx48_arm', 'cxx_android_gxx48_armv7',
-                  'cxx_android5_gxx48_armv7']
+android_mkspec = ['cxx_android_gxx49_arm', 'cxx_android_gxx49_armv7',
+                  'cxx_android5_gxx49_armv7']
 msvc_mkspec = ['cxx_msvc14_x86', 'cxx_msvc14_x64']
 gxx_mkspec = ['cxx_gxx48_x86', 'cxx_gxx48_x64',
               'cxx_gxx49_x86', 'cxx_gxx49_x64',
               'cxx_gxx52_x86', 'cxx_gxx52_x64',
-              'cxx_gxx53_x86', 'cxx_gxx53_x64']
+              'cxx_gxx53_x86', 'cxx_gxx53_x64',
+              'cxx_gxx61_x86', 'cxx_gxx61_x64']
 cross_mskpec = ['cxx_openwrt_gxx48_arm', 'cxx_openwrt_gxx48_mips',
-                'cxx_raspberry_gxx49_arm']
+                'cxx_raspberry_gxx49_arm', 'cxx_raspberry_gxx49_armv7']
 clang_mkspec = ['cxx_clang35_x86', 'cxx_clang35_x64',
                 'cxx_clang36_x86', 'cxx_clang36_x64',
                 'cxx_clang37_x86', 'cxx_clang37_x64',
-                'cxx_clang35_address_sanitizer_x64',
-                'cxx_clang35_memory_sanitizer_x64',
-                'cxx_clang35_thread_sanitizer_x64']
+                'cxx_clang38_x86', 'cxx_clang38_x64',
+                'cxx_clang36_address_sanitizer_x64',
+                'cxx_clang36_memory_sanitizer_x64',
+                'cxx_clang36_thread_sanitizer_x64']
 llvm_mkspec = ['cxx_apple_llvm73_x64']
 ios_mkspec = ['cxx_ios70_apple_llvm_armv7',
               'cxx_ios70_apple_llvm_armv7s',
