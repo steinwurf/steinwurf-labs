@@ -147,17 +147,18 @@ gxx_mkspec = ['cxx_gxx48_x86', 'cxx_gxx48_x64',
               'cxx_gxx49_x86', 'cxx_gxx49_x64',
               'cxx_gxx52_x86', 'cxx_gxx52_x64',
               'cxx_gxx53_x86', 'cxx_gxx53_x64',
-              'cxx_gxx61_x86', 'cxx_gxx61_x64']
-cross_mskpec = ['cxx_openwrt_gxx48_arm', 'cxx_openwrt_gxx48_mips',
+              'cxx_gxx54_x86', 'cxx_gxx54_x64',
+              'cxx_gxx61_x86', 'cxx_gxx61_x64',
+              'cxx_gxx62_x86', 'cxx_gxx62_x64',
+              'cxx_gxx63_x86', 'cxx_gxx63_x64']
+cross_mskpec = ['cxx_openwrt_gxx53_arm', 'cxx_openwrt_gxx53_mips',
                 'cxx_raspberry_gxx49_arm', 'cxx_raspberry_gxx49_armv7']
-clang_mkspec = ['cxx_clang35_x86', 'cxx_clang35_x64',
-                'cxx_clang36_x86', 'cxx_clang36_x64',
-                'cxx_clang37_x86', 'cxx_clang37_x64',
-                'cxx_clang38_x86', 'cxx_clang38_x64',
-                'cxx_clang36_address_sanitizer_x64',
-                'cxx_clang36_memory_sanitizer_x64',
-                'cxx_clang36_thread_sanitizer_x64']
-llvm_mkspec = ['cxx_apple_llvm73_x64']
+clang_mkspec = ['cxx_clang38_x86', 'cxx_clang38_x64',
+                'cxx_clang39_x86', 'cxx_clang39_x64',
+                'cxx_clang38_address_sanitizer_x64',
+                'cxx_clang38_memory_sanitizer_x64',
+                'cxx_clang38_thread_sanitizer_x64']
+llvm_mkspec = ['cxx_apple_llvm80_x64']
 ios_mkspec = ['cxx_ios70_apple_llvm_armv7',
               'cxx_ios70_apple_llvm_armv7s',
               'cxx_ios70_apple_llvm_arm64',
