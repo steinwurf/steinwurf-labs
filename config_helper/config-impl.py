@@ -9,7 +9,6 @@ try:
 except NameError:
     pass
 
-user_config = False
 """
   User specific variables
   NOTE: Changes to these should be done in a user-specific file called
@@ -19,55 +18,15 @@ user_config = False
 # There are no good default values for these
 android_sdk_dir = None
 android_ndk_dir = None
-# By default, we expect that the other projects are next to current dir
-project_path = '../'
 waf_projects = {}
-
-default_waf_projects = {
-    # Public repos:
-    'boost':             project_path+'boost',
-    'cpuid':             project_path+'cpuid',
-    'fifi':              project_path+'fifi',
-    'gauge':             project_path+'gauge',
-    'gtest':             project_path+'gtest',
-    'kodo':              project_path+'kodo',
-    'kodo-c':            project_path+'kodo-c',
-    'kodo-core':         project_path+'kodo-core',
-    'kodo-cpp':          project_path+'kodo-cpp',
-    'kodo-fulcrum':      project_path+'kodo-fulcrum',
-    'kodo-java':         project_path+'kodo-java',
-    'kodo-python':       project_path+'kodo-python',
-    'kodo-rlnc':         project_path+'kodo-rlnc',
-    'meta':              project_path+'meta',
-    'platform':          project_path+'platform',
-    'recycle':           project_path+'recycle',
-    'sak':               project_path+'sak',
-    'stub':              project_path+'stub',
-    'tables':            project_path+'tables',
-    'waf':               project_path+'waf',
-    'waf-tools':         project_path+'waf-tools',
-    # Private repos:
-    'beem':              project_path+'beem',
-    'imp':               project_path+'imp',
-    'kfifi':             project_path+'fifi-kernel-module',
-    'kkodo':             project_path+'kodo-kernel-module',
-    'norm':              project_path+'norm',
-    'vroom':             project_path+'vroom',
-}
-
-resolve_path = project_path + 'deps'
-waf_build_path = project_path + 'waf/waf'
-
+resolve_path = None
 
 try:
     # Also search in the parent folder when loading user config
     sys.path.append('..')
     from fabric_user_config import *
-    user_config = True
 except Exception as e:
-    print("Exception when loading fabric_user_config.py:")
-    print(e)
-    waf_projects = default_waf_projects
+    pass
 
 
 # Python recipe here: http://code.activestate.com/recipes/577058/
@@ -225,27 +184,32 @@ def config_options(available_mkspecs, dependencies=None, current_project=None):
     # The default configure command
     command = 'python waf configure'
 
-    # Bundle options
-    bundle_opt = ''
+    # Resolve options
+    resolve_opt = ''
 
-    # print('Current dir: '+os.getcwd())
+    # Gather information about local projects
+    # We expect that the other projects are next to the current folder
+    print('Current dir: '+os.getcwd())
+    this_directory = os.path.dirname(os.getcwd())
+    for folder in os.listdir(this_directory):
+        project_folder = os.path.join(this_directory, folder)
+        if os.path.isdir(project_folder) and folder not in waf_projects:
+            waf_projects[folder] = os.path.relpath(project_folder)
+
     projects = []
+
     # Enumerate the project dependencies
     if dependencies is not None:
         for proj_name in dependencies:
             path = None
-            # Look in the user-specified waf_projects first
+            # Look for this project name in waf_projects
             if proj_name in waf_projects:
                 path = waf_projects[proj_name]
-            # Also try the default path in default_waf_projects
-            elif proj_name in default_waf_projects:
-                path = default_waf_projects[proj_name]
-                # Store the default project path for later
-                if os.path.exists(path):
-                    waf_projects[proj_name] = path
+
             if path is not None and os.path.exists(path):
                 projects.append(proj_name)
-    else:
+
+    if dependencies is None:
         # If the dependencies were not specified, show all available projects
         for proj_name, proj_path in waf_projects.iteritems():
             if os.path.exists(proj_path):
@@ -260,36 +224,31 @@ def config_options(available_mkspecs, dependencies=None, current_project=None):
             projects.insert(0, 'ALL')
         projects.insert(0, 'None')
         print('\nThe following project folders were found on your computer.\n'
-              'Which folders should be used as bundle dependencies?:')
+              'Which folders should be used as dependencies?:')
         proj_names = \
             print_menu(projects, 'Choose projects (e.g. "1,2,3"):', 0, True)
         print('Selected projects: {}'.format(proj_names))
         if 'ALL' in proj_names:
             for proj_name in dependencies:
                 rel_path = os.path.relpath(waf_projects[proj_name])
-                bundle_opt += ' --{}_path="{}"'.format(proj_name, rel_path)
+                resolve_opt += ' --{}_path="{}"'.format(proj_name, rel_path)
         elif 'None' not in proj_names:
             for proj_name in proj_names:  # Use relative project path
                 rel_path = os.path.relpath(waf_projects[proj_name])
-                bundle_opt += ' --{}_path="{}"'.format(proj_name, rel_path)
+                resolve_opt += ' --{}_path="{}"'.format(proj_name, rel_path)
 
     # resolve_path is not needed if ALL dependencies are resolved manually
     if 'ALL' not in proj_names:
         global resolve_path
-        if user_config:
-            print('\nUsing bundle path from your user_config: {}'.format(
-                resolve_path))
-            bundle_opt += ' --resolve_path="{}"'.format(
-                os.path.relpath(resolve_path))
-        else:
-            # default_resolve_path = './bundle_dependencies'
-            resolve_path = query('\nEnter bundle path', resolve_path)
-            if resolve_path != '':
-                bundle_opt += ' --resolve_path="{}"'.format(resolve_path)
+        if resolve_path == None:
+            resolve_path = query('\nEnter resolve path', '../deps')
+
+        if resolve_path != '':
+            resolve_opt += ' --resolve_path="{}"'.format(resolve_path)
 
     # Assemble the final configure command
     full_cmd = str.format(
-        '{} {} {} {}', command, bundle_opt, tool_opt, ide_opt).strip()
+        '{} {} {} {}', command, resolve_opt, tool_opt, ide_opt).strip()
     print('\nFULL CONFIGURE COMMAND:\n' + full_cmd)
 
     # Save the configure command in a .bat or .sh file
