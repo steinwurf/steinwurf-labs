@@ -3,6 +3,7 @@
 
 import os
 import sys
+import json
 
 try:
     input = raw_input
@@ -134,6 +135,31 @@ mac_mkspec = llvm_mkspec + android_mkspec + ios_mkspec
 project_targets = ['None', 'Visual Studio 2008',
                    'Visual Studio 2010', 'Visual Studio 2012']
 
+def fetch_project_dependencies(project):
+
+    base_url = "http://files.steinwurf.com/registry/dependencies"
+
+    # Import tools to be compatible with Python 2 and 3
+    try:
+        from urllib.request import urlopen, Request
+    except ImportError:
+        from urllib2 import urlopen, Request
+
+    try:
+        # Fetch the json file from the given url
+        url = '{}/{}.json'.format(base_url, project)
+        req = Request(url)
+        response = urlopen(req)
+        json_data = response.read()
+        data = json.loads(json_data)
+        if 'dependencies' in data:
+            return data["dependencies"].keys()
+    except Exception as e:
+        print("Could not fetch dependency info from:\n\t{}".format(url))
+        print(e)
+
+    return None
+
 
 def config_options(available_mkspecs, dependencies=None, current_project=None):
     # Select the mkspec first
@@ -198,19 +224,25 @@ def config_options(available_mkspecs, dependencies=None, current_project=None):
 
     projects = []
 
-    # Enumerate the project dependencies
-    if dependencies is not None:
-        for proj_name in dependencies:
-            path = None
-            # Look for this project name in waf_projects
-            if proj_name in waf_projects:
-                path = waf_projects[proj_name]
+    # Try to fetch an up-to-date dependency list from the registry at
+    # http://files.steinwurf.com/registry/dependencies/
+    if current_project is not None:
+        result = fetch_project_dependencies(current_project)
+        if result:
+            dependencies = result
 
-            if path is not None and os.path.exists(path):
-                projects.append(proj_name)
+    # Enumerate the project dependencies
+    for proj_name in dependencies:
+        path = None
+        # Look for this project name in waf_projects
+        if proj_name in waf_projects:
+            path = waf_projects[proj_name]
+
+        if path is not None and os.path.exists(path):
+            projects.append(proj_name)
 
     if dependencies is None:
-        # If the dependencies were not specified, show all available projects
+        # If the dependencies are unknown, show all available local projects
         for proj_name, proj_path in waf_projects.iteritems():
             if os.path.exists(proj_path):
                 if os.getcwd() != os.path.abspath(proj_path):
