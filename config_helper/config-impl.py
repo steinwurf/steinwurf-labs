@@ -55,7 +55,7 @@ default_waf_projects = {
     'vroom':             project_path+'vroom',
 }
 
-bundle_path = project_path + 'deps'
+resolve_path = project_path + 'deps'
 waf_build_path = project_path + 'waf/waf'
 
 
@@ -141,7 +141,8 @@ build_options = ['None', 'cxx_debug', 'cxx_nodebug']
 
 # Define the supported mkspecs
 android_mkspec = ['cxx_android_gxx49_arm', 'cxx_android_gxx49_armv7',
-                  'cxx_android5_gxx49_armv7']
+                  'cxx_android5_gxx49_armv7', 'cxx_android_clang38_armv7',
+                  'cxx_android5_clang38_armv7']
 msvc_mkspec = ['cxx_msvc14_x86', 'cxx_msvc14_x64']
 gxx_mkspec = ['cxx_gxx48_x86', 'cxx_gxx48_x64',
               'cxx_gxx49_x86', 'cxx_gxx49_x64',
@@ -175,7 +176,7 @@ project_targets = ['None', 'Visual Studio 2008',
                    'Visual Studio 2010', 'Visual Studio 2012']
 
 
-def config_options(available_mkspecs, dependencies=None):
+def config_options(available_mkspecs, dependencies=None, current_project=None):
     # Select the mkspec first
     print('\nSelect mkspec for {}:'.format(sys.platform))
     mkspec = print_menu(
@@ -266,25 +267,25 @@ def config_options(available_mkspecs, dependencies=None):
         if 'ALL' in proj_names:
             for proj_name in dependencies:
                 rel_path = os.path.relpath(waf_projects[proj_name])
-                bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
+                bundle_opt += ' --{}_path="{}"'.format(proj_name, rel_path)
         elif 'None' not in proj_names:
             for proj_name in proj_names:  # Use relative project path
                 rel_path = os.path.relpath(waf_projects[proj_name])
-                bundle_opt += ' --{}-path="{}"'.format(proj_name, rel_path)
+                bundle_opt += ' --{}_path="{}"'.format(proj_name, rel_path)
 
-    # bundle_path is not needed if ALL dependencies are resolved manually
+    # resolve_path is not needed if ALL dependencies are resolved manually
     if 'ALL' not in proj_names:
-        global bundle_path
+        global resolve_path
         if user_config:
             print('\nUsing bundle path from your user_config: {}'.format(
-                bundle_path))
-            bundle_opt += ' --bundle-path="{}"'.format(
-                os.path.relpath(bundle_path))
+                resolve_path))
+            bundle_opt += ' --resolve_path="{}"'.format(
+                os.path.relpath(resolve_path))
         else:
-            # default_bundle_path = './bundle_dependencies'
-            bundle_path = query('\nEnter bundle path', bundle_path)
-            if bundle_path != '':
-                bundle_opt += ' --bundle-path="{}"'.format(bundle_path)
+            # default_resolve_path = './bundle_dependencies'
+            resolve_path = query('\nEnter bundle path', resolve_path)
+            if resolve_path != '':
+                bundle_opt += ' --resolve_path="{}"'.format(resolve_path)
 
     # Assemble the final configure command
     full_cmd = str.format(
@@ -312,14 +313,14 @@ program_title = """
 """
 
 
-def config_tool(dependencies=None):
+def config_tool(dependencies=None, current_project=None):
     print(program_title)
     if sys.platform == 'win32':
-        config_options(win32_mkspec, dependencies)
+        config_options(win32_mkspec, dependencies, current_project)
     elif sys.platform == 'darwin':
-        config_options(mac_mkspec, dependencies)
+        config_options(mac_mkspec, dependencies, current_project)
     elif sys.platform.startswith('linux'):
-        config_options(linux_mkspec, dependencies)
+        config_options(linux_mkspec, dependencies, current_project)
     else:
         print('Platform "{}" is not supported.'.format(sys.platform))
 
