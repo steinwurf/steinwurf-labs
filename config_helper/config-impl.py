@@ -215,7 +215,6 @@ def config_options(available_mkspecs, dependencies=None, current_project=None):
 
     # Gather information about local projects
     # We expect that the other projects are next to the current folder
-    print('Current dir: '+os.getcwd())
     this_directory = os.path.dirname(os.getcwd())
     for folder in os.listdir(this_directory):
         project_folder = os.path.join(this_directory, folder)
@@ -248,29 +247,32 @@ def config_options(available_mkspecs, dependencies=None, current_project=None):
                 if os.getcwd() != os.path.abspath(proj_path):
                     projects.append(proj_name)
 
-    proj_names = []
+    projects.sort()
+    selected_projects = []
     if len(projects) > 0:
-        projects.sort()
+        project_options = list(projects)
         # Only include the ALL option if the dependencies were specified
-        if dependencies is not None:
-            projects.insert(0, 'ALL')
-        projects.insert(0, 'None')
+        if dependencies:
+            project_options.insert(0, 'ALL')
+        project_options.insert(0, 'None')
         print('\nThe following project folders were found on your computer.\n'
               'Which folders should be used as dependencies?:')
-        proj_names = \
-            print_menu(projects, 'Choose projects (e.g. "1,2,3"):', 0, True)
-        print('Selected projects: {}'.format(proj_names))
-        if 'ALL' in proj_names:
-            for proj_name in dependencies:
-                rel_path = os.path.relpath(waf_projects[proj_name])
-                resolve_opt += ' --{}_path="{}"'.format(proj_name, rel_path)
-        elif 'None' not in proj_names:
-            for proj_name in proj_names:  # Use relative project path
+        selected_projects = \
+            print_menu(project_options, 'Choose projects (e.g. "1,2,3"):', 0, True)
+        print('Selected projects: {}'.format(selected_projects))
+        if 'ALL' in selected_projects:
+            # Use the intersection of all dependencies and the locally
+            # available project s
+            selected_projects = list(set(dependencies) ^ set(projects))
+
+        if 'None' not in selected_projects:
+            for proj_name in selected_projects:
+                # Use relative project path
                 rel_path = os.path.relpath(waf_projects[proj_name])
                 resolve_opt += ' --{}_path="{}"'.format(proj_name, rel_path)
 
     # resolve_path is not needed if ALL dependencies are resolved manually
-    if 'ALL' not in proj_names:
+    if 'ALL' not in selected_projects:
         global resolve_path
         if resolve_path == None:
             resolve_path = query('\nEnter resolve path', '../deps')
