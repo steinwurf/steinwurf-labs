@@ -259,11 +259,13 @@ def config_options(available_mkspecs, dependencies=None, current_project=None):
               'Which folders should be used as dependencies?:')
         selected_projects = \
             print_menu(project_options, 'Choose projects (e.g. "1,2,3"):', 0, True)
-        print('Selected projects: {}'.format(selected_projects))
+
         if 'ALL' in selected_projects:
             # Use the intersection of all dependencies and the locally
-            # available project s
-            selected_projects = list(set(dependencies) ^ set(projects))
+            # available projects
+            selected_projects = list(set(dependencies) & set(projects))
+
+        print('Selected projects: {}'.format(selected_projects))
 
         if 'None' not in selected_projects:
             for proj_name in selected_projects:
