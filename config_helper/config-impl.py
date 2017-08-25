@@ -100,9 +100,7 @@ def print_menu(options, question, default_index=0, multiple=False):
 build_options = ['None', 'cxx_debug', 'cxx_nodebug']
 
 # Define the supported mkspecs
-android_mkspec = ['cxx_android_gxx49_arm', 'cxx_android_gxx49_armv7',
-                  'cxx_android5_gxx49_armv7', 'cxx_android5_gxx49_arm64',
-                  'cxx_android_clang38_armv7', 'cxx_android5_clang38_armv7',
+android_mkspec = ['cxx_android_clang38_armv7', 'cxx_android5_clang38_armv7',
                   'cxx_android5_clang38_arm64']
 msvc_mkspec = ['cxx_msvc14_x86', 'cxx_msvc14_x64']
 gxx_mkspec = ['cxx_gxx48_x86', 'cxx_gxx48_x64',
@@ -120,7 +118,7 @@ clang_mkspec = ['cxx_clang38_x86', 'cxx_clang38_x64',
                 'cxx_clang38_address_sanitizer_x64',
                 'cxx_clang38_memory_sanitizer_x64',
                 'cxx_clang38_thread_sanitizer_x64']
-llvm_mkspec = ['cxx_apple_llvm80_x64']
+llvm_mkspec = ['cxx_apple_llvm81_x64']
 ios_mkspec = ['cxx_ios70_apple_llvm_armv7',
               'cxx_ios70_apple_llvm_armv7s',
               'cxx_ios70_apple_llvm_arm64',
