@@ -103,18 +103,22 @@ build_options = ['None', 'cxx_debug', 'cxx_nodebug']
 android_mkspec = ['cxx_android_clang50_armv7', 'cxx_android5_clang50_armv7',
                   'cxx_android5_clang50_arm64']
 msvc_mkspec = ['cxx_msvc14_x86', 'cxx_msvc14_x64']
-gxx_mkspec = ['cxx_gxx48_x86', 'cxx_gxx48_x64',
-              'cxx_gxx49_x86', 'cxx_gxx49_x64',
+gxx_mkspec = ['cxx_gxx49_x86', 'cxx_gxx49_x64',
               'cxx_gxx52_x86', 'cxx_gxx52_x64',
               'cxx_gxx53_x86', 'cxx_gxx53_x64',
               'cxx_gxx54_x86', 'cxx_gxx54_x64',
               'cxx_gxx61_x86', 'cxx_gxx61_x64',
               'cxx_gxx62_x86', 'cxx_gxx62_x64',
-              'cxx_gxx63_x86', 'cxx_gxx63_x64']
+              'cxx_gxx63_x86', 'cxx_gxx63_x64',
+              'cxx_gxx73_x86', 'cxx_gxx73_x64',
+              'cxx_gxx81_x86', 'cxx_gxx81_x64',
+              'cxx_gxx82_x86', 'cxx_gxx82_x64']
 cross_mskpec = ['cxx_openwrt_gxx53_arm', 'cxx_openwrt_gxx53_mips',
                 'cxx_raspberry_gxx49_arm', 'cxx_raspberry_gxx49_armv7']
 clang_mkspec = ['cxx_clang38_x86', 'cxx_clang38_x64',
                 'cxx_clang39_x86', 'cxx_clang39_x64',
+                'cxx_clang50_x86', 'cxx_clang50_x64',
+                'cxx_clang60_x86', 'cxx_clang60_x64',
                 'cxx_clang38_address_sanitizer_x64',
                 'cxx_clang38_memory_sanitizer_x64',
                 'cxx_clang38_thread_sanitizer_x64']
