@@ -100,8 +100,8 @@ def print_menu(options, question, default_index=0, multiple=False):
 build_options = ['None', 'cxx_debug', 'cxx_nodebug']
 
 # Define the supported mkspecs
-android_mkspec = ['cxx_android_clang50_armv7', 'cxx_android5_clang50_armv7',
-                  'cxx_android5_clang50_arm64']
+android_mkspec = ['cxx_android_clang70_armv7', 'cxx_android5_clang70_armv7',
+                  'cxx_android5_clang70_arm64']
 msvc_mkspec = ['cxx_msvc14_x86', 'cxx_msvc14_x64',
                'cxx_msvc15_x86', 'cxx_msvc15_x64']
 gxx_mkspec = ['cxx_gxx49_x86', 'cxx_gxx49_x64',
