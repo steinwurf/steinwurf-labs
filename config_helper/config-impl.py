@@ -120,9 +120,9 @@ clang_mkspec = ['cxx_clang38_x86', 'cxx_clang38_x64',
                 'cxx_clang39_x86', 'cxx_clang39_x64',
                 'cxx_clang50_x86', 'cxx_clang50_x64',
                 'cxx_clang60_x86', 'cxx_clang60_x64',
-                'cxx_clang38_address_sanitizer_x64',
-                'cxx_clang38_memory_sanitizer_x64',
-                'cxx_clang38_thread_sanitizer_x64']
+                'cxx_clang_address_sanitizer_x64',
+                'cxx_clang_memory_sanitizer_x64',
+                'cxx_clang_thread_sanitizer_x64']
 llvm_mkspec = ['cxx_apple_llvm100_x64']
 ios_mkspec = ['cxx_ios70_apple_llvm_armv7',
               'cxx_ios70_apple_llvm_armv7s',
