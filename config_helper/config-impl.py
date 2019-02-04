@@ -136,8 +136,7 @@ linux_mkspec = gxx_mkspec + clang_mkspec + android_mkspec + cross_mskpec
 mac_mkspec = llvm_mkspec + android_mkspec + ios_mkspec
 
 # Project generator targets
-project_targets = ['None', 'Visual Studio 2008',
-                   'Visual Studio 2010', 'Visual Studio 2012']
+project_targets = ['None', 'Visual Studio 2012', 'Visual Studio 2017']
 
 def fetch_project_dependencies(project):
 
@@ -203,12 +202,10 @@ def config_options(available_mkspecs, dependencies=None, current_project=None):
 
     ide_opt = ''
     if 'None' not in ide_names:
-        if 'Visual Studio 2008' in ide_names:
-            ide_opt += ' msvs2008'
-        if 'Visual Studio 2010' in ide_names:
-            ide_opt += ' msvs2010'
         if 'Visual Studio 2012' in ide_names:
             ide_opt += ' msvs2012'
+        if 'Visual Studio 2017' in ide_names:
+            ide_opt += ' msvs2017'
         ide_opt = ide_opt.strip()
 
     # The default configure command
