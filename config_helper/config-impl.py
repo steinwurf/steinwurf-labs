@@ -112,7 +112,7 @@ gxx_mkspec = ['cxx_gxx52_x86', 'cxx_gxx52_x64',
               'cxx_gxx73_x86', 'cxx_gxx73_x64',
               'cxx_gxx81_x86', 'cxx_gxx81_x64',
               'cxx_gxx82_x86', 'cxx_gxx82_x64']
-cross_mskpec = ['cxx_openwrt_gxx53_arm', 'cxx_openwrt_gxx53_mips',
+cross_mskpec = ['cxx_openwrt_gxx73_armv7', 'cxx_openwrt_gxx73_mips',
                 'cxx_gxx63_armv7']
 clang_mkspec = ['cxx_clang50_x86', 'cxx_clang50_x64',
                 'cxx_clang60_x86', 'cxx_clang60_x64',
